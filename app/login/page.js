@@ -22,7 +22,7 @@ export default function Login() {
         email,
         password,
       });
-
+      setLoading(false);
       if (result?.error) {
         toast.error(result?.error);
         setLoading(false);
