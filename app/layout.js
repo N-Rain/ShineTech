@@ -11,12 +11,16 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
-        <TopNav />
-        
-        {children}
-        <Toaster />
-      </body>
+      <SessionProvider>
+        <CategoryProvider>
+          <body>
+            <TopNav />
+            <Toaster />
+            {children}
+          </body>
+        </CategoryProvider>
+      </SessionProvider>
     </html>
   );
 }
+
