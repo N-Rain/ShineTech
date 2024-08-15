@@ -16,7 +16,12 @@ export default function TopNav() {
       </Link>
       {status === "authenticated" ? (
         <div className="d-flex">
-          <Link className="nav-link" href="/dashboard/user">
+          <Link
+            className="nav-link"
+            href={`/dashboard/${
+              data?.user?.role === "admin" ? "admin" : "user"
+            }`}
+          >
             {data?.user?.name} ({data?.user?.role})
           </Link>
           <a
@@ -25,10 +30,9 @@ export default function TopNav() {
           >
             Logout
           </a>
-        
         </div>
-      ) : status === 'loading' ? (
-            <a className="nav-link text-danger" >Loading...</a>
+      ) : status === "loading" ? (
+        <a className="nav-link text-danger">Loading...</a>
       ) : (
         <div className="d-flex">
           <Link className="nav-link" href="/login">
