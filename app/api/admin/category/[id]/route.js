@@ -13,6 +13,7 @@ export async function PUT(req, context) {
       { new: true });
     return NextResponse.json(updateingCategory)
   } catch (err) {
+    console.log(err)
     return NextResponse.json(err.message, { status: 500 });
   }
 }

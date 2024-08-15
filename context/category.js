@@ -35,7 +35,6 @@ export const CategoryProvider = ({ children }) => {
   };
   const fetchCategories = async () => {
     try {
-      // '/category' not '/categories'
       const response = await fetch(`${process.env.API}/category`);
       if (!response.ok) {
         throw new Error("Network response was not ok");
