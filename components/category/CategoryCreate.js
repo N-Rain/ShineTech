@@ -1,30 +1,40 @@
-"use  client";
-import { useCategory } from "@/context/category"
-export default function CategoryCreate() {
-  const { name,
+"use client";
+import { useCategory } from "@/context/category";
+export default function AdminCreateCategory() {
+  // context
+  const {
+    name,
     setName,
     updatingCategory,
     setUpdatingCategory,
     createCategory,
     updateCategory,
-    deleteCategory } = useCategory();
+    deleteCategory,
+  } = useCategory();
   return (
-    <div className="my-5">
-      <input type="text" value={updatingCategory ? updatingCategory?.name : name}
-        onChange={e =>
+    <>
+      <p>Create Category</p>
+      <input
+        type="text"
+        value={updatingCategory ? updatingCategory.name : name}
+        onChange={(e) =>
           updatingCategory
-            ? setUpdatingCategory({ ...updatingCategory, name: e.target.value })
+            ? setUpdatingCategory({
+              ...updatingCategory, name:
+                e.target.value
+            })
             : setName(e.target.value)
         }
         className="form-control p-2 my-2"
       />
+      {/* <pre>{JSON.stringify(categoryUpdate, null, 4)}</pre> */}
       <div className="d-flex justify-content-between">
         <button
           className={`btn bg-${updatingCategory ? "info" : "primary"
             } text-light`}
-          onClick={e => {
+          onClick={(e) => {
             e.preventDefault();
-            updatingCategory ? updateCategory() : createCategory()
+            updatingCategory ? updateCategory() : createCategory();
           }}
         >
           {updatingCategory ? "Update" : "Create"}
@@ -40,11 +50,15 @@ export default function CategoryCreate() {
             >
               Delete
             </button>
-            <button className="btn bg-success text-light"
-              onClick={() => setUpdatingCategory(null)}>Clear</button>
+            <button
+              className="btn bg-success text-light"
+              onClick={() => setUpdatingCategory(null)}
+            >
+              Clear
+            </button>
           </>
         )}
       </div>
-    </div>
+    </>
   );
 }
