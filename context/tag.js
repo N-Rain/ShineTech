@@ -16,7 +16,7 @@ export const TagProvider = ({ children }) => {
         },
         body: JSON.stringify({
           name,
-          parent: parentCategory,
+          parentCategory,
         }),
       });
       if (response.ok) {
@@ -68,11 +68,9 @@ export const TagProvider = ({ children }) => {
         throw new Error("Network response was not ok");
       }
       const updatedTag = await response.json();
-      // Update the categories state with the updated category
       setTags((prevTags) =>
         prevTags.map((t) => (t._id === updatedTag._id ? updatedTag : t))
       );
-      // Clear the categoryUpdate state
       setUpdatingTag(null);
       setParentCategory("");
       toast.success("Tag updated successfully");
@@ -94,10 +92,8 @@ export const TagProvider = ({ children }) => {
         throw new Error("Network response was not ok");
       }
       const deletedTag = await response.json();
-      // Category deleted successfully, now update the categories state
       setTags((prevTags) => prevTags.filter((t) => t._id !==
         deletedTag._id));
-      // Clear the categoryUpdate state
       setUpdatingTag(null);
       setParentCategory("");
       toast.success("Tag deleted successfully");
