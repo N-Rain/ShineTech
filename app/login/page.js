@@ -1,17 +1,15 @@
 "use client";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { signIn } from "next-auth/react";
 
 export default function Login() {
-  const [email, setEmail] = useState("abc@gmail.com");
-  const [password, setPassword] = useState("123456");
+  const [email, setEmail] = useState("abbc@gmail.com");
+  const [password, setPassword] = useState("11111111");
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,14 +28,12 @@ export default function Login() {
         setLoading(false);
       } else {
         toast.success("Logged in successfully");
-        // router.push("/");
-        router.push(callbackUrl);
+        router.push("/");
       }
     } catch (err) {
       console.log(err);
       setLoading(false);
     }
-    
   };
   return (
     <main>
@@ -67,12 +63,6 @@ export default function Login() {
                 {loading ? "Loading..." : "Submit"}
               </button>
             </form>
-            <button
-              className="btn btn-primary btn-danger btn-raised mb-4"
-              onClick={() => signIn("google", { callbackUrl: "/" })}
-            >
-              Sign In with Google
-            </button>
           </div>
         </div>
       </div>

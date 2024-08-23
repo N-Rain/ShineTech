@@ -1,17 +1,17 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/utils/dbConnect";
-import Category from "@/models/category";
+import Tag from "@/models/tag";
 import slugify from "slugify";
 export async function PUT(req, context) {
   await dbConnect();
   const body = await req.json();
   const { name } = body;
   try {
-    const updateingCategory = await Category.findByIdAndUpdate(context.params.id, {
+    const updateingTag = await Tag.findByIdAndUpdate(context.params.id, {
       ...body, slug: slugify(name),
     },
       { new: true });
-    return NextResponse.json(updateingCategory)
+    return NextResponse.json(updateingTag)
   } catch (err) {
     console.log(err)
     return NextResponse.json(err.message, { status: 500 });
@@ -20,9 +20,9 @@ export async function PUT(req, context) {
 export async function DELETE(req, context) {
   await dbConnect();
   try {
-    const deletedCategory = await
-      Category.findByIdAndDelete(context.params.id);
-    return NextResponse.json(deletedCategory);
+    const deletedTag = await
+      Tag.findByIdAndDelete(context.params.id);
+    return NextResponse.json(deletedTag);
   } catch (err) {
     console.log(err);
     return NextResponse.json(
