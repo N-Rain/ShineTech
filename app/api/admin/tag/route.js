@@ -6,11 +6,11 @@ export async function POST(req) {
   const body = await req.json();
   await dbConnect();
 
-  const { name, parent } = body;
+  const { name, parentCategory } = body;
   try {
     const tag = await Tag.create({
       name,
-      parent,
+      parentCategory,
       slug: slugify(name),
     });
     return NextResponse.json(tag);
