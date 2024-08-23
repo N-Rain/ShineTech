@@ -21,10 +21,9 @@ export const TagProvider = ({ children }) => {
       });
       if (response.ok) {
         toast.success("Tag created successfully");
-        const newlyCreatedTag = await response.json();
+        const data = await response.json();
         setName("");
-        setParentCategory("");
-        setTags([newlyCreatedTag, ...tags]);
+        setTags([data, ...tags]);
       } else {
         const errorData = await response.json();
         toast.error(errorData.err);

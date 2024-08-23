@@ -1,22 +1,27 @@
 "use client";
 import { useEffect } from "react";
 import { useTag } from "@/context/tag";
-import { useCategory } from "@/context/category";
 export default function TagList() {
-  const {
-    name,
-    setName,
-    parentCategory,
-    setParentCategory,
-    updatingTag,
-    setUpdatingTag,
-    createTag,
-    updateTag,
-    deleteTag,
-  } = useTag();
-  const { fetchCategories, categories } = useCategory();
+  const { tags, fetchTags, setUpdatingTag } = useTag();
   useEffect(() => {
-    fetchCategories();
+    fetchTags();
   }, [])
-  return <div>TagList</div>
+  return (
+    <div className="container mb-5">
+      <div className="row">
+        <div className="col">
+          {tags.map((t) => (
+            <button
+              className="btn"
+              onClick={() => {
+                setUpdatingTag(t);
+              }}
+            >
+              {t.name}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
 }
