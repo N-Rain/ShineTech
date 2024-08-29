@@ -5,7 +5,6 @@ import Product from "@/models/product";
 export async function GET(req, context) {
     await dbConnect();
     
-
     try {
         const product = await Product.findOne({slug: context.params.slug});
         return NextResponse.json(product);

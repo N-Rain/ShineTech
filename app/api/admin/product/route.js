@@ -5,12 +5,12 @@ import slugify from "slugify";
 
 export async function POST(req) {
   await dbConnect();
-  const body = await req.json();
+  const _req = await req.json();
 
   try {
     const product = await Product.create({
-      ...body,
-      slug: slugify(body.title),
+      ..._req,
+      slug: slugify(_req.title),
     });
 
     return NextResponse.json(product);

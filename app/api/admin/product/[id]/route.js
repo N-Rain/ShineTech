@@ -5,13 +5,13 @@ import Product from "@/models/product";
 export async function PUT(req, context) {
   await dbConnect();
 
-  const body = await req.json();
+  const _req = await req.json();
 
   try {
     const updatedProduct = await Product.findByIdAndUpdate(
       context.params.id,
       {
-        ...body,
+        ..._req,
       },
       {
         new: true,
