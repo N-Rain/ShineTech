@@ -67,7 +67,7 @@ export default function ProductCreate() {
         <input
           type="number"
           placeholder="Price"
-          min="1"
+          min="1000"
           name="price"
           className="form-control p-2 my-2"
           value={updatingProduct ? updatingProduct.price : product?.price}
@@ -262,7 +262,7 @@ export default function ProductCreate() {
           </label>
         </div>
 
-        <div className="d-flex justify-content-center" >
+        <div className="d-flex justify-content-center">
           {imagePreviews?.length > 0
             ? imagePreviews.map((img) => (
                 <div key={img.public_id}>
@@ -279,8 +279,7 @@ export default function ProductCreate() {
                   />
                   <br />
                   <div
-                  style={{marginTop:"12px"}}
-                    className="text-center pointer"
+                    className="text-center pointer mt-3"
                     onClick={() => deleteImage(img.public_id)}
                   >
                     ❌
@@ -326,7 +325,6 @@ export default function ProductCreate() {
             </button>
           </>
         )}
-        
       </div>
       <pre>{JSON.stringify(product, null, 4)}</pre>
     </>

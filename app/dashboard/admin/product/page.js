@@ -1,5 +1,6 @@
 "use client";
-import ProductCreate from "@/components/product/ProductCreate";
+
+import ProductCreate from "@/components/product/admin/ProductCreate";
 
  
 export default function AddProduct() { 
