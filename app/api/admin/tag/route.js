@@ -27,7 +27,7 @@ export async function POST(req) {
 export async function GET(req) {
   await dbConnect();
   try {
-    const tags = await Tag.find({}).sort({ createAt: "-1" });
+    const tags = await Tag.find({}).sort({ createAt: -1 });
     return NextResponse.json(tags);
   } catch {
     console.log(err);

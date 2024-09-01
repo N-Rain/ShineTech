@@ -7,11 +7,11 @@ export async function PUT(req, context) {
   const body = await req.json();
   const { name } = body;
   try {
-    const updateingTag = await Tag.findByIdAndUpdate(context.params.id, {
+    const updatingTag = await Tag.findByIdAndUpdate(context.params.id, {
       ...body, slug: slugify(name),
     },
       { new: true });
-    return NextResponse.json(updateingTag)
+    return NextResponse.json(updatingTag)
   } catch (err) {
     console.log(err)
     return NextResponse.json(err.message, { status: 500 });

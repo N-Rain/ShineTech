@@ -26,7 +26,7 @@ export async function POST(req) {
 export async function GET(req) {
   await dbConnect();
   try {
-    const categories = await Category.find({}).sort({ createAt: "-1" });
+    const categories = await Category.find({}).sort({ createdAt: -1 });
     return NextResponse.json(categories);
   } catch {
     console.log(err);

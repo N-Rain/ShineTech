@@ -35,7 +35,7 @@ export const TagProvider = ({ children }) => {
   };
   const fetchTags = async () => {
     try {
-      const response = await fetch(`${process.env.API}/tags`, {
+      const response = await fetch(`${process.env.API}/admin/tag`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
