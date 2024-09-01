@@ -18,6 +18,7 @@ export default function Register() {
       setLoading(true);
       //   console.log(name, email, password);
       const response = await fetch(`${process.env.API}/register`, {
+        mode: "no-cors",
         method: "POST",
         headers: {
           "Content-Type": "application/json",
