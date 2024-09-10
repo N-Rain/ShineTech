@@ -21,8 +21,8 @@ export const ProductProvider = ({ children }) => {
     let allUploadedFiles = updatingProduct
       ? updatingProduct.images || []
       : product
-      ? product.images || []
-      : [];
+        ? product.images || []
+        : [];
     if (files) {
       // Check if the total combined images exceed 10
       const totalImages = allUploadedFiles.length + files.length;
@@ -71,9 +71,9 @@ export const ProductProvider = ({ children }) => {
           // Update the state after all images are uploaded
           updatingProduct
             ? setUpdatingProduct({
-                ...updatingProduct,
-                images: allUploadedFiles,
-              })
+              ...updatingProduct,
+              images: allUploadedFiles,
+            })
             : setProduct({ ...product, images: allUploadedFiles });
           setUploading(false);
         })
@@ -98,14 +98,14 @@ export const ProductProvider = ({ children }) => {
         // console.log("IMAGE DELETE RES DATA", data);
         const filteredImages = updatingProduct
           ? updatingProduct.images.filter(
-              (image) => image.public_id !== public_id
-            )
+            (image) => image.public_id !== public_id
+          )
           : product.images.filter((image) => image.public_id !== public_id);
         updatingProduct
           ? setUpdatingProduct({
-              ...updatingProduct,
-              images: filteredImages,
-            })
+            ...updatingProduct,
+            images: filteredImages,
+          })
           : setProduct({ ...product, images: filteredImages });
       })
       .catch((err) => {
