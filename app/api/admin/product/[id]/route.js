@@ -17,7 +17,7 @@ export async function PUT(req, context) {
         new: true,
       }
     );
-    return NextResponse.json(updatedProduct);
+    return NextResponse.json(updatedProduct, { status: 200 });
   } catch (err) {
     return NextResponse.json({ err: err.message }, { status: 500 });
   }
@@ -28,7 +28,7 @@ export async function DELETE(req, context) {
 
   try {
     const deletedProduct = await Product.findByIdAndDelete(context.params.id);
-    return NextResponse.json(deletedProduct);
+    return NextResponse.json(deletedProduct, { status: 200 });
   } catch (err) {
     return NextResponse.json({ err: err.message }, { status: 500 });
   }

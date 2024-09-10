@@ -1,38 +1,37 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 
 export default function Login() {
   const [email, setEmail] = useState("abc@gmail.com");
   const [password, setPassword] = useState("123456");
   const [loading, setLoading] = useState(false);
 
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
+
   const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
-    try {
-      setLoading(true);
-      //   console.log(name, email, password);
-      const result = await signIn("credentials", {
-        redirect: false,
-        email,
-        password,
-      });
-      setLoading(false);
-      if (result?.error) {
-        toast.error(result?.error);
-        setLoading(false);
-      } else {
-        toast.success("Logged in successfully");
-        router.push("/");
-      }
-    } catch (err) {
-      console.log(err);
-      setLoading(false);
+    const result = await signIn("credentials", {
+      redirect: false,
+      email,
+      password,
+    });
+
+    setLoading(false);
+
+    if (result.error) {
+      toast.error(result.error);
+    } else {
+      toast.success("Login success");
+      router.push(callbackUrl);
     }
   };
   return (
@@ -63,6 +62,18 @@ export default function Login() {
                 {loading ? "Loading..." : "Submit"}
               </button>
             </form>
+            <div className="d-flex justify-content-between">
+              <button
+                className="btn btn-danger btn-raised mb-4"
+                onClick={() => signIn("google", { callbackUrl })}
+              >
+                Sign in with Google
+              </button>
+
+              <Link className="btn mb-4" href="/forgot-password">
+                <small>Forgot Password</small>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
