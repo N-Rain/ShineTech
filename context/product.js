@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Resizer from "react-image-file-resizer";
@@ -14,7 +14,35 @@ export const ProductProvider = ({ children }) => {
   const [updatingProduct, setUpdatingProduct] = useState(null);
   const [uploading, setUploading] = useState(false);
 
+  // modal for image preview
+  const [showImagePreviewModal, setShowImagePreviewModal] = useState(false);
+  const [currentImagePreviewUrl, setCurrentImagePreviewUrl] = useState("");
+
   const router = useRouter();
+
+  useEffect(() => {
+    window.addEventListener("click", handleClickOutside);
+    return () => {
+      window.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
+  // modal for image preview and ratings
+  const openImagePreviewModal = (url) => {
+    setCurrentImagePreviewUrl(url);
+    setShowImagePreviewModal(true);
+  };
+
+  const closeModal = () => {
+    setShowImagePreviewModal(false);
+    
+  };
+
+  const handleClickOutside = (event) => {
+    if (event.target.classList.contains("modal")) {
+      closeModal();
+    }
+  };
 
   const uploadImages = (e) => {
     let files = e.target.files;
@@ -224,6 +252,12 @@ export const ProductProvider = ({ children }) => {
         fetchProducts,
         updateProduct,
         deleteProduct,
+        showImagePreviewModal,
+        setShowImagePreviewModal,
+        currentImagePreviewUrl,
+        setCurrentImagePreviewUrl,
+        openImagePreviewModal,
+        closeModal
       }}
     >
       {children}

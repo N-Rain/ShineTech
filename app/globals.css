@@ -108,3 +108,16 @@ a {
 .pointer {
   cursor: pointer;
 }
+
+.card-title {
+  font-style: normal;
+}
+.card-body {
+  font-size: 17px;
+  font-style: italic;
+}
+.card-footer small {
+  font-size: 15px;
+}
+
+
