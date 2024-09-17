@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import Stars from "./Stars";
+import { calculateAverageRating } from "@/utils/helpers";
 
 dayjs.extend(relativeTime);
 
@@ -43,8 +45,20 @@ export default function ({ product }) {
       </div>
       <div className="card-footer d-flex justify-content-between">
         <small>Brand: {product?.brand}</small>
-        <small>⭐ Stars</small>
+        {/* <small>⭐ Stars</small> */}
+        <div>
+            <small>
+              <Stars rating={calculateAverageRating(product?.ratings)} />
+            </small>
+            <small className="text-muted ml-1">
+              {`(${product?.ratings?.length})`}
+            </small>
+          </div>
       </div>
+
+      {/* <div className="card-footer">
+        <AddToCart product={product} />
+      </div> */}
     </div>
   );
 }

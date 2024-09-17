@@ -18,6 +18,14 @@ export const ProductProvider = ({ children }) => {
   const [showImagePreviewModal, setShowImagePreviewModal] = useState(false);
   const [currentImagePreviewUrl, setCurrentImagePreviewUrl] = useState("");
 
+  // modal for rating
+  const [showRatingModal, setShowRatingModal] = useState(false);
+  const [currentRating, setCurrentRating] = useState(0);
+  const [comment, setComment] = useState("");
+
+  // brands
+  const [brands, setBrands] = useState([]);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -35,6 +43,7 @@ export const ProductProvider = ({ children }) => {
 
   const closeModal = () => {
     setShowImagePreviewModal(false);
+    setShowRatingModal(false);
     
   };
 
@@ -231,6 +240,27 @@ export const ProductProvider = ({ children }) => {
     }
   };
 
+  const fetchBrands = async () => {
+    try {
+      const response = await fetch(`${process.env.API}/product/brands`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const brands = await response.json();
+      setBrands(brands);
+
+      // Update your state or do whatever you need with the brands data
+    } catch (error) {
+      console.error("Error fetching brands:", error);
+    }
+  };
   return (
     <ProductContext.Provider
       value={{
@@ -257,7 +287,15 @@ export const ProductProvider = ({ children }) => {
         currentImagePreviewUrl,
         setCurrentImagePreviewUrl,
         openImagePreviewModal,
-        closeModal
+        closeModal,
+        showRatingModal,
+        setShowRatingModal,
+        currentRating,
+        setCurrentRating,
+        comment,
+        setComment,
+        brands,
+        fetchBrands,
       }}
     >
       {children}

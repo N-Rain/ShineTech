@@ -1,8 +1,8 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import ProductImage from "@/components/product/ProductImage";
-// import ProductLike from "@/components/product/ProductLike";
-// import ProductRating from "@/components/product/ProductRating";
+import ProductLike from "@/components/product/ProductLike";
+import ProductRating from "@/components/product/ProductRating";
 // import UserReviews from "@/components/product/UserReviews";
 // import AddToCart from "@/components/product/AddToCart";
 // import CouponCode from "@/components/product/CouponCode";
@@ -72,6 +72,8 @@ export default async function ProductViewPage({ params }) {
                   }}
                 />
               </div>
+
+              <div className="alert alert-primary mt-3">Brand: {product?.brand}</div>
             </div>
 
             <div className="card-footer d-flex justify-content-between">
@@ -84,14 +86,14 @@ export default async function ProductViewPage({ params }) {
             </div>
 
             <div className="card-footer d-flex justify-content-between">
-              {/* <ProductLike product={product} /> */}
+              <ProductLike product={product} />
               <small className="text-muted">
                 Added {dayjs(product?.createdAt).fromNow()}
               </small>
             </div>
 
             <div className="card-footer text-center">
-              {/* <ProductRating product={product} /> */}
+              <ProductRating product={product} />
             </div>
           </div>
 
@@ -105,7 +107,7 @@ export default async function ProductViewPage({ params }) {
           <div className="row">
             {relatedProducts?.map((product) => (
               <div className="col-lg-4" key={product._id}>
-                {/* <ProductCard product={product} /> */}
+                <ProductCard product={product} />
               </div>
             ))}
           </div>
