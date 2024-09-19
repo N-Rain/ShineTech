@@ -1,7 +1,7 @@
 // import Image from "next/image";
 
 import Pagination from "@/components/Pagination";
-import ProductList from "@/components/product/admin/ProductList";
+import ProductList from "@/components/product/ProductList";
 
 // export default function Home() {
 //   return (
@@ -11,11 +11,10 @@ import ProductList from "@/components/product/admin/ProductList";
 //   );
 // }
 
-
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Next Ecommerce",
+  title: "ShineTech",
   description: "Find the latest in fashion, electronics and more",
 };
 
@@ -54,7 +53,7 @@ async function getProducts(searchParams) {
   }
 }
 
-export default async function Prducts({ searchParams }) {
+export default async function Products({ searchParams }) {
   // console.log("searchParams in products page => ", searchParams);
   const data = await getProducts(searchParams);
 
@@ -63,7 +62,7 @@ export default async function Prducts({ searchParams }) {
       <div className="container">
         <div className="row">
           <div className="col">
-            <p className="text-center lead fw-bold">Latest Products</p>
+              <h1 style={{fontWeight: 700, textAlign: "center"}}>Latest Products</h1>
             <ProductList products={data?.products} />
           </div>
         </div>

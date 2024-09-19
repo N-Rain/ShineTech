@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Resizer from "react-image-file-resizer";
@@ -14,7 +14,44 @@ export const ProductProvider = ({ children }) => {
   const [updatingProduct, setUpdatingProduct] = useState(null);
   const [uploading, setUploading] = useState(false);
 
+  // modal for image preview
+  const [showImagePreviewModal, setShowImagePreviewModal] = useState(false);
+  const [currentImagePreviewUrl, setCurrentImagePreviewUrl] = useState("");
+
+  // modal for rating
+  const [showRatingModal, setShowRatingModal] = useState(false);
+  const [currentRating, setCurrentRating] = useState(0);
+  const [comment, setComment] = useState("");
+
+  // brands
+  const [brands, setBrands] = useState([]);
+
   const router = useRouter();
+
+  useEffect(() => {
+    window.addEventListener("click", handleClickOutside);
+    return () => {
+      window.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
+  // modal for image preview and ratings
+  const openImagePreviewModal = (url) => {
+    setCurrentImagePreviewUrl(url);
+    setShowImagePreviewModal(true);
+  };
+
+  const closeModal = () => {
+    setShowImagePreviewModal(false);
+    setShowRatingModal(false);
+    
+  };
+
+  const handleClickOutside = (event) => {
+    if (event.target.classList.contains("modal")) {
+      closeModal();
+    }
+  };
 
   const uploadImages = (e) => {
     let files = e.target.files;
@@ -203,6 +240,27 @@ export const ProductProvider = ({ children }) => {
     }
   };
 
+  const fetchBrands = async () => {
+    try {
+      const response = await fetch(`${process.env.API}/product/brands`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const brands = await response.json();
+      setBrands(brands);
+
+      // Update your state or do whatever you need with the brands data
+    } catch (error) {
+      console.error("Error fetching brands:", error);
+    }
+  };
   return (
     <ProductContext.Provider
       value={{
@@ -224,6 +282,20 @@ export const ProductProvider = ({ children }) => {
         fetchProducts,
         updateProduct,
         deleteProduct,
+        showImagePreviewModal,
+        setShowImagePreviewModal,
+        currentImagePreviewUrl,
+        setCurrentImagePreviewUrl,
+        openImagePreviewModal,
+        closeModal,
+        showRatingModal,
+        setShowRatingModal,
+        currentRating,
+        setCurrentRating,
+        comment,
+        setComment,
+        brands,
+        fetchBrands,
       }}
     >
       {children}
