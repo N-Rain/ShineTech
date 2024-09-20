@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import { useProduct } from "@/context/product";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import Pagination from "@/components/Pagination";
+import Pagination from "@/components/product/Pagination";
 import Image from "next/image";
 
 export default function ProductList() {

@@ -6,7 +6,6 @@ import Resizer from "react-image-file-resizer";
 const ProductContext = createContext();
 
 export const ProductProvider = ({ children }) => {
-  //state
   const [product, setProduct] = useState(null);
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -14,16 +13,13 @@ export const ProductProvider = ({ children }) => {
   const [updatingProduct, setUpdatingProduct] = useState(null);
   const [uploading, setUploading] = useState(false);
 
-  // modal for image preview
   const [showImagePreviewModal, setShowImagePreviewModal] = useState(false);
   const [currentImagePreviewUrl, setCurrentImagePreviewUrl] = useState("");
 
-  // modal for rating
   const [showRatingModal, setShowRatingModal] = useState(false);
   const [currentRating, setCurrentRating] = useState(0);
   const [comment, setComment] = useState("");
 
-  // brands
   const [brands, setBrands] = useState([]);
 
   const router = useRouter();
@@ -34,8 +30,6 @@ export const ProductProvider = ({ children }) => {
       window.removeEventListener("click", handleClickOutside);
     };
   }, []);
-
-  // modal for image preview and ratings
   const openImagePreviewModal = (url) => {
     setCurrentImagePreviewUrl(url);
     setShowImagePreviewModal(true);
@@ -44,7 +38,7 @@ export const ProductProvider = ({ children }) => {
   const closeModal = () => {
     setShowImagePreviewModal(false);
     setShowRatingModal(false);
-    
+
   };
 
   const handleClickOutside = (event) => {
@@ -61,7 +55,6 @@ export const ProductProvider = ({ children }) => {
         ? product.images || []
         : [];
     if (files) {
-      // Check if the total combined images exceed 10
       const totalImages = allUploadedFiles.length + files.length;
       if (totalImages > 10) {
         alert("You can't upload more than 10 images.");
@@ -89,7 +82,6 @@ export const ProductProvider = ({ children }) => {
               })
                 .then((response) => response.json())
                 .then((data) => {
-                  // Insert the new image at the beginning of the array
                   allUploadedFiles.unshift(data);
                   resolve();
                 })
@@ -105,7 +97,6 @@ export const ProductProvider = ({ children }) => {
       }
       Promise.all(uploadPromises)
         .then(() => {
-          // Update the state after all images are uploaded
           updatingProduct
             ? setUpdatingProduct({
               ...updatingProduct,
@@ -255,8 +246,6 @@ export const ProductProvider = ({ children }) => {
 
       const brands = await response.json();
       setBrands(brands);
-
-      // Update your state or do whatever you need with the brands data
     } catch (error) {
       console.error("Error fetching brands:", error);
     }

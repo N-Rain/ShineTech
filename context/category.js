@@ -46,6 +46,22 @@ export const CategoryProvider = ({ children }) => {
     }
   };
 
+  const fetchCategoriesPublic = async () => {
+    try {
+      const response = await fetch(`${process.env.API}/categories`);
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Network response was not ok: ${errorText}`);
+      }
+      const data = await response.json();
+      setCategories(data);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+      toast.error("Failed to fetch categories");
+    }
+  };
+
+
 
   const updateCategory = async () => {
     try {
@@ -106,6 +122,7 @@ export const CategoryProvider = ({ children }) => {
         categories,
         setCategories,
         fetchCategories,
+        fetchCategoriesPublic,
         updatingCategory,
         setUpdatingCategory,
         updateCategory,
