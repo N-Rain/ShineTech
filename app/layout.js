@@ -7,7 +7,7 @@ import { SessionProvider } from "next-auth/react";
 import { CategoryProvider } from "@/context/category";
 import { TagProvider } from "@/context/tag";
 import { ProductProvider } from "@/context/product";
-
+import { CartProvider } from "@/context/cart";
 // export const metadata = {
 //   title: "ShineTech",
 //   description: "Website bán thiết bị điện tử...",
@@ -20,11 +20,13 @@ export default function RootLayout({ children }) {
         <CategoryProvider>
           <TagProvider>
             <ProductProvider>
-              <body>
-                <TopNav />
-                <Toaster />
-                {children}
-              </body>
+              <CartProvider>
+                <body>
+                  <TopNav />
+                  <Toaster />
+                  {children}
+                </body>
+              </CartProvider>
             </ProductProvider>
           </TagProvider>
         </CategoryProvider>

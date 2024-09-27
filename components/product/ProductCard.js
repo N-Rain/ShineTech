@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import Stars from "./Stars";
 import { calculateAverageRating } from "@/utils/helpers";
-
+import AddToCart from "@/components/product/AddToCart";
 dayjs.extend(relativeTime);
 
 export default function ({ product }) {
@@ -32,9 +32,6 @@ export default function ({ product }) {
           }}
         />
       </div>
-      {/* before accessing category and tags, make sure .populate() is 
-        used in api routes and ref: 'Category' models are imported in `Product` 
-        model */}
       <div className="card-footer d-flex justify-content-between">
         <small>Category: {product?.category?.name}</small>
         <small>Tags: {product?.tags?.map((t) => t?.name).join(" ")}</small>
@@ -56,9 +53,9 @@ export default function ({ product }) {
           </div>
       </div>
 
-      {/* <div className="card-footer">
+      <div className="card-footer">
         <AddToCart product={product} />
-      </div> */}
+      </div>
     </div>
   );
 }

@@ -2,11 +2,13 @@
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { useProduct } from "@/context/product";
+import { BsFillCartCheckFill } from "react-icons/bs";
+import { useCart } from "@/context/cart";
 export default function TopNav() {
-  // const { data, status, loading } = useSession();
   // console.table({ data, status, loading });
 
   const { data, status } = useSession();
+  const { cartItems } = useCart();
   // console.table({ data, status });
   const { productSearchQuery, setProductSearchQuery,
     fetchProductSearchResults } =
@@ -39,35 +41,42 @@ export default function TopNav() {
         <button className="btn" type="submit" style={{ borderRadius: "20px" }}>
           &#128270;
         </button>
-      </form>;
-      {status === "authenticated" ? (
-        <div className="d-flex">
-          <Link
-            className="nav-link"
-            href={`/dashboard/${data?.user?.role === "admin" ? "admin" : "user"
-              }`}
-          >
-            {data?.user?.name} ({data?.user?.role})
-          </Link>
-          <a
-            className="nav-link pointer"
-            onClick={() => signOut({ callbackUrl: "/login" })}
-          >
-            Logout
-          </a>
-        </div>
-      ) : status === "loading" ? (
-        <a className="nav-link text-danger">Loading...</a>
-      ) : (
-        <div className="d-flex">
-          <Link className="nav-link" href="/login">
-            Login
-          </Link>
-          <Link className="nav-link" href="/register">
-            Register
-          </Link>
-        </div>
-      )}
+      </form>
+      <div className="d-flex justify-content-end">
+        <Link className="nav-link text-danger" href="/cart">
+          <BsFillCartCheckFill size={25} /> {cartItems?.length}
+        </Link>
+        {status === "authenticated" ? (
+          <>
+            <Link
+              className="nav-link"
+              href={`/dashboard/${data?.user?.role === "admin" ? "admin" : "user"
+                }`}
+            >
+              {data?.user?.name} ({data?.user?.role})
+            </Link>
+            <a
+              className="nav-link pointer"
+              onClick={() => signOut({ callbackUrl: "/login" })}
+            >
+              Logout
+            </a>
+          </>
+        ) : status === "loading" ? (
+          <a className="nav-link text-danger">Loading...</a>
+        ) : (
+          <>
+
+            <Link className="nav-link" href="/login">
+              Login
+            </Link>
+            <Link className="nav-link" href="/register">
+              Register
+            </Link>
+          </>
+        )}
+      </div>
+
     </nav>
   );
 }
