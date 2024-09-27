@@ -29,7 +29,6 @@ async function getProducts(searchParams) {
 
     const data = await response.json();
 
-    // Check if the response has products or is empty
     if (!data || !Array.isArray(data.products)) {
       throw new Error("No products returned.");
     }
@@ -37,8 +36,6 @@ async function getProducts(searchParams) {
     return data;
   } catch (error) {
     console.error("Error fetching search results:", error);
-    // Handle the error here, such as showing an error message to the user
-    // or returning a default value
     return { products: [], currentPage: 1, totalPages: 1 };
   }
 }

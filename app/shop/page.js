@@ -17,7 +17,7 @@ async function getProducts(searchParams) {
 
   try {
     const response = await fetch(
-      `${process.env.API}/product?${searchQuery}`,
+      `${process.env.API}/product/filters?${searchQuery}`,
       {
         method: "GET",
       }
