@@ -2,17 +2,14 @@
 import { useState, useEffect } from "react";
 import { useCart } from "@/context/cart";
 import Link from "next/link";
-export default function AddToCart({ product }) {
+export default function AddToCart({ product, reviewAndCheckout = true }) {
   const { addToCart, updateQuantity, cartItems, removeFromCart } =
     useCart();
-  10 / 2 / 2023
-  // Find the product in cartItems, if it exists 
   const existingProduct = cartItems.find((item) => item._id ===
     product._id);
   const initialQuantity = existingProduct ? existingProduct.quantity : 1;
   const [quantity, setQuantity] = useState(initialQuantity);
   useEffect(() => {
-    // Update quantity state if the product's quantity changes in 
     cartItems
     setQuantity(existingProduct ? existingProduct.quantity : 1);
   }, [existingProduct]);
@@ -28,15 +25,13 @@ export default function AddToCart({ product }) {
       updateQuantity(product, newQuantity);
     }
     else {
-      // If quantity becomes 0, remove the item from the cart 
       removeFromCart(product._id);
-      setQuantity(1); // Reset quantity to 1 after removing from cart 
+      setQuantity(1);
     }
   };
   const handleAddToCart = () => {
     addToCart(product, quantity);
   };
-  10 / 2 / 2023
   return (
     <div>
       {cartItems.some((item) => item._id === product._id) ? (
@@ -67,12 +62,15 @@ export default function AddToCart({ product }) {
               </button>
             </div>
           </div>
-          <Link
-            className="btn btn-outline-danger btn-raised btn-block mt-2"
-            href="/cart"
-          >
-            Review & Checkout
-          </Link>
+
+          {reviewAndCheckout && (
+            <Link
+              className="btn btn-outline-danger btn-raised btn-block mt-2"
+              href="/cart"
+            >
+              Review & Checkout
+            </Link>
+          )}
         </>
       ) : (
         <button
