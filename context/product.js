@@ -6,7 +6,6 @@ import Resizer from "react-image-file-resizer";
 const ProductContext = createContext();
 
 export const ProductProvider = ({ children }) => {
-  //state
   const [product, setProduct] = useState(null);
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -14,17 +13,17 @@ export const ProductProvider = ({ children }) => {
   const [updatingProduct, setUpdatingProduct] = useState(null);
   const [uploading, setUploading] = useState(false);
 
-  // modal for image preview
   const [showImagePreviewModal, setShowImagePreviewModal] = useState(false);
   const [currentImagePreviewUrl, setCurrentImagePreviewUrl] = useState("");
 
-  // modal for rating
   const [showRatingModal, setShowRatingModal] = useState(false);
   const [currentRating, setCurrentRating] = useState(0);
   const [comment, setComment] = useState("");
 
-  // brands
   const [brands, setBrands] = useState([]);
+
+  const [productSearchQuery, setProductSearchQuery] = useState("")
+  const [productSearchResults, setProductSearchResults] = useState([])
 
   const router = useRouter();
 
@@ -34,8 +33,6 @@ export const ProductProvider = ({ children }) => {
       window.removeEventListener("click", handleClickOutside);
     };
   }, []);
-
-  // modal for image preview and ratings
   const openImagePreviewModal = (url) => {
     setCurrentImagePreviewUrl(url);
     setShowImagePreviewModal(true);
@@ -44,7 +41,7 @@ export const ProductProvider = ({ children }) => {
   const closeModal = () => {
     setShowImagePreviewModal(false);
     setShowRatingModal(false);
-    
+
   };
 
   const handleClickOutside = (event) => {
@@ -58,10 +55,9 @@ export const ProductProvider = ({ children }) => {
     let allUploadedFiles = updatingProduct
       ? updatingProduct.images || []
       : product
-      ? product.images || []
-      : [];
+        ? product.images || []
+        : [];
     if (files) {
-      // Check if the total combined images exceed 10
       const totalImages = allUploadedFiles.length + files.length;
       if (totalImages > 10) {
         alert("You can't upload more than 10 images.");
@@ -89,7 +85,6 @@ export const ProductProvider = ({ children }) => {
               })
                 .then((response) => response.json())
                 .then((data) => {
-                  // Insert the new image at the beginning of the array
                   allUploadedFiles.unshift(data);
                   resolve();
                 })
@@ -105,12 +100,11 @@ export const ProductProvider = ({ children }) => {
       }
       Promise.all(uploadPromises)
         .then(() => {
-          // Update the state after all images are uploaded
           updatingProduct
             ? setUpdatingProduct({
-                ...updatingProduct,
-                images: allUploadedFiles,
-              })
+              ...updatingProduct,
+              images: allUploadedFiles,
+            })
             : setProduct({ ...product, images: allUploadedFiles });
           setUploading(false);
         })
@@ -135,14 +129,14 @@ export const ProductProvider = ({ children }) => {
         // console.log("IMAGE DELETE RES DATA", data);
         const filteredImages = updatingProduct
           ? updatingProduct.images.filter(
-              (image) => image.public_id !== public_id
-            )
+            (image) => image.public_id !== public_id
+          )
           : product.images.filter((image) => image.public_id !== public_id);
         updatingProduct
           ? setUpdatingProduct({
-              ...updatingProduct,
-              images: filteredImages,
-            })
+            ...updatingProduct,
+            images: filteredImages,
+          })
           : setProduct({ ...product, images: filteredImages });
       })
       .catch((err) => {
@@ -255,10 +249,29 @@ export const ProductProvider = ({ children }) => {
 
       const brands = await response.json();
       setBrands(brands);
-
-      // Update your state or do whatever you need with the brands data
     } catch (error) {
       console.error("Error fetching brands:", error);
+    }
+  };
+  const fetchProductSearchResults = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(
+        `${process.env.API}/search/products?productSearchQuery=${productSearchQuery}`,
+        {
+          method: "GET",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok for search results");
+      }
+      const data = await response.json();
+      console.log("search results data => ", data);
+      setProductSearchResults(data);
+      router.push(`/search/products?productSearchQuery=${productSearchQuery}`);
+    } catch (err) {
+      console.log(err);
     }
   };
   return (
@@ -296,6 +309,11 @@ export const ProductProvider = ({ children }) => {
         setComment,
         brands,
         fetchBrands,
+        productSearchQuery,
+        setProductSearchQuery,
+        productSearchResults,
+        setProductSearchResults,
+        fetchProductSearchResults,
       }}
     >
       {children}

@@ -24,7 +24,6 @@ export default function Pagination({
                     page: currentPage - 1,
                   },
                 }}
-                // no need for 'as' when using the query object in 'href'
               >
                 Previous
               </Link>
@@ -47,7 +46,6 @@ export default function Pagination({
                       page,
                     },
                   }}
-                  // no need for 'as' when using the query object in 'href'
                 >
                   {page}
                 </Link>
@@ -66,7 +64,6 @@ export default function Pagination({
                     page: currentPage + 1,
                   },
                 }}
-                // no need for 'as' when using the query object in 'href'
               >
                 Next
               </Link>

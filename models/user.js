@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema(
     password: String,
     role: {
       type: String,
-      default: "user", 
+      default: "user",
     },
     image: String,
     resetCode: {
@@ -37,6 +37,6 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-userSchema.plugin(uniqueValidator,"is already taken."); 
+userSchema.plugin(uniqueValidator, "is already taken.");
 
 export default mongoose.models.User || mongoose.model("User", userSchema);

@@ -1,20 +1,10 @@
-// import Image from "next/image";
-
-import Pagination from "@/components/Pagination";
 import ProductList from "@/components/product/ProductList";
-
-// export default function Home() {
-//   return (
-//     <div>
-//       <h1 className="d-flex justify-content-center align-items-center vh-100 text-uppercase">Home</h1>
-//     </div>
-//   );
-// }
+import Pagination from "@/components/product/Pagination";
 
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "ShineTech",
+  title: "Next Ecommerce",
   description: "Find the latest in fashion, electronics and more",
 };
 
@@ -39,7 +29,6 @@ async function getProducts(searchParams) {
 
     const data = await response.json();
 
-    // Check if the response has products or is empty
     if (!data || !Array.isArray(data.products)) {
       throw new Error("No products returned.");
     }
@@ -47,13 +36,11 @@ async function getProducts(searchParams) {
     return data;
   } catch (error) {
     console.error("Error fetching search results:", error);
-    // Handle the error here, such as showing an error message to the user
-    // or returning a default value
     return { products: [], currentPage: 1, totalPages: 1 };
   }
 }
 
-export default async function Products({ searchParams }) {
+export default async function Prducts({ searchParams }) {
   // console.log("searchParams in products page => ", searchParams);
   const data = await getProducts(searchParams);
 
@@ -62,17 +49,17 @@ export default async function Products({ searchParams }) {
       <div className="container">
         <div className="row">
           <div className="col">
-              <h1 style={{fontWeight: 700, textAlign: "center"}}>Latest Products</h1>
+            <p className="text-center lead fw-bold">Latest Products</p>
             <ProductList products={data?.products} />
           </div>
         </div>
 
-        {/* <Pagination
+        <Pagination
           currentPage={data?.currentPage}
           totalPages={data?.totalPages}
           pathname="/shop"
           searchParams={searchParams}
-        /> */}
+        />
       </div>
     </main>
   );

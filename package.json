@@ -18,7 +18,7 @@
     "next": "14.2.5",
     "next-auth": "^4.24.7",
     "next-cloudinary": "^6.11.0",
-    "nodemailer": "^6.9.14",
+    "nodemailer": "^6.9.15",
     "query-string": "^9.1.0",
     "random-int": "^3.0.0",
     "react": "^18",
@@ -26,7 +26,8 @@
     "react-hot-toast": "^2.4.1",
     "react-icons": "^5.3.0",
     "react-image-file-resizer": "^0.4.8",
-    "slugify": "^1.6.6"
+    "slugify": "^1.6.6",
+    "stripe": "^16.12.0"
   },
   "devDependencies": {
     "@types/node": "^22.3.0",
