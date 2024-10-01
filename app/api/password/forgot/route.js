@@ -37,7 +37,7 @@ export async function POST(req) {
   // Save reset code in the user document
   user.resetCode = {
     data: resetCode,
-    expiresAt: new Date(Date.now() + 10 * 60 * 1000), // 10 minutes in milliseconds
+    expiresAt: new Date(Date.now() + 10 * 60 * 1000), // 10 phút
   };
   await user.save();
 
