@@ -21,7 +21,7 @@ export default function ({ product }) {
       </div>
       <div className="card-body">
         <Link href={`/product/${product?.slug}`}>
-          <h5 className="card-title">{product?.price?.toFixed(2)} VND {product?.title}</h5>
+          <h5 className="card-title">{product?.price} VND {product?.title}</h5>
         </Link>
         <div
           dangerouslySetInnerHTML={{
