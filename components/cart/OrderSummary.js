@@ -45,7 +45,7 @@ export default function OrderSummary() {
                 </p>
               </div>
               <div className="col-md-3">
-                <p className="h6">${product?.price.toFixed(2)}</p>
+                <p className="h6">{product?.price} VND</p>
                 <p className="text-secondary">Qty: {product?.quantity}</p>
               </div>
             </div>
@@ -56,7 +56,7 @@ export default function OrderSummary() {
         <p>
           Total {totalItems} {itemOrItems}:
         </p>
-        <p className="h4">${calculateTotal().toFixed(2)}</p>
+        <p className="h4">{calculateTotal()} VND</p>
       </div>
     </div>
   );

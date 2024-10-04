@@ -57,7 +57,21 @@ export default function Step2({ onNextStep, onPrevStep }) {
               disabled
             />
           </div>
-
+          <div>
+            <input
+              type="text"
+              value={couponCode}
+              onChange={(e) => setCouponCode(e.target.value)}
+              className="form-control mb-2 px-2 mt-4"
+              placeholder="Enter your coupon code here"
+            />
+            <button className="btn btn-success btn-raised"
+              onClick={() => handleCoupon(couponCode)}
+              disabled={!couponCode?.trim()}
+            >
+              Apply Coupon
+            </button>
+          </div>
           <div className="d-flex justify-content-end my-4">
             <button
               className="btn btn-outline-danger btn-raised col-6"

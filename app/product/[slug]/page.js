@@ -4,8 +4,8 @@ import ProductImage from "@/components/product/ProductImage";
 import ProductLike from "@/components/product/ProductLike";
 import ProductRating from "@/components/product/ProductRating";
 // import UserReviews from "@/components/product/UserReviews";
-// import AddToCart from "@/components/product/AddToCart";
-// import CouponCode from "@/components/product/CouponCode";
+import AddToCart from "@/components/product/AddToCart";
+import CouponCode from "@/components/product/CouponCode";
 // import { stockStatus } from "@/utils/helpers";
 import ProductCard from "@/components/product/ProductCard";
 
@@ -52,11 +52,12 @@ export default async function ProductViewPage({ params }) {
             <div className="card-title mt-3">
               <h3
                 className="text-center"
-                style={{ fontSize: 38, fontWeight: 700}}
+                style={{ fontSize: 38, fontWeight: 700 }}
               >
                 {product?.title}
               </h3>
             </div>
+            <CouponCode product={product} />
             {/* images and preview modal */}
             <ProductImage product={product} />
 
@@ -97,7 +98,9 @@ export default async function ProductViewPage({ params }) {
             </div>
           </div>
 
-          <div className="my-3">{/* <AddToCart product={product} /> */}</div>
+          <div className="my-3">
+            <AddToCart product={product} />
+          </div>
         </div>
       </div>
 

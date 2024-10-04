@@ -3,24 +3,27 @@ import OrderSummary from "@/components/cart/OrderSummary";
 import toast from "react-hot-toast";
 import { useState } from "react";
 export default function Step3({ onPrevStep }) {
-  const { cartItems } = useCart();
+  const { cartItems, validCoupon,couponCode } = useCart();
   const [loading, setLoading] = useState(false);
   const handleClick = async () => {
     try {
       setLoading(true);
-      const cartData = cartItems.map((item) => ({
+      const  payload = {};
+      const cartData = cartItems?.map((item) => ({
         _id: item._id,
         quantity: item.quantity,
       }));
-      const response = await
-        fetch(`${process.env.API}/user/stripe/session`, {
+      payload.cartItems = cartData;
+      if (validCoupon) {
+        payload.couponCode = couponCode;
+      }
+      const response = await fetch(`${process.env.API}/user/stripe/session`,
+        {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            cartItems: cartData,
-          }),
+          body: JSON.stringify(payload),
         });
       if (response.ok) {
         const data = await response.json();
@@ -32,20 +35,21 @@ export default function Step3({ onPrevStep }) {
         toast.error(errorData.err);
         setLoading(false);
       }
-    } catch (err) {
+    }
+    catch (err) {
       console.log(err);
       toast.error("An error occurred. Please try again.");
       setLoading(false);
     }
-  }
+  };
   return (
     <div className="container">
       <div className="row">
         <div className="col-lg-8">
           <p className="alert alert-primary">Payment Method</p>
           <h2 className="text-center">🔒 💳</h2>
-          <p className="alert alert-danger"> Flat rate $5 shipping fee will apply for all orders VietNam 
-wide!
+          <p className="alert alert-danger"> Flat rate 25.000 shipping fee will apply for all orders VietNam
+            wide!
           </p>
           <p className="lead card p-5 bg-secondary text-light">
             Clicking 'Place Order' will securely redirect you to our
@@ -74,4 +78,4 @@ wide!
       </div>
     </div>
   );
-} 
+}

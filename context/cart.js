@@ -49,7 +49,7 @@ export const CartProvider = ({ children }) => {
           ? { ...item, quantity: item.quantity + quantity }
           : item
       );
-      console.log("Updated cart items:", updatedCartItems);
+      console.log(" cart items:", updatedCartItems);
       setCartItems(updatedCartItems);
     } else {
       const newCartItems = [...cartItems, { ...product, quantity }];
@@ -91,19 +91,19 @@ export const CartProvider = ({ children }) => {
       if (!response.ok) {
         setPercentOff(0);
         setValidCoupon(false);
-        toast.error("Mã giảm giá không hợp lệ");
+        toast.error("Invalid coupon code");
         return;
       }
 
       const data = await response.json();
       setPercentOff(data.percent_off);
       setValidCoupon(true);
-      toast.success(`${data?.name} đã được áp dụng thành công`);
+      toast.success(`${data?.name} applied successfully`);
     } catch (err) {
       console.error(err);
       setPercentOff(0);
       setValidCoupon(false);
-      toast.error("Mã giảm giá không hợp lệ");
+      toast.error("CouponCode ");
     }
   };
 
