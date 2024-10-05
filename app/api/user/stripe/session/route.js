@@ -43,7 +43,7 @@ export async function POST(req) {
       payment_method_types: ["card"],
       payment_intent_data: {
         metadata: {
-          cartItems: JSON.stringify(_req.cartItems), 
+          cartItems: JSON.stringify(_req.cartItems),
           userId: token.user._id,
         },
       },
@@ -53,11 +53,11 @@ export async function POST(req) {
         },
       ],
       shipping_address_collection: {
-        allowed_countries: ["VN"], 
+        allowed_countries: ["VN"],
       },
       discounts: [
         {
-          coupon: _req.couponCode, 
+          coupon: _req.couponCode,
         },
       ],
       customer_email: token.user.email,
