@@ -1,56 +1,66 @@
 "use client";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
-export default function UserOrders() {
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import Pagination from "@/components/product/Pagination";
+export default function AdminOrders() {
   const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true)
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(true);
+
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const page = searchParams.get("page");
   useEffect(() => {
-    fetchOrders();
-  }, []);
-  const fetchOrders = async () => {
+    fetchOrders(page);
+  }, [page]);
+  const fetchOrders = async (page) => {
     try {
-      const response = await fetch(`${process.env.API}/user/orders`, {
+      const response = await fetch(`${process.env.API}/admin/orders?page=${page}`, {
         method: "GET",
       });
       const data = await response.json();
-      setOrders(data);
-      setLoading(false)
+      setOrders(data.orders);
+      setCurrentPage(data.currentPage);
+      setTotalPages(data.totalPages);
+      setLoading(false);
     } catch (error) {
       console.log(error);
       setLoading(false);
     }
   };
-  const handleCancelOrder = async (orderId) => {
+  const handleStatusChange = async (newStatus, orderId) => {
     try {
       const response = await fetch(
-        `${proces.env.API}  /user/orders/refund?orderId=${orderId}`,
+        `${process.env.API}/admin/orders/${orderId}`,
         {
-          method: "POST",
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ delivery_status: newStatus }),
         }
       );
-      const data = await response.json();
-      if (!response.ok) {
-        toast.error("Something went wrong. Please try again ")
-      } else {
-        toast.success("Order cancelled");
-        fetchOrders();
+      10 / 2 / 2023
+      if (response.ok) {
+        // Update the order's status locally if the request was successful 
+        setOrders((prevOrders) =>
+          prevOrders.map((o) =>
+            o._id === orderId ? { ...o, delivery_status: newStatus } : o
+          )
+        );
+        toast.success("Order status updated successfully");
       }
-      setOrders(data);
-    }
-    catch (error) {
-      console.log(error);
-      toast.error("Order canncelation failed. Try again.")
+      else {
+        toast.error("Failed to update order status");
+      }
+    } catch (error) {
+      console.error("Error updating order status:", error);
+      toast.error("An error occurred while updating order status");
     }
   };
-  if (loading) {
-    return (
-      <div className="d-flex justify-content-center align-items-center text-danger vh-100 h1">
-        LOADING...
-      </div>
-    )
-  }
   return (
     <div className="container mb-5">
       {/* <pre>{JSON.stringify(orders, null, 4)}</pre> */}
@@ -62,6 +72,10 @@ export default function UserOrders() {
               <div key={order._id} className="mb-4 p-4 alert alert-secondary">
                 <table className="table  table-striped">
                   <tbody>
+                    <tr>
+                      <th scope="row">Customer Name:</th>
+                      <td>{order?.userId?.name}</td>
+                    </tr>
                     <tr>
                       <th scope="row">Charge ID:</th>
                       <td>{order?.chargeId}</td>
@@ -127,17 +141,22 @@ export default function UserOrders() {
                     <tr>
                       <th scope="row">Delivery Status</th>
                       <td>
-                        {order?.delivery_status}
-                        {order?.delivery_status === "Not Processed" && !order.refunded && (
-                          <>
-                            <br />
-                            <span
-                              className="text-danger pointer"
-                              onClick={() => handleCancelOrder(order?._id)}>
-                              Cancel the order
-                            </span>
-                          </>
-                        )}
+                        <select
+                          className="form-control"
+                          onChange={(e) =>
+                            handleStatusChange(e.target.value, order?._id)
+                          }
+                          value={order?.delivery_status}
+                          disabled={order?.refunded}
+                        >
+                          <option value="Not Processed">Not Processed </option>
+                          <option value="processing">Processing</option>
+                          <option value="Dispatched">Dispatched</option>
+                          {order?.refunded && (
+                            <option value="Cancelled">Cancelled</option>
+                          )}
+                          <option value="Delivered">Delivered</option>
+                        </select>
                       </td>
                     </tr>
 
@@ -147,6 +166,11 @@ export default function UserOrders() {
             ))}
         </div>
       </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        pathname={pathname}
+      />
     </div>
   );
 }
