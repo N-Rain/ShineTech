@@ -1,3 +1,4 @@
+"use client";
 import { createContext, useState, useEffect, useContext } from "react";
 import toast from "react-hot-toast";
 
@@ -42,7 +43,7 @@ export const CartProvider = ({ children }) => {
   const addToCart = (product, quantity) => {
     console.log("Adding product to cart:", product, quantity);
     const existingProduct = cartItems.find((item) => item._id === product._id);
-  
+
     if (existingProduct) {
       const updatedCartItems = cartItems.map((item) =>
         item._id === product._id
@@ -57,7 +58,7 @@ export const CartProvider = ({ children }) => {
       setCartItems(newCartItems);
     }
   };
-  
+
 
   // Xóa khỏi giỏ hàng
   const removeFromCart = (productId) => {
