@@ -3,10 +3,10 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import ProductImage from "@/components/product/ProductImage";
 import ProductLike from "@/components/product/ProductLike";
 import ProductRating from "@/components/product/ProductRating";
-// import UserReviews from "@/components/product/UserReviews";
-// import AddToCart from "@/components/product/AddToCart";
+import UserReviews from "@/components/product/UserReviews";
+import AddToCart from "@/components/product/AddToCart";
 // import CouponCode from "@/components/product/CouponCode";
-// import { stockStatus } from "@/utils/helpers";
+import { stockStatus } from "@/utils/helpers";
 import ProductCard from "@/components/product/ProductCard";
 
 dayjs.extend(relativeTime);
@@ -47,12 +47,12 @@ export default async function ProductViewPage({ params }) {
         <div className="col-lg-10 offset-lg-1 mb-4">
           <div className="card p-3">
             <div className="bg-warning text-center">
-              {/* {stockStatus(product?.stock)} */}
+              {stockStatus(product?.stock)}
             </div>
             <div className="card-title mt-3">
               <h3
                 className="text-center"
-                style={{ fontSize: 38, fontWeight: 700}}
+                style={{ fontSize: 38, fontWeight: 700 }}
               >
                 {product?.title}
               </h3>
@@ -73,7 +73,9 @@ export default async function ProductViewPage({ params }) {
                 />
               </div>
 
-              <div className="alert alert-primary mt-3">Brand: {product?.brand}</div>
+              <div className="alert alert-primary mt-3">
+                Brand: {product?.brand}
+              </div>
             </div>
 
             <div className="card-footer d-flex justify-content-between">
@@ -102,6 +104,12 @@ export default async function ProductViewPage({ params }) {
       </div>
 
       <div className="row">
+        <div className="col-lg-10 offset-lg-1 my-5">
+          <UserReviews reviews={product?.ratings} />
+        </div>
+      </div>
+
+      <div className="row">
         <div className="col-lg-10 offset-lg-1">
           <p className="lead text-center my-5">Other products you may like</p>
           <div className="row">
@@ -111,12 +119,6 @@ export default async function ProductViewPage({ params }) {
               </div>
             ))}
           </div>
-        </div>
-      </div>
-
-      <div className="row">
-        <div className="col-lg-10 offset-lg-1 my-5">
-          {/* <UserReviews reviews={product?.ratings} /> */}
         </div>
       </div>
     </div>

@@ -26,6 +26,7 @@ const nextConfig = {
     STRIPE_TAX_RATE: config.STRIPE_TAX_RATE,
     DOMAIN: config.DOMAIN,
     STRIPE_SHIPPING_RATE: config.STRIPE_SHIPPING_RATE,
+    NEXTAUTH_URL: config.NEXTAUTH_URL,
   },
 };
 

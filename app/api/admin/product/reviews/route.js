@@ -1,13 +1,11 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/utils/dbConnect";
 import Product from "@/models/product";
-import { currentUser } from "@/utils/currentUser";
 import queryString from "query-string";
 
 export async function GET(req) {
   await dbConnect();
 
-  const user = await currentUser();
   const searchParams = queryString.parseUrl(req.url).query;
   const { page } = searchParams || {};
   const pageSize = 6; // Number of ratings per page
@@ -16,13 +14,8 @@ export async function GET(req) {
     const currentPage = Number(page) || 1;
     const skip = (currentPage - 1) * pageSize;
 
-    // for each user review, lookup products
+    // Lookup products for all reviews and populate ratings.postedBy
     const reviews = await Product.aggregate([
-      {
-        $match: {
-          "ratings.postedBy": user._id,
-        },
-      },
       {
         $lookup: {
           from: "products", // The collection name
@@ -35,34 +28,40 @@ export async function GET(req) {
         $unwind: "$product", // Unwind the product array
       },
       {
+        $unwind: "$ratings", // Unwind the ratings array
+      },
+      {
+        $lookup: {
+          from: "users", // The collection name for users
+          localField: "ratings.postedBy",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+      {
         $project: {
           _id: 0,
           product: {
+            _id: 1,
             title: 1,
             slug: 1,
             price: 1,
             image: { $arrayElemAt: ["$product.images.secure_url", 0] },
           },
-          // ratings: {
-          //   $arrayElemAt: ["$ratings", 0], // Extract the first rating from the array
-          // },
           ratings: {
-            //send rating of the current user only for given product
-            $arrayElemAt: [
-              {
-                $filter: {
-                  input: "$ratings",
-                  as: "rating",
-                  cond: { $eq: ["$$rating.postedBy", user._id] },
-                },
-              },
-              0,
-            ],
+            rating: "$ratings.rating",
+            comment: "$ratings.comment",
+            postedBy: {
+              _id: { $arrayElemAt: ["$user._id", 0] },
+              name: { $arrayElemAt: ["$user.name", 0] },
+              // Add other fields you want to include from the users collection
+            },
+            _id: "$ratings._id",
           },
         },
       },
       {
-        $sort: { createdAt: -1 }, // Sort by createdAt field in descending order
+        $sort: { "ratings.createdAt": -1 }, // Sort by createdAt field in descending order
       },
       {
         $skip: skip,
@@ -74,11 +73,6 @@ export async function GET(req) {
 
     const totalRatings = await Product.aggregate([
       {
-        $match: {
-          "ratings.postedBy": user._id,
-        },
-      },
-      {
         $group: {
           _id: null,
           totalRatings: { $sum: { $size: "$ratings" } },
@@ -86,17 +80,17 @@ export async function GET(req) {
       },
     ]);
 
-    const totalUserRatings =
+    const totalAllRatings =
       totalRatings.length > 0 ? totalRatings[0].totalRatings : 0;
 
-    console.log("totalUserRatings => ", totalUserRatings);
+    console.log("totalAllRatings => ", totalAllRatings);
 
     return NextResponse.json(
       {
         reviews,
-        totalRatings: totalUserRatings,
+        totalRatings: totalAllRatings,
         currentPage,
-        totalPages: Math.ceil(totalUserRatings / pageSize),
+        totalPages: Math.ceil(totalAllRatings / pageSize),
       },
       { status: 200 }
     );
