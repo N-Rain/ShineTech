@@ -1,7 +1,9 @@
 "use client";
 import { createContext, useState, useContext } from "react";
 import toast from "react-hot-toast";
+
 export const CategoryContext = createContext();
+
 export const CategoryProvider = ({ children }) => {
   const [name, setName] = useState("");
   const [categories, setCategories] = useState([]);
@@ -24,7 +26,7 @@ export const CategoryProvider = ({ children }) => {
         setCategories([newlyCreatedCategory, ...categories]);
       } else {
         const errorData = await response.json();
-        toast.error(errorData.err)
+        toast.error(errorData.err);
       }
     } catch (err) {
       console.log("err => ", err);
@@ -33,35 +35,23 @@ export const CategoryProvider = ({ children }) => {
   };
   const fetchCategories = async () => {
     try {
-      const response = await fetch(`${process.env.API}/admin/category`);
+      const response = await fetch(`${process.env.API}/categories`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
       if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Network response was not ok: ${errorText}`);
+        throw new Error("Network response was not ok");
       }
+
       const data = await response.json();
       setCategories(data);
     } catch (error) {
-      console.error("Error fetching categories:", error);
-      toast.error("Failed to fetch categories");
+      console.error("Error fetching search results:", error);
     }
   };
-
-  const fetchCategoriesPublic = async () => {
-    try {
-      const response = await fetch(`${process.env.API}/categories`);
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Network response was not ok: ${errorText}`);
-      }
-      const data = await response.json();
-      setCategories(data);
-    } catch (error) {
-      console.error("Error fetching categories:", error);
-      toast.error("Failed to fetch categories");
-    }
-  };
-
-
 
   const updateCategory = async () => {
     try {
@@ -81,10 +71,12 @@ export const CategoryProvider = ({ children }) => {
       const updatedCategory = await response.json();
       setCategories((prevCategories) =>
         prevCategories.map((c) =>
-          c._id === updatedCategory._id ? updatedCategory : c)
+          c._id === updatedCategory._id ? updatedCategory : c
+        )
       );
       setUpdatingCategory(null);
-      toast.success("Category updated successfully")
+
+      toast.success("Category updated successfully");
     } catch (err) {
       console.log("err => ", err);
       toast.error("An error occurred while updating the category");
@@ -122,7 +114,6 @@ export const CategoryProvider = ({ children }) => {
         categories,
         setCategories,
         fetchCategories,
-        fetchCategoriesPublic,
         updatingCategory,
         setUpdatingCategory,
         updateCategory,

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 import uniqueValidator from "mongoose-unique-validator";
-//
+
 import Category from "@/models/category";
 
 const tagSchema = new mongoose.Schema(
@@ -18,7 +18,7 @@ const tagSchema = new mongoose.Schema(
       lowercase: true,
       index: true,
     },
-    parentCategory: {
+    parent: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
       required: true,

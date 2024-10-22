@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import { useTag } from "@/context/tag";
 import TagCreate from "@/components/tag/TagCreate";
-import TagList from "@/components/tag/TagList";
+import TagsList from "@/components/tag/TagList";
 
 export default function Tags() {
   const { fetchTags } = useTag();
@@ -21,7 +21,7 @@ export default function Tags() {
       <div className="row mt-5">
         <div className="col">
           <p className="lead mb-4">List of Tags</p>
-          <TagList />
+          <TagsList />
         </div>
       </div>
     </div>
