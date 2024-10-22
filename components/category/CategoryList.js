@@ -7,10 +7,12 @@ export default function CategoryList() {
     fetchCategories();
   }, [])
   return <div className="my-5">
-    <div className="col">
-      {categories?.map((c) => (
-        <button className="btn" onClick={() => setUpdatingCategory(c)}>{c.name}</button>
-      ))}
+    <div className="row">
+      <div className="col">
+        {categories?.map((c) => (
+          <button key={c._id} className="btn" onClick={() => setUpdatingCategory(c)}>{c.name}</button>
+        ))}
+      </div>
     </div>
-  </div>
+  </div >
 }

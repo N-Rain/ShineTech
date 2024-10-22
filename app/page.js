@@ -1,5 +1,5 @@
 import ProductList from "@/components/product/ProductList";
-import Pagination from "@/components/product/Pagination";
+import Pagination from "@/components/Pagination";
 
 export const dynamic = "force-dynamic";
 
@@ -40,7 +40,7 @@ async function getProducts(searchParams) {
   }
 }
 
-export default async function Prducts({ searchParams }) {
+export default async function Products({ searchParams }) {
   // console.log("searchParams in products page => ", searchParams);
   const data = await getProducts(searchParams);
 

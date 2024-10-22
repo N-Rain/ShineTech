@@ -2,7 +2,9 @@
 import { useTag } from "@/context/tag";
 import { useCategory } from "@/context/category";
 import { useEffect } from "react";
+
 export default function AdminTagCreate() {
+  // context
   const {
     name,
     setName,
@@ -15,15 +17,17 @@ export default function AdminTagCreate() {
     deleteTag,
   } = useTag();
   const { fetchCategories, categories } = useCategory();
+
   useEffect(() => {
     fetchCategories();
   }, []);
+
   return (
     <>
-      <p>Create tag</p>
+      <p className="lead">Create Sub Category</p>
       <input
         type="text"
-        value={updatingTag ? updatingTag.name : name}
+        value={updatingTag ? updatingTag?.name : name}
         placeholder="Tag Name"
         onChange={(e) =>
           updatingTag
@@ -35,37 +39,32 @@ export default function AdminTagCreate() {
         }
         className="form-control p-2 my-2"
       />
+
       <div className="form-group mt-4">
         <label>Parent category</label>
         <select
           name="category"
           className="form-control"
-          onChange={(e) =>
-            updatingTag
-              ? setUpdatingTag({
-                ...updatingTag,
-                parentCategory: e.target.value,
-              })
-              : setParentCategory(e.target.value)
-          }
+          onChange={(e) => setParentCategory(e.target.value)}
         >
           <option value="">Select one</option>
-          {categories.length > 0 &&
-            categories.map((c) => (
+          {categories?.length > 0 &&
+            categories?.map((c) => (
               <option
-                key={c._id}
-                value={c._id}
+                key={c?._id}
+                value={c?._id}
                 selected={
-                  c._id === updatingTag?.parentCategory || c._id ===
-                  parentCategory
+                  c?._id === updatingTag?.parent || c?._id === parentCategory
                 }
               >
-                {c.name}
+                {c?.name}
               </option>
             ))}
         </select>
       </div>
+
       {/* <pre>{JSON.stringify(updatingTag, null, 4)}</pre> */}
+
       <div className="d-flex justify-content-between">
         <button
           className={`btn bg-${updatingTag ? "info" : "primary"} text-light`}
@@ -76,6 +75,7 @@ export default function AdminTagCreate() {
         >
           {updatingTag ? "Update" : "Create"}
         </button>
+
         {updatingTag && (
           <>
             <button
@@ -87,6 +87,7 @@ export default function AdminTagCreate() {
             >
               Delete
             </button>
+
             <button
               className="btn bg-success text-light"
               onClick={() => setUpdatingTag(null)}

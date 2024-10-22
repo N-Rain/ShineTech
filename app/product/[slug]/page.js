@@ -67,11 +67,12 @@ export default async function ProductViewPage({ params }) {
               {/* <CouponCode product={product} /> */}
 
               <div className="card-text ">
-                <div
+              <div
                   dangerouslySetInnerHTML={{
-                    __html: product?.description.replace(/\./g, "<br />"),
+                    __html: product?.description.replace(/\n/g, "<br />"),
                   }}
                 />
+
               </div>
 
               <div className="alert alert-primary mt-4">Brand: {product?.brand}</div>
