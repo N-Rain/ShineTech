@@ -6,6 +6,12 @@ export default function AdminNav() {
       <Link href={"/dashboard/admin"} className="nav-link">
         Admin
       </Link>
+      <Link className="nav-link" href="/dashboard/admin/blog/create">
+        Create Blog
+      </Link>
+      <Link className="nav-link" href="/dashboard/admin/blog/list">
+        Blogs List
+      </Link>
       <Link href={"/dashboard/admin/category"} className="nav-link">
         Categories
       </Link>
@@ -19,7 +25,10 @@ export default function AdminNav() {
         Products List
       </Link>
       <Link className="nav-link" href="/dashboard/admin/orders">
-        Orders
+        Orders List
+      </Link>
+      <Link className="nav-link" href="/dashboard/admin/product/reviews">
+        Product Reviews
       </Link>
     </nav>
   );
