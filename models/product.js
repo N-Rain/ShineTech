@@ -71,7 +71,8 @@ const productSchema = new mongoose.Schema(
       },
     },
     previousPrice: Number,
-    color: String,
+    // color: String,
+    colors: [String],
     brand: String,
     stock: Number,
     shipping: {

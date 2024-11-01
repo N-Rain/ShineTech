@@ -57,8 +57,8 @@ export default function ProductList() {
               </div>
               <div className="col-md-8">
                 <div className="card-body">
-                  <h5 className="card-title">{product.title}</h5>
-                  <h4>{product?.price} VNĐ</h4>
+                  <h4 className="card-title">{product.title}</h4>
+                  <h6>{product?.price.toLocaleString("vi-VN")} VND</h6>
                   <div className="card-text text-secondary">
                     <div
                       dangerouslySetInnerHTML={{

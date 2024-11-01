@@ -17,10 +17,10 @@ export default function CouponCode({ product }) {
     <div className="d-flex justify-content-center align-items-center">
       {validCoupon ? (
         <del>
-          <h4 className="text-danger mx-2">{product?.price} VND</h4>
+          <h4 className="text-danger mx-2">{product?.price.toLocaleString("vi-VN")} VND</h4>
         </del>
       ) : (
-        <h4 className="mx-2">{product?.price} VND</h4>
+        <h4 className="mx-2">{product?.price.toLocaleString("vi-VN")} VND</h4>
       )}
 
       {percentOff > 0 && (
@@ -33,7 +33,7 @@ export default function CouponCode({ product }) {
       
       {product?.previousPrice > product?.price && (
         <h4 className="text-danger">
-          <del>{product?.previousPrice} VND</del>
+          <del>{product?.price.toLocaleString("vi-VN")} VND</del>
         </h4>
       )}
     </div>

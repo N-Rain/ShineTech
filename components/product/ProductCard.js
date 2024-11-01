@@ -22,13 +22,18 @@ export default function ({ product }) {
 
       <div className="card-body">
         <Link href={`/product/${product?.slug}`}>
-          <h5 className="card-title">
-            <strong>{product?.price} VND</strong> {product?.title}
+          <h4 className="card-title">
+            {/* <strong>{product?.price} VND</strong>  */}
+            {product?.title}
+          </h4>
+          <h5 className="card-price">
+            {/* <strong>{product?.price} VND</strong> */}
+            <strong>{product?.price.toLocaleString("vi-VN")} VND</strong>
           </h5>
         </Link>
         {product?.previousPrice > product?.price && (
           <h5 className="card-title text-danger">
-            🛍️ <del>${product?.previousPrice} VND</del>
+            🛍️ <del>${product?.price.toLocaleString("vi-VN")} VND</del>
           </h5>
         )}
         <div

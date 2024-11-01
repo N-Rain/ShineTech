@@ -22,8 +22,12 @@ export const ProductProvider = ({ children }) => {
 
   const [brands, setBrands] = useState([]);
 
-  const [productSearchQuery, setProductSearchQuery] = useState("")
-  const [productSearchResults, setProductSearchResults] = useState([])
+  const [selectedColor, setSelectedColor] = useState("");
+  const [colorOptions, setColorOptions] = useState([]);
+
+  
+  const [productSearchQuery, setProductSearchQuery] = useState("");
+  const [productSearchResults, setProductSearchResults] = useState([]);
 
   const router = useRouter();
 
@@ -41,7 +45,6 @@ export const ProductProvider = ({ children }) => {
   const closeModal = () => {
     setShowImagePreviewModal(false);
     setShowRatingModal(false);
-
   };
 
   const handleClickOutside = (event) => {
@@ -55,8 +58,8 @@ export const ProductProvider = ({ children }) => {
     let allUploadedFiles = updatingProduct
       ? updatingProduct.images || []
       : product
-        ? product.images || []
-        : [];
+      ? product.images || []
+      : [];
     if (files) {
       const totalImages = allUploadedFiles.length + files.length;
       if (totalImages > 10) {
@@ -102,9 +105,9 @@ export const ProductProvider = ({ children }) => {
         .then(() => {
           updatingProduct
             ? setUpdatingProduct({
-              ...updatingProduct,
-              images: allUploadedFiles,
-            })
+                ...updatingProduct,
+                images: allUploadedFiles,
+              })
             : setProduct({ ...product, images: allUploadedFiles });
           setUploading(false);
         })
@@ -129,14 +132,14 @@ export const ProductProvider = ({ children }) => {
         // console.log("IMAGE DELETE RES DATA", data);
         const filteredImages = updatingProduct
           ? updatingProduct.images.filter(
-            (image) => image.public_id !== public_id
-          )
+              (image) => image.public_id !== public_id
+            )
           : product.images.filter((image) => image.public_id !== public_id);
         updatingProduct
           ? setUpdatingProduct({
-            ...updatingProduct,
-            images: filteredImages,
-          })
+              ...updatingProduct,
+              images: filteredImages,
+            })
           : setProduct({ ...product, images: filteredImages });
       })
       .catch((err) => {
@@ -253,6 +256,31 @@ export const ProductProvider = ({ children }) => {
       console.error("Error fetching brands:", error);
     }
   };
+
+  const fetchColorOptions = async (productId) => {
+    try {
+      const response = await fetch(
+        `${process.env.API}/product/${productId}/colors`,
+        {
+          method: "GET",
+        }
+      );
+
+      const data = await response.json();
+      if (response.ok) {
+        setColorOptions(data.colors);
+      } else {
+        toast.error(data.err);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const selectColor = (color) => {
+    setSelectedColor(color);
+  };
+
   const fetchProductSearchResults = async (e) => {
     e.preventDefault();
     try {
@@ -309,6 +337,11 @@ export const ProductProvider = ({ children }) => {
         setComment,
         brands,
         fetchBrands,
+        selectedColor,
+        setSelectedColor,
+        colorOptions,
+        fetchColorOptions,
+        selectColor,
         productSearchQuery,
         setProductSearchQuery,
         productSearchResults,

@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import ProductReviews from "@/components/product/ProductReviews";
-import Pagination from "@/components/product/Pagination";
+import Pagination from "@/components/Pagination";
 
 export default function UserProductReviewsPage() {
   const [reviews, setReviews] = useState([]);

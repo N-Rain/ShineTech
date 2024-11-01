@@ -45,7 +45,7 @@ export default function Step1({ onNextStep }) {
                         ]
                       </Link>
                     </h5>
-                    <h4>{product?.price} VND</h4>
+                    <h4>{product?.price.toLocaleString("vi-VN")} VND</h4>
                     <div className="card-text">
                       <div
                         dangerouslySetInnerHTML={{
