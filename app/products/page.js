@@ -10,18 +10,19 @@ export const metadata = {
 };
 
 async function getProducts(searchParams) {
-  const searchQuery = new URLSearchParams({
-    page: searchParams?.page || 1,
-    minPrice: searchParams?.minPrice || "",
-    maxPrice: searchParams?.maxPrice || "",
-    ratings: searchParams?.ratings || "",
-    category: searchParams?.category || "",
-    tag: searchParams?.tag || "",
-    brand: searchParams?.brand || "",
-  }).toString();
+  const query = new URLSearchParams();
+
+  query.set("page", searchParams?.page || 1);
+
+  if (searchParams?.minPrice) query.set("minPrice", searchParams.minPrice);
+  if (searchParams?.maxPrice) query.set("maxPrice", searchParams.maxPrice);
+  if (searchParams?.ratings) query.set("ratings", searchParams.ratings);
+  if (searchParams?.category) query.set("category", searchParams.category);
+  if (searchParams?.tag) query.set("tag", searchParams.tag);
+  if (searchParams?.brand) query.set("brand", searchParams.brand);
 
   try {
-    const response = await fetch(`${process.env.API}/product?${searchQuery}`, {
+    const response = await fetch(`${process.env.API}/product?${query.toString()}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

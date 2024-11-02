@@ -3,12 +3,12 @@ import { createContext, useState, useContext } from "react";
 import { useRouter } from "next/navigation";
 
 const priceRanges = [
-  { min: 0, max: 20, label: "Under $20" }, 
-  { min: 20, max: 50, label: "$20 - $50" },
-  { min: 50, max: 100, label: "$50 - $100" },
-  { min: 50, max: 100, label: "$100 - $200" },
-  { min: 50, max: 100, label: "$200 - $500" },
-  { min: 50, max: 100, label: "$500 - $900" },
+  { min: 0, max: 500000, label: "Under 500.000 VND" },
+  { min: 500000, max: 1000000, label: "500.000 VND - 1.000.000 VND" },
+  { min: 1000000, max: 5000000, label: "1.000.000 VND - 5.000.000 VND" },
+  { min: 5000000, max: 10000000, label: "5.000.000 VND - 10.000.000 VND" },
+  { min: 10000000, max: 20000000, label: "10.000.000 VND - 20.000.000 VND" },
+  { min: 20000000, max: 50000000, label: " 20.000.000 VND - 50.000.000 VND " },
 ];
 
 export const FilterContext = createContext();
