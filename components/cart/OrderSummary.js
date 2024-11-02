@@ -1,19 +1,34 @@
 import React from "react";
 import { useCart } from "@/context/cart";
 import Image from "next/image";
+
 export default function OrderSummary() {
-  const { cartItems } = useCart();
+  const { cartItems, percentOff } = useCart();
+
   const calculateTotal = () => {
     return cartItems.reduce(
       (total, item) => total + item.price * item.quantity,
       0
     );
   };
+
+  const calculateTotalWithDiscount = () => {
+    const totalPrice = calculateTotal();
+
+    if (percentOff > 0) {
+      const discountAmount = (totalPrice * percentOff) / 100;
+      return totalPrice - discountAmount;
+    }
+
+    return totalPrice;
+  };
+
   const totalItems = cartItems.reduce(
     (total, item) => total + item.quantity,
     0
   );
   const itemOrItems = totalItems === 1 ? "item" : "items";
+
   return (
     <div>
       <p className="alert alert-primary">Order Summary</p>
@@ -41,22 +56,33 @@ export default function OrderSummary() {
                 </div>
               </div>
               <div className="col-md-6">
-                <p className="card-title text-secondary">{product.title}
-                </p>
+                <p className="card-title text-secondary">{product.title}</p>
               </div>
               <div className="col-md-3">
-                <p className="h6">{product?.price} VND</p>
+                <p className="h6">${product?.price.toFixed(2)}</p>
                 <p className="text-secondary">Qty: {product?.quantity}</p>
               </div>
             </div>
           </div>
         ))}
       </ul>
+
+      {percentOff > 0 && (
+        <p className="alert alert-danger">{percentOff}% discount applied!</p>
+      )}
+      {percentOff > 0 && (
+        <div className="d-flex justify-content-between p-1">
+          <p>Total before discount:</p>
+          <del>
+            <p className="h4 text-danger">${calculateTotal().toFixed(2)}</p>
+          </del>
+        </div>
+      )}
       <div className="d-flex justify-content-between p-1">
         <p>
           Total {totalItems} {itemOrItems}:
         </p>
-        <p className="h4">{calculateTotal()} VND</p>
+        <p className="h4">{calculateTotalWithDiscount()}</p>
       </div>
     </div>
   );

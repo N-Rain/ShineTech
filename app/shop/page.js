@@ -43,13 +43,13 @@ async function getProducts(searchParams) {
   }
 }
 
-export default async function Prducts({ searchParams }) {
+export default async function Products({ searchParams }) {
   // console.log("searchParams in products page => ", searchParams);
   const data = await getProducts(searchParams);
 
   return (
     <main>
-      <div className="container-fluid">
+      <div className="container">
         <div className="row">
           <div className="col">
             <p className="text-center lead fw-bold">Latest Products</p>

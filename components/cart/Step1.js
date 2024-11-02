@@ -45,7 +45,7 @@ export default function Step1({ onNextStep }) {
                         ]
                       </Link>
                     </h5>
-                    <h4>{product?.price} VND</h4>
+                    <h4>{new Intl.NumberFormat('vi-VN').format(product?.price) + " VND"}</h4>
                     <div className="card-text">
                       <div
                         dangerouslySetInnerHTML={{

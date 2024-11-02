@@ -23,12 +23,14 @@ export default function ({ product }) {
       <div className="card-body">
         <Link href={`/product/${product?.slug}`}>
           <h5 className="card-title">
-            <strong>{product?.price} VND</strong> {product?.title}
+            <strong>
+              {new Intl.NumberFormat('vi-VN').format(product?.price) + " VND"}
+            </strong>   {product?.title}
           </h5>
         </Link>
         {product?.previousPrice > product?.price && (
           <h5 className="card-title text-danger">
-            🛍️ <del>${product?.previousPrice} VND</del>
+            🛍️ <del>{new Intl.NumberFormat('vi-VN').format(product?.previousPrice) + " VND"}</del>
           </h5>
         )}
         <div

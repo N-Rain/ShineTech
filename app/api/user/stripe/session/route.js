@@ -19,7 +19,7 @@ export async function POST(req) {
     const lineItems = await Promise.all(
       _req.cartItems.map(async (item) => {
         const product = await Product.findById(item._id);
-        const unitAmount = product.price * 100;
+        const unitAmount = product.price * 1;
         return {
           price_data: {
             currency: "vnd",
