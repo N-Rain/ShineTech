@@ -6,28 +6,23 @@ export default function OrderSummary() {
   const { cartItems, percentOff } = useCart();
 
   const calculateTotal = () => {
-    return cartItems.reduce(
-      (total, item) => total + item.price * item.quantity,
-      0
-    );
+    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
   const calculateTotalWithDiscount = () => {
     const totalPrice = calculateTotal();
-
     if (percentOff > 0) {
       const discountAmount = (totalPrice * percentOff) / 100;
       return totalPrice - discountAmount;
     }
-
     return totalPrice;
   };
 
-  const totalItems = cartItems.reduce(
-    (total, item) => total + item.quantity,
-    0
-  );
+  const totalItems = cartItems.reduce((total, item) => total + item.quantity, 0);
   const itemOrItems = totalItems === 1 ? "item" : "items";
+
+  const formatCurrency = (value) =>
+    new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(value);
 
   return (
     <div>
@@ -39,10 +34,7 @@ export default function OrderSummary() {
               <div className="col-md-3">
                 <div style={{ height: "66px", overflow: "hidden" }}>
                   <Image
-                    src={
-                      product?.images?.[0]?.secure_url ||
-                      "/images/new-wave.jpeg"
-                    }
+                    src={product?.images?.[0]?.secure_url || "/images/image.jpg"}
                     className="card-img-top"
                     width={500}
                     height={300}
@@ -59,7 +51,7 @@ export default function OrderSummary() {
                 <p className="card-title text-secondary">{product.title}</p>
               </div>
               <div className="col-md-3">
-                <p className="h6">${product?.price.toFixed(2)}</p>
+                <p className="h6">{formatCurrency(product?.price)}</p>
                 <p className="text-secondary">Qty: {product?.quantity}</p>
               </div>
             </div>
@@ -70,19 +62,21 @@ export default function OrderSummary() {
       {percentOff > 0 && (
         <p className="alert alert-danger">{percentOff}% discount applied!</p>
       )}
+
       {percentOff > 0 && (
         <div className="d-flex justify-content-between p-1">
           <p>Total before discount:</p>
-          <del>
-            <p className="h4 text-danger">${calculateTotal().toFixed(2)}</p>
-          </del>
+          <p className="h4 text-danger">
+            <del>{formatCurrency(calculateTotal())}</del>
+          </p>
         </div>
       )}
+
       <div className="d-flex justify-content-between p-1">
         <p>
           Total {totalItems} {itemOrItems}:
         </p>
-        <p className="h4">{calculateTotalWithDiscount()}</p>
+        <p className="h4">{formatCurrency(calculateTotalWithDiscount())}</p>
       </div>
     </div>
   );

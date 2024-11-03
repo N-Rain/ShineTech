@@ -24,8 +24,8 @@ export default function ProductCreate() {
   const imagePreviews = updatingProduct
     ? updatingProduct?.images
     : product
-    ? product?.images
-    : [];
+      ? product?.images
+      : [];
 
   useEffect(() => {
     fetchCategories();
@@ -55,9 +55,9 @@ export default function ProductCreate() {
         onChange={(e) =>
           updatingProduct
             ? setUpdatingProduct({
-                ...updatingProduct,
-                description: e.target.value,
-              })
+              ...updatingProduct,
+              description: e.target.value,
+            })
             : setProduct({ ...product, description: e.target.value })
         }
         className="form-control p-2 my-2"
@@ -74,9 +74,9 @@ export default function ProductCreate() {
           onChange={(e) => {
             updatingProduct
               ? setUpdatingProduct({
-                  ...updatingProduct,
-                  price: e.target.value,
-                })
+                ...updatingProduct,
+                price: e.target.value,
+              })
               : setProduct({ ...product, price: e.target.value });
           }}
         />
@@ -111,9 +111,9 @@ export default function ProductCreate() {
           onChange={(e) => {
             updatingProduct
               ? setUpdatingProduct({
-                  ...updatingProduct,
-                  color: e.target.value,
-                })
+                ...updatingProduct,
+                color: e.target.value,
+              })
               : setProduct({ ...product, color: e.target.value });
           }}
         />
@@ -129,9 +129,9 @@ export default function ProductCreate() {
           onChange={(e) => {
             updatingProduct
               ? setUpdatingProduct({
-                  ...updatingProduct,
-                  brand: e.target.value,
-                })
+                ...updatingProduct,
+                brand: e.target.value,
+              })
               : setProduct({ ...product, brand: e.target.value });
           }}
         />
@@ -147,9 +147,9 @@ export default function ProductCreate() {
             onChange={(e) => {
               updatingProduct
                 ? setUpdatingProduct({
-                    ...updatingProduct,
-                    stock: e.target.value,
-                  })
+                  ...updatingProduct,
+                  stock: e.target.value,
+                })
                 : setProduct({ ...product, stock: e.target.value });
             }}
           />
@@ -265,27 +265,27 @@ export default function ProductCreate() {
         <div className="d-flex justify-content-center">
           {imagePreviews?.length > 0
             ? imagePreviews.map((img) => (
-                <div key={img.public_id}>
-                  <img
-                    src={img.secure_url}
-                    className="img-thumbnail mx-1 shadow"
-                    style={{
-                      width: "100px",
-                      height: "100px",
-                      objectFit: "cover",
-                      borderRadius: "10%",
-                      // overflow: "hidden",
-                    }}
-                  />
-                  <br />
-                  <div
-                    className="text-center pointer mt-3"
-                    onClick={() => deleteImage(img.public_id)}
-                  >
-                    ❌
-                  </div>
+              <div key={img.public_id}>
+                <img
+                  src={img.secure_url}
+                  className="img-thumbnail mx-1 shadow"
+                  style={{
+                    width: "100px",
+                    height: "100px",
+                    objectFit: "cover",
+                    borderRadius: "10%",
+                    // overflow: "hidden",
+                  }}
+                />
+                <br />
+                <div
+                  className="text-center pointer mt-3"
+                  onClick={() => deleteImage(img.public_id)}
+                >
+                  ❌
                 </div>
-              ))
+              </div>
+            ))
             : ""}
         </div>
       </div>
@@ -294,9 +294,8 @@ export default function ProductCreate() {
 
       <div className="d-flex justify-content-between mt-3">
         <button
-          className={`btn btn-raised bg-${
-            updatingProduct ? "info" : "primary"
-          } text-light`}
+          className={`btn btn-raised bg-${updatingProduct ? "info" : "primary"
+            } text-light`}
           onClick={(e) => {
             e.preventDefault();
             updatingProduct ? updateProduct() : createProduct();
@@ -326,7 +325,7 @@ export default function ProductCreate() {
           </>
         )}
       </div>
-      <pre>{JSON.stringify(product, null, 4)}</pre>
+      {/* <pre>{JSON.stringify(product, null, 4)}</pre> */}
     </>
   );
 }
