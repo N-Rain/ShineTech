@@ -157,3 +157,12 @@ a {
   outline: 0; /* Bỏ đường viền mặc định */
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Đổ bóng khi có tiêu điểm */
 }
+/* Custom horizontal scrollbar styling */
+/* .d-flex.overflow-auto::-webkit-scrollbar {
+  height: 8px;
+}
+
+.d-flex.overflow-auto::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 10px;
+} */

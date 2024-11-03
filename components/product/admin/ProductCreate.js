@@ -25,6 +25,7 @@ export default function ProductCreate() {
   const { categories, fetchCategories } = useCategory();
   const { tags, fetchTags } = useTag();
   const [colorInput, setColorInput] = useState(""); //
+  
   const handleAddColor = () => {
     if (colorInput.trim()) {
       const updatedColors = [...(product.colors || []), colorInput];
@@ -218,7 +219,7 @@ export default function ProductCreate() {
         <div className="form-group">
           <input
             type="number"
-            min="1"
+            // min="1"
             placeholder="Stock"
             name="Stock"
             className="form-control p-2 my-2"

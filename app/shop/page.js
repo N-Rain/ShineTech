@@ -4,7 +4,7 @@ import Pagination from "@/components/Pagination";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Next Ecommerce",
+  title: "Shine Tech",
   description: "Find the latest in fashion, electronics and more",
 };
 

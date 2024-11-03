@@ -140,13 +140,32 @@ import ProductCard from "@/components/product/ProductCard";
 import { useProduct } from "@/context/product";
 
 dayjs.extend(relativeTime);
+// async function getProduct(slug) {
+//   try {
+//     const response = await fetch(`${process.env.API}/product/${slug}`, {
+//       method: "GET",
+//       next: { revalidate: 1 },
+//     });
 
+//     if (!response.ok) {
+//       throw new Error(`Failed to fetch products`);
+//     }
+
+//     const data = await response.json();
+//     return data;
+//   } catch (error) {
+//     console.error(error);
+//     return null;
+//   }
+// }
 export default function ProductViewPage({ params }) {
   const { selectedColor, setSelectedColor } = useProduct();
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
-
+  const [isColorSelected, setIsColorSelected] = useState(false);
   // Fetch product data
+  // const { product, relatedProducts, setRelatedProducts} =  getProduct(params?.slug);
+
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -163,8 +182,10 @@ export default function ProductViewPage({ params }) {
         }
 
         const data = await response.json();
+        console.log("Fetched Data:", data); 
         setProduct(data.product); // Assuming response contains product under 'product'
         setRelatedProducts(data.relatedProducts); // Assuming response contains related products
+        console.log("Related Products:", data.relatedProducts);
       } catch (error) {
         console.error(error);
       }
@@ -172,6 +193,11 @@ export default function ProductViewPage({ params }) {
 
     fetchProduct();
   }, [params.slug]); // Depend on the slug to refetch if it changes
+
+  //color selected
+  useEffect(() => {
+    setIsColorSelected(!!selectedColor);
+  }, [selectedColor]);
 
   if (!product) {
     return <div>Loading...</div>; // Handle loading state
@@ -253,7 +279,7 @@ export default function ProductViewPage({ params }) {
           </div>
 
           <div className="my-3">
-            <AddToCart product={product} />
+            <AddToCart product={product} isColorSelected={isColorSelected} />
           </div>
         </div>
       </div>
@@ -262,11 +288,16 @@ export default function ProductViewPage({ params }) {
         <div className="col-lg-10 offset-lg-1">
           <p className="lead text-center my-5">Other products you may like</p>
           <div className="row">
-            {relatedProducts?.map((relatedProduct) => (
-              <div className="col-lg-4" key={relatedProduct._id}>
-                <ProductCard product={relatedProduct} />
-              </div>
-            ))}
+            <div
+              className="d-flex overflow-auto"
+              style={{ gap: "1rem", padding: "1rem" }}
+            >
+              {relatedProducts?.map((relatedProduct) => (
+                <div className="col-lg-4" key={relatedProduct._id}>
+                  <ProductCard product={relatedProduct} />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
