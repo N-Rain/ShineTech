@@ -25,16 +25,16 @@ export async function POST(req) {
     );
 
     // Check if the user has purchased the product
-    // const userPurchased = await Order.findOne({
-    //   userId: token.user._id,
-    //   "cartItems._id": productId,
-    // });
     const userPurchased = await Order.findOne({
       userId: token.user._id,
-      cartItems: {
-        $elemMatch: { product: productId }
-      }
+      "cartItems._id": productId,
     });
+    // const userPurchased = await Order.findOne({
+    //   userId: token.user._id,
+    //   cartItems: {
+    //     $elemMatch: { product: productId }
+    //   }
+    // });
     
 
     if (!userPurchased) {
