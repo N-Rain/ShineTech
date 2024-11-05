@@ -39,10 +39,7 @@ export default function ProductList() {
               <div className="col-md-4">
                 <div style={{ height: "100px", overflow: "hidden" }}>
                   <Image
-                    src={
-                      product?.images?.[0]?.secure_url ||
-                      "/images/hn2.jpeg"
-                    }
+                    src={product?.images?.[0]?.secure_url || "/images/hn2.jpeg"}
                     className="card-img-top"
                     width={500}
                     height={300}
@@ -57,8 +54,11 @@ export default function ProductList() {
               </div>
               <div className="col-md-8">
                 <div className="card-body">
-                  <h5 className="card-title">{product.title}</h5>
-                  <h4>{new Intl.NumberFormat('vi-VN').format(product?.price) + " VND"}</h4>
+                  <h4 className="card-title">{product.title}</h4>
+                  <h6>
+                    {new Intl.NumberFormat("vi-VN").format(product?.price) +
+                      " VND"}
+                  </h6>{" "}
                   <div className="card-text text-secondary">
                     <div
                       dangerouslySetInnerHTML={{

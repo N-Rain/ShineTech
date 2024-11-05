@@ -1,29 +1,34 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/utils/dbConnect";
-import Product from "@/models/product";
-import { currentUser } from "@/utils/currentUser";
+import Blog from "@/models/blog";
+import { getToken } from "next-auth/jwt";
 
 export async function PUT(req) {
-
   await dbConnect();
 
-  const user = await currentUser();
-  const { productId } = await req.json();
+  const _req = await req.json();
+
+  const { blogId } = _req;
+  const token = await getToken({
+    req,
+    secret: process.env.NEXTAUTH_SECRET,
+  });
 
   try {
-    const updated = await Product.findByIdAndUpdate(
-      productId,
-      {
-        $addToSet: { likes: user._id },
-      },
-      {
-        new: true,
-      }
+    const updated = await Blog.findByIdAndUpdate(
+      blogId,
+      { $addToSet: { likes: token.user._id } },
+      { new: true }
     );
 
-    return NextResponse.json(updated);
-    
+    return NextResponse.json(updated, { status: 200 });
   } catch (err) {
-    return NextResponse.json({ err: err.message }, { status: 500 });
+    console.log(err);
+    return NextResponse.json(
+      {
+        err: "Server error. Please try again.",
+      },
+      { status: 500 }
+    );
   }
 }

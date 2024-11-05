@@ -22,11 +22,13 @@ export default function ({ product }) {
 
       <div className="card-body">
         <Link href={`/product/${product?.slug}`}>
-          <h5 className="card-title">
-            <strong>
-              {new Intl.NumberFormat('vi-VN').format(product?.price) + " VND"}
-            </strong>   {product?.title}
-          </h5>
+<h4 className="card-title">
+            {/* <strong>{product?.price} VND</strong>  */}
+            {product?.title}
+          </h4>
+          <h5 className="card-price">
+            {/* <strong>{product?.price} VND</strong> */}
+            <strong>{new Intl.NumberFormat('vi-VN').format(product?.price) + " VND"}</strong>          </h5>
         </Link>
         {product?.previousPrice > product?.price && (
           <h5 className="card-title text-danger">

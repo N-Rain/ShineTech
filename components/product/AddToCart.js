@@ -2,15 +2,17 @@
 import { useState, useEffect } from "react";
 import { useCart } from "@/context/cart";
 import Link from "next/link";
-export default function AddToCart({ product, reviewAndCheckout = true }) {
-  const { addToCart, updateQuantity, cartItems, removeFromCart } =
-    useCart();
-  const existingProduct = cartItems.find((item) => item._id ===
-    product._id);
+export default function AddToCart({
+  product,
+  reviewAndCheckout = true,
+  isColorSelected,
+}) {
+  const { addToCart, updateQuantity, cartItems, removeFromCart } = useCart();
+  const existingProduct = cartItems.find((item) => item._id === product._id);
   const initialQuantity = existingProduct ? existingProduct.quantity : 1;
   const [quantity, setQuantity] = useState(initialQuantity);
   useEffect(() => {
-    cartItems
+    cartItems;
     setQuantity(existingProduct ? existingProduct.quantity : 1);
   }, [existingProduct]);
   const handleIncrement = () => {
@@ -23,8 +25,7 @@ export default function AddToCart({ product, reviewAndCheckout = true }) {
       const newQuantity = quantity - 1;
       setQuantity(newQuantity);
       updateQuantity(product, newQuantity);
-    }
-    else {
+    } else {
       removeFromCart(product._id);
       setQuantity(1);
     }
@@ -73,13 +74,22 @@ export default function AddToCart({ product, reviewAndCheckout = true }) {
           )}
         </>
       ) : (
+        // <button
+        //   className="btn btn-danger btn-raised btn-block"
+        //   onClick={handleAddToCart}
+        // >
+        //   Add to Cart
+        // </button>
         <button
-          className="btn btn-danger btn-raised btn-block"
+          className={`btn btn-raised btn-block ${
+            isColorSelected ? "btn-danger" : "btn-secondary"
+          }`}
           onClick={handleAddToCart}
+          disabled={!isColorSelected}
         >
           Add to Cart
         </button>
       )}
     </div>
   );
-} 
+}

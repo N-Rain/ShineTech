@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useProduct } from "@/context/product";
 import { useCategory } from "@/context/category";
 import { useTag } from "@/context/tag";
@@ -16,11 +16,23 @@ export default function ProductCreate() {
     uploadImages,
     uploading,
     deleteImage,
+    colorOptions,
+    setColorOptions,
+    selectedColor,
+    setSelectedColor,
   } = useProduct();
 
   const { categories, fetchCategories } = useCategory();
   const { tags, fetchTags } = useTag();
-
+  const [colorInput, setColorInput] = useState(""); //
+  
+  const handleAddColor = () => {
+    if (colorInput.trim()) {
+      const updatedColors = [...(product.colors || []), colorInput];
+      setProduct({ ...product, colors: updatedColors });
+      setColorInput(""); // Reset ô nhập liệu
+    }
+  };
   const imagePreviews = updatingProduct
     ? updatingProduct?.images
     : product
@@ -101,7 +113,7 @@ export default function ProductCreate() {
         </div>
       )}
 
-      <div className="form-group">
+      {/* <div className="form-group">
         <input
           type="text"
           placeholder="Color"
@@ -117,7 +129,75 @@ export default function ProductCreate() {
               : setProduct({ ...product, color: e.target.value });
           }}
         />
+      </div> */}
+      <div className="form-group">
+        <input
+          type="text"
+          placeholder="Add color"
+          value={colorInput}
+          onChange={(e) => setColorInput(e.target.value)}
+          className="form-control p-2 my-2"
+        />
+        <button
+          type="button"
+          onClick={() => {
+            if (colorInput.trim()) {
+              const updatedColors = updatingProduct
+                ? [...(updatingProduct?.colors || []), colorInput]
+                : [...(product?.colors || []), colorInput];
+
+              if (updatingProduct) {
+                setUpdatingProduct({
+                  ...updatingProduct,
+                  colors: updatedColors,
+                });
+              } else {
+                setProduct({ ...product, colors: updatedColors });
+              }
+
+              setColorInput(""); // Reset ô nhập liệu
+            }
+          }}
+          className="btn btn-primary"
+        >
+          Add Color
+        </button>
       </div>
+
+      <div className="form-group">
+        <div className="d-flex flex-wrap">
+          {(updatingProduct?.colors || product?.colors || []).map(
+            (color, index) => (
+              <div
+                key={index}
+                className="mx-3 d-flex align-items-center justify-content-center"
+                
+              >
+                {color}
+                <div
+                  onClick={() => {
+                    const filteredColors = updatingProduct
+                      ? updatingProduct.colors.filter((_, i) => i !== index)
+                      : product.colors.filter((_, i) => i !== index);
+
+                    updatingProduct
+                      ? setUpdatingProduct({
+                          ...updatingProduct,
+                          colors: filteredColors,
+                        })
+                      : setProduct({ ...product, colors: filteredColors });
+                  }}
+                  className="pointer m-1"
+                >
+                  ❌
+                </div>
+              </div>
+            )
+          )}
+        </div>
+      </div>
+
+      
 
       <div className="form-group">
         <input
@@ -139,7 +219,7 @@ export default function ProductCreate() {
         <div className="form-group">
           <input
             type="number"
-            min="1"
+            // min="1"
             placeholder="Stock"
             name="Stock"
             className="form-control p-2 my-2"
