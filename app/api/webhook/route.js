@@ -4,6 +4,7 @@ import Product from "@/models/product";
 import Order from "@/models/order";
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+
 export async function POST(req) {
   await dbConnect();
   const _raw = await req.text();
@@ -15,12 +16,19 @@ export async function POST(req) {
       sig,
       process.env.STRIPE_WEBHOOK_SECRET
     );
-    
+
     console.log("Stripe Event Received:", event);
 
     if (event.type === "charge.succeeded") {
       const chargeSucceeded = event.data.object;
       const { id, ...rest } = chargeSucceeded;
+
+      // Check if the order already exists
+      const existingOrder = await Order.findOne({ chargeId: id });
+      if (existingOrder) {
+        console.log("Order already exists for this charge ID:", id);
+        return NextResponse.json({ ok: true }); // Or handle as needed
+      }
 
       const cartItems = JSON.parse(chargeSucceeded.metadata.cartItems);
       console.log("Parsed cartItems:", cartItems);
@@ -50,7 +58,6 @@ export async function POST(req) {
         userId: chargeSucceeded.metadata.userId,
         cartItems: cartItemsWithProductDetails,
       };
-      
       console.log("Order Data:", orderData);
 
       await Order.create(orderData).catch((error) => {
@@ -58,6 +65,7 @@ export async function POST(req) {
         throw new Error("Failed to create order");
       });
 
+      // Update stock quantity
       for (const cartItem of cartItems) {
         const product = await Product.findById(cartItem._id);
         if (product.stock >= cartItem.quantity) {
