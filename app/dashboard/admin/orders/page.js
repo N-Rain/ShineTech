@@ -43,7 +43,7 @@ export default function AdminOrders() {
           body: JSON.stringify({ delivery_status: newStatus }),
         }
       );
-      10 / 2 / 2023
+  
       if (response.ok) {
         // Update the order's status locally if the request was successful 
         setOrders((prevOrders) =>
