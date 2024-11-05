@@ -12,7 +12,7 @@ export default function ({ product }) {
     <div key={product?._id} className="card my-3">
       <div style={{ height: "200px", overflow: "hidden" }}>
         <Image
-          src={product?.images?.[0]?.secure_url || "/images/default.jpeg"}
+          src={product?.images?.[0]?.secure_url || "/images/image.jpg"}
           width={500}
           height={300}
           style={{ objectFit: "cover", width: "100%", height: "100%" }}

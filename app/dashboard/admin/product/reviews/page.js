@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import ProductReviews from "@/components/product/ProductReviews";
-import Pagination from "@/components/product/Pagination";
+import Pagination from "@/components/Pagination";
 import toast from "react-hot-toast";
 
 export default function AdminProductReviewsPage() {
@@ -78,7 +78,7 @@ export default function AdminProductReviewsPage() {
   if (!reviews?.length) {
     return (
       <div className="d-flex justify-content-center align-items-center text-danger vh-100 h1">
-        No Orders
+        No Reviews
       </div>
     );
   }
