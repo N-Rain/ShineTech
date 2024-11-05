@@ -78,7 +78,7 @@ export default function AdminProductReviewsPage() {
   if (!reviews?.length) {
     return (
       <div className="d-flex justify-content-center align-items-center text-danger vh-100 h1">
-        No Orders
+        No Reviews
       </div>
     );
   }
