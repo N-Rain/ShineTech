@@ -1,12 +1,11 @@
-2468
 import mongoose from "mongoose";
 
 const cartItemSchema = new mongoose.Schema({
   product: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Product", // Reference to the Product model
+    ref: "Product", 
   },
-  title: String, // Add fields you need from the product
+  title: String, 
   slug: String,
   price: Number,
   image: String,

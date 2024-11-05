@@ -8,56 +8,74 @@ export async function POST(req) {
   await dbConnect();
   const _raw = await req.text();
   const sig = req.headers.get("stripe-signature");
+
   try {
     const event = stripe.webhooks.constructEvent(
-      _raw, // Nội dung của request
-      sig,  // Chữ ký lấy từ header
+      _raw,
+      sig,
       process.env.STRIPE_WEBHOOK_SECRET
     );
+    
+    console.log("Stripe Event Received:", event);
 
-    switch (event.type) {
-      case "charge.succeeded":
-        const chargeSucceeded = event.data.object;
-        const { id, ...rest } = chargeSucceeded;
+    if (event.type === "charge.succeeded") {
+      const chargeSucceeded = event.data.object;
+      const { id, ...rest } = chargeSucceeded;
 
-        const cartItems = JSON.parse(chargeSucceeded.metadata.cartItems)
-        const productIds = cartItems.map((item) => item._id);
-        const products = await Product.find({ _id: { $in: productIds } })
+      const cartItems = JSON.parse(chargeSucceeded.metadata.cartItems);
+      console.log("Parsed cartItems:", cartItems);
 
-        const productMap = {};
-        products.forEach((product) => {
-          productMap[product._id.toString()] = {
-            _id: product._id,
-            title: product.title,
-            slug: product.slug,
-            price: product.price,
-            image: product.images[0]?.secure_url || "",
+      const productIds = cartItems.map((item) => item._id);
+      const products = await Product.find({ _id: { $in: productIds } });
 
-          }
-        });
-        // create cartItém with product details
-        const cartItemsWithProductDetails = cartItems.map(cartItem => ({
-          ...productMap[cartItem._id],
-          quantity: cartItem.quantity
-        }));
-        // create order
-        const orderData = {
-          ...rest,
-          chargeId: id,
-          userId: chargeSucceeded.metadata.userId,
-          cartItems: cartItemsWithProductDetails,
-
+      const productMap = {};
+      products.forEach((product) => {
+        productMap[product._id.toString()] = {
+          _id: product._id,
+          title: product.title,
+          slug: product.slug,
+          price: product.price,
+          image: product.images[0]?.secure_url || "",
         };
-        await Order.create(orderData);
-        for (const cartItem of cartItems) {
-          const product = await Product.findById(cartItem._id)
-          product.stock = product.stock - cartItem.quantity
-          await product.save()
+      });
+
+      const cartItemsWithProductDetails = cartItems.map((cartItem) => ({
+        ...productMap[cartItem._id],
+        quantity: cartItem.quantity,
+      }));
+
+      const orderData = {
+        ...rest,
+        chargeId: id,
+        userId: chargeSucceeded.metadata.userId,
+        cartItems: cartItemsWithProductDetails,
+      };
+      
+      console.log("Order Data:", orderData);
+
+      await Order.create(orderData).catch((error) => {
+        console.log("Order Creation Error:", error);
+        throw new Error("Failed to create order");
+      });
+
+      for (const cartItem of cartItems) {
+        const product = await Product.findById(cartItem._id);
+        if (product.stock >= cartItem.quantity) {
+          product.stock -= cartItem.quantity;
+          await product.save();
+        } else {
+          return NextResponse.json({
+            error: "Not enough stock for some items",
+            status: 400,
+          });
         }
-        return NextResponse.json({ ok: true })
+      }
+      return NextResponse.json({ ok: true });
+    } else {
+      return NextResponse.json({ message: "Unhandled event type" });
     }
   } catch (err) {
-    console.log(err);
+    console.log("Error in Webhook Handling:", err);
     return NextResponse.json({
       err: "Server error. Please try again",
       status: 500,
