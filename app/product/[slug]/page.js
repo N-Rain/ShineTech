@@ -138,6 +138,7 @@ import AddToCart from "@/components/product/AddToCart";
 import CouponCode from "@/components/product/CouponCode";
 import ProductCard from "@/components/product/ProductCard";
 import { useProduct } from "@/context/product";
+import UserReviews from "@/components/product/UserReviews";
 
 dayjs.extend(relativeTime);
 // async function getProduct(slug) {
@@ -182,7 +183,7 @@ export default function ProductViewPage({ params }) {
         }
 
         const data = await response.json();
-        console.log("Fetched Data:", data); 
+        console.log("Fetched Data:", data);
         setProduct(data.product); // Assuming response contains product under 'product'
         setRelatedProducts(data.relatedProducts); // Assuming response contains related products
         console.log("Related Products:", data.relatedProducts);
@@ -299,6 +300,11 @@ export default function ProductViewPage({ params }) {
               ))}
             </div>
           </div>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-lg-10 offset-lg-1 my-5">
+          <UserReviews reviews={product?.ratings} />
         </div>
       </div>
     </div>

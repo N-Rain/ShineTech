@@ -29,10 +29,12 @@ export async function POST(req) {
       userId: token.user._id,
       "cartItems._id": productId,
     });
-    
-    console.log("User purchased:", userPurchased);
-    console.log("Token user ID:", token.user._id);
-    console.log("Looking for order with userId:", token.user._id);
+    // const userPurchased = await Order.findOne({
+    //   userId: token.user._id,
+    //   cartItems: {
+    //     $elemMatch: { product: productId }
+    //   }
+    // });
     
 
     if (!userPurchased) {
