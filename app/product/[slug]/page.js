@@ -139,6 +139,7 @@ import CouponCode from "@/components/product/CouponCode";
 import ProductCard from "@/components/product/ProductCard";
 import { useProduct } from "@/context/product";
 import UserReviews from "@/components/product/UserReviews";
+import { stockStatus, updateSoldCount } from "@/utils/helpers";
 
 dayjs.extend(relativeTime);
 // async function getProduct(slug) {
@@ -210,7 +211,7 @@ export default function ProductViewPage({ params }) {
         <div className="col-lg-10 offset-lg-1 mb-4">
           <div className="card p-3">
             <div className="bg-warning text-center">
-              {/* {stockStatus(product?.stock)} */}
+              {stockStatus(product?.stock)}
             </div>
             <div className="card-title mt-3">
               <h3
@@ -236,6 +237,9 @@ export default function ProductViewPage({ params }) {
               <div className="alert alert-primary mt-4">
                 Brand: {product?.brand}
               </div>
+              <div className="card-footer text-primary d-flex justify-content-end">
+                {updateSoldCount(product?.sold)}
+              </div>
             </div>
 
             <div className="card-footer d-flex justify-content-between">
@@ -257,6 +261,7 @@ export default function ProductViewPage({ params }) {
             <div className="card-footer text-center">
               <ProductRating product={product} />
             </div>
+
             <div className="form-group m-3 p-1">
               <label htmlFor="colorSelect" className="form-label fw-bold">
                 Select Color

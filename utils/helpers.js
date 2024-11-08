@@ -15,4 +15,6 @@ export function calculateAverageRating(ratings) {
     }
     return null;
   };
-  
+export const updateSoldCount = (sold) => {
+  return sold ? `${sold} items sold` : "No sales yet";
+}

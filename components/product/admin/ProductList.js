@@ -35,7 +35,7 @@ export default function ProductList() {
               router.push(`/dashboard/admin/product`);
             }}
           >
-            <div className="row g-0">
+            <div className="row g-0 justify-content-center align-items-center">
               <div className="col-md-4">
                 <div style={{ height: "100px", overflow: "hidden" }}>
                   <Image
@@ -52,7 +52,7 @@ export default function ProductList() {
                   />
                 </div>
               </div>
-              <div className="col-md-8">
+              <div className="col-md-8 justify-content-center align-items-center">
                 <div className="card-body">
                   <h4 className="card-title">{product.title}</h4>
                   <h6>
@@ -68,6 +68,10 @@ export default function ProductList() {
                             : product?.description,
                       }}
                     ></div>
+                    <div className="row d-flex justify-content-between">
+                      <p className="text-secondary">Sold: {product.sold}</p>
+                      <p className="text-secondary">Stock: {product.stock}</p>
+                    </div>
                   </div>
                 </div>
               </div>

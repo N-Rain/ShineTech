@@ -70,6 +70,8 @@ export async function POST(req) {
         const product = await Product.findById(cartItem._id);
         if (product.stock >= cartItem.quantity) {
           product.stock -= cartItem.quantity;
+          //increase the sold quantity
+          product.sold += cartItem.quantity;  
           await product.save();
         } else {
           return NextResponse.json({
