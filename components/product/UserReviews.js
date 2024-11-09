@@ -18,6 +18,11 @@ export default function UserReviews({ reviews }) {
                   </p>
                   <Stars rating={review?.rating} />
                   {review?.comment && <p className="mt-3">{review?.comment}</p>}
+                  <div>
+                    <p className="text-muted">
+                      {new Date(review.createdAt).toLocaleString()}{" "}
+                    </p>
+                  </div>
                 </div>
               </li>
             ))}
