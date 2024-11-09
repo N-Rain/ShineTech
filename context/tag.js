@@ -35,21 +35,23 @@ export const TagProvider = ({ children }) => {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
-      console.log(`${process.env.API}/tags`);
-
+      console.log("API URL:", `${process.env.API}/tags`);
       console.log("Response Status:", response.status); // Log status code
+
       if (!response.ok) {
         throw new Error("Failed to fetch tags");
       }
+
       const data = await response.json();
       console.log("Fetched Tags Data:", data); // Log dữ liệu đã fetch
       setTags(data);
     } catch (error) {
       console.error("Error fetching tags:", error);
-      toast.error("Could not load tags");
+      toast.error("Could not load tags nha huhu");
     }
   };
-  
+
+
 
   const updateTag = async () => {
     try {

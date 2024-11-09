@@ -23,7 +23,6 @@ export const SearchProvider = ({ children }) => {
 
       const data = await response.json();
       setSearchResults(data);
-      // console.log("search results => ", data);
       router.push(`/search/blogs?searchQuery=${searchQuery}`);
     } catch (error) {
       console.error("Error fetching search results:", error);

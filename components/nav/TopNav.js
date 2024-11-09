@@ -77,9 +77,8 @@ export default function TopNav() {
         <div className="d-flex">
           <Link
             className="nav-link"
-            href={`/dashboard/${
-              data?.user?.role === "admin" ? "admin" : "user"
-            }`}
+            href={`/dashboard/${data?.user?.role === "admin" ? "admin" : "user"
+              }`}
           >
             {data.user.name} ({data?.user?.role})
           </Link>
