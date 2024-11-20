@@ -43,7 +43,7 @@ export default function AdminOrders() {
           body: JSON.stringify({ delivery_status: newStatus }),
         }
       );
-  
+
       if (response.ok) {
         // Update the order's status locally if the request was successful 
         setOrders((prevOrders) =>
@@ -83,7 +83,7 @@ export default function AdminOrders() {
 
                     <tr>
                       <th scope="row">Created:</th>
-                      <td>{new Date(order?.createAt).toLocaleDateString()}</td>
+                      <td>{new Date(order?.createdAt).toLocaleDateString()}</td>
                     </tr>
 
                     <tr>
