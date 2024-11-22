@@ -155,13 +155,15 @@ export default function AddToCart({
   }, [existingProduct]);
 
   const handleIncrement = () => {
-    if (quantity < product.stock) {
+    if (product.stock > 1 && quantity < product.stock - 1) {
       const newQuantity = quantity + 1;
       setQuantity(newQuantity);
       updateQuantity(product, newQuantity);
       setErrorMessage(""); // Xóa thông báo lỗi nếu có
-    } else {
+    } else if (product.stock <= 1) {
       setErrorMessage("Not enough stock for this item.");
+    } else {
+      setErrorMessage("You can only add up to " + (product.stock - 1) + " items.");
     }
   };
 
@@ -178,11 +180,16 @@ export default function AddToCart({
   };
 
   const handleAddToCart = () => {
-    if (quantity <= product.stock) {
+    if (product.stock === 1) {
+      setErrorMessage("Not enough stock for this item.");
+      return;
+    }
+
+    if (quantity <= product.stock - 1) {
       addToCart(product, quantity);
       setErrorMessage(""); // Xóa thông báo lỗi nếu có
     } else {
-      setErrorMessage("Not enough stock for this item.");
+      setErrorMessage("You can only add up to " + (product.stock - 1) + " items.");
     }
   };
 
@@ -206,7 +213,7 @@ export default function AddToCart({
               value={quantity}
               onChange={(e) => {
                 const value = parseInt(e.target.value, 10);
-                if (value <= product.stock) {
+                if (value <= product.stock && value >= 1) {
                   setQuantity(value);
                   updateQuantity(product, value);
                   setErrorMessage(""); // Xóa thông báo lỗi
@@ -242,10 +249,10 @@ export default function AddToCart({
       ) : (
         <button
           className={`btn btn-raised btn-block ${
-            isColorSelected ? "btn-danger" : "btn-secondary"
+            isColorSelected && product.stock > 1 ? "btn-danger" : "btn-secondary"
           }`}
           onClick={handleAddToCart}
-          disabled={!isColorSelected}
+          disabled={!isColorSelected || product.stock <= 1} // Vô hiệu hóa khi stock <= 1
         >
           Add to Cart
         </button>
@@ -253,3 +260,5 @@ export default function AddToCart({
     </div>
   );
 }
+
+
