@@ -19,24 +19,23 @@ export async function GET(req, context) {
 
     if (startDate && endDate) {
       queryConditions.createdAt = {
-        $gte: new Date(startDate), 
-        $lt: new Date(new Date(endDate).setDate(new Date(endDate).getDate() + 1)), 
+        $gte: new Date(startDate),
+        $lt: new Date(new Date(endDate).setDate(new Date(endDate).getDate() + 1)),
       };
     } else if (year && month) {
-      const startOfMonth = new Date(year, month - 1, 1); 
-      const endOfMonth = new Date(year, month, 0); 
-
+      const startOfMonth = new Date(year, month - 1, 1);
+      const endOfMonth = new Date(year, month, 0);
       queryConditions.createdAt = {
         $gte: startOfMonth,
-        $lt: new Date(endOfMonth.setDate(endOfMonth.getDate() + 1)), 
+        $lt: new Date(endOfMonth.setDate(endOfMonth.getDate() + 1)),
       };
     } else if (year) {
-      const startOfYear = new Date(year, 0, 1); 
+      const startOfYear = new Date(year, 0, 1);
       const endOfYear = new Date(year, 11, 31, 23, 59, 59);
 
       queryConditions.createdAt = {
-        $gte: startOfYear, 
-        $lt: new Date(endOfYear.setDate(endOfYear.getDate() + 1)), 
+        $gte: startOfYear,
+        $lt: new Date(endOfYear.setDate(endOfYear.getDate() + 1)),
       };
     }
 
