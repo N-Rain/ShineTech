@@ -1,64 +1,65 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/utils/dbConnect";
-import Product from "@/models/product";
-import Category from "@/models/category";
-import Tag from "@/models/tag";
 import Order from "@/models/order";
-import Blog from "@/models/blog";
 
 export async function GET(req, context) {
   await dbConnect();
 
   try {
-    const totalProducts = await Product.countDocuments();
-    const totalOrders = await Order.countDocuments();
-    const totalCategories = await Category.countDocuments();
-    const totalTags = await Tag.countDocuments();
-    const totalBlogs = await Blog.countDocuments();
+    const { searchParams } = new URL(req.url);
+    const startDate = searchParams.get("startDate");
+    const endDate = searchParams.get("endDate");
+    const year = searchParams.get("year");
+    const month = searchParams.get("month");
 
-    // Calculate the total count of all reviews
-    const totalReviews = await Product.aggregate([
-      {
-        $project: {
-          totalReviews: { $size: "$ratings" }, // tinh size arr rating
-        },
-      },
-      {
-        $group: {
-          _id: null,
-          totalCount: { $sum: "$totalReviews" }, // Tong cac bai danh gia tren prod
-        },
-      },
-    ]);
+    const queryConditions = {
+      status: "succeeded",
+      refunded: false,
+    };
 
-    const data = [
-      {
-        label: "Products",
-        url: "/dashboard/admin/products",
-        count: totalProducts,
-      },
-      { label: "Orders", url: "/dashboard/admin/orders", count: totalOrders },
-      {
-        label: "Categories",
-        url: "/dashboard/admin/category",
-        count: totalCategories,
-      },
-      { label: "Tags", url: "/dashboard/admin/tag", count: totalTags },
-      { label: "Blogs", url: "/dashboard/admin/blog/list", count: totalBlogs },
-      {
-        label: "Reviews",
-        url: "/dashboard/admin/product/reviews",
-        count: totalReviews[0].totalCount,
-      },
-    ];
+    if (startDate && endDate) {
+      queryConditions.createdAt = {
+        $gte: new Date(startDate), 
+        $lt: new Date(new Date(endDate).setDate(new Date(endDate).getDate() + 1)), 
+      };
+    } else if (year && month) {
+      const startOfMonth = new Date(year, month - 1, 1); 
+      const endOfMonth = new Date(year, month, 0); 
 
-    return NextResponse.json({ data }, { status: 200 });
+      queryConditions.createdAt = {
+        $gte: startOfMonth,
+        $lt: new Date(endOfMonth.setDate(endOfMonth.getDate() + 1)), 
+      };
+    } else if (year) {
+      const startOfYear = new Date(year, 0, 1); 
+      const endOfYear = new Date(year, 11, 31, 23, 59, 59);
+
+      queryConditions.createdAt = {
+        $gte: startOfYear, 
+        $lt: new Date(endOfYear.setDate(endOfYear.getDate() + 1)), 
+      };
+    }
+
+    const orders = await Order.find(queryConditions);
+
+    const totalRevenue = orders.reduce(
+      (acc, order) => acc + order.amount_captured,
+      0
+    );
+    const successfulOrdersCount = orders.length;
+
+    return NextResponse.json(
+      {
+        totalRevenue,
+        successfulOrdersCount,
+        orders,
+      },
+      { status: 200 }
+    );
   } catch (err) {
     console.log(err);
     return NextResponse.json(
-      {
-        err: err.message,
-      },
+      { error: err.message },
       { status: 500 }
     );
   }

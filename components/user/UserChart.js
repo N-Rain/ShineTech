@@ -1,7 +1,6 @@
-import Link from "next/link";
 import {
-  BarChart,
-  Bar,
+  LineChart,
+  Line,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -11,49 +10,27 @@ import {
 } from "recharts";
 
 export default function UserChart({ chartData }) {
-  const CustomTick = ({ payload, x, y, dataPoint }) => (
-    <Link href={dataPoint.url}>
-      <g transform={`translate(${x},${y})`}>
-        <text
-          x={0}
-          y={0}
-          dy={16}
-          textAnchor="end"
-          fill="#666"
-          transform="rotate(-35)"
-        >
-          {payload.value}
-        </text>
-      </g>
-    </Link>
-  );
-
   return (
     <div className="container-fluid">
       <div className="row">
         <div className="col">
-          <ResponsiveContainer width="95%" height={400}>
-            <BarChart width={1000} height={300} data={chartData}>
+          <ResponsiveContainer width="100%" height={400}>
+            <LineChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis
-                dataKey="label"
-                height={60}
-                tick={({ payload, x, y }) => (
-                  <CustomTick
-                    payload={payload}
-                    x={x}
-                    y={y}
-                    dataPoint={chartData.find(
-                      (item) => item.label === payload.value
-                    )}
-                  />
-                )}
-              />
+              <XAxis dataKey="date" />
               <YAxis />
               <Tooltip />
               <Legend />
-              <Bar dataKey="count" fill="rgba(75, 192, 192, 0.6)" />
-            </BarChart>
+              {/* Hiển thị từng trạng thái */}
+              <Line type="monotone" dataKey="count" name="Order Count" stroke="#8884d8" />
+              <Line
+                type="monotone"
+                dataKey="status"
+                name="Status"
+                stroke="#82ca9d"
+                dot={false}
+              />
+            </LineChart>
           </ResponsiveContainer>
         </div>
       </div>
