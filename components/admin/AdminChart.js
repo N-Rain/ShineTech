@@ -32,7 +32,7 @@ export default function AdminChart({ revenueData }) {
                 <tr key={order._id}>
                   <td
                     style={{ cursor: "pointer", color: "blue", textDecoration: "underline" }}
-                    onClick={() => router.push(`/dashboard/admin/orders/${order._id}`)} // Điều hướng đến trang chi tiết đơn hàng
+                    onClick={() => router.push(`/dashboard/admin/orders/${order._id}`)} 
                   >
                     {order._id}
                   </td>
