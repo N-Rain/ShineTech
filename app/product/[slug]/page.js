@@ -210,9 +210,18 @@ export default function ProductViewPage({ params }) {
       <div className="row">
         <div className="col-lg-10 offset-lg-1 mb-4">
           <div className="card p-3">
-            <div className="bg-warning text-center">
-              {stockStatus(product?.stock)}
-            </div>
+          <div
+  className={`text-center ${
+    product?.stock <= 1
+      ? "bg-danger text-white"  // Màu đỏ khi hết hàng (stock <= 1)
+      : product?.stock <= 10
+      ? "bg-warning"  // Màu vàng khi tồn kho thấp
+      : "bg-success"  // Màu xanh khi còn hàng
+  }`}
+>
+  {stockStatus(product?.stock)}
+</div>
+
             <div className="card-title mt-3">
               <h3
                 className="text-center"
