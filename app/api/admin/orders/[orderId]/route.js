@@ -1,29 +1,27 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/utils/dbConnect";
 import Order from "@/models/order";
-export async function PUT(req, context) {
+
+export async function GET(req, context) {
   await dbConnect();
-  const body = await req.json();
+  const { orderId } = context.params; 
+
   try {
-    const order = await Order.findByIdAndUpdate(
-      context.params.orderId,
-      {
-        delivery_status: body.delivery_status,
-      },
-      {
-        new: true
-      }
-    );
+    const order = await Order.findById(orderId);
+    
+    if (!order) {
+      return NextResponse.json({ error: "Order not found" }, { status: 404 });
+    }
+
     return NextResponse.json(order);
-  }
-  catch (err) {
+  } catch (err) {
     console.log(err);
     return NextResponse.json(
       {
         err: "Server error. Please try again.",
       },
       {
-        status: 500
+        status: 500,
       }
     );
   }
