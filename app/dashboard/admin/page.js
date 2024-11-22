@@ -101,7 +101,7 @@ export default function AdminDashboard() {
                 name="year"
                 id="year"
                 value={filters.year}
-                onChange={handleFilterChange}
+onChange={handleFilterChange}
                 className="form-control"
                 min="2000"
                 max="2100"
