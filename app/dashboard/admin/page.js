@@ -1,147 +1,167 @@
-// "use client";
-// import { useEffect, useState } from "react";
-// import AdminChart from "@/components/admin/AdminChart";
-
-// export default function AdminDashboard() {
-//   const [chartData, setChartData] = useState([]);
-//   const [loading, setLoading] = useState(true);
-
-//   useEffect(() => {
-//     fetchChartData();
-//   }, []);
-
-//   const fetchChartData = async () => {
-//     try {
-//       const response = await fetch(`${process.env.API}/admin/chart`);
-//       const data = await response.json();
-
-//       setChartData(data.data);
-//       setLoading(false);
-//     } catch (error) {
-//       console.error("Error fetching chart data:", error);
-//       setLoading(false);
-//     }
-//   };
-
-//   if (loading) {
-//     return (
-//       <div className="d-flex justify-content-center align-items-center text-danger vh-100 h1">
-//         LOADING...
-//       </div>
-//     );
-//   }
-
-//   return (
-//     <div className="container">
-//       <div className="row">
-//         <div className="col">
-//           <p className="lead text-center">Admin Dashboard</p>
-
-//           <AdminChart chartData={chartData} />
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
 "use client";
-import { useEffect, useState } from "react";
 import AdminChart from "@/components/admin/AdminChart";
-import moment from "moment";
+import { useEffect, useState } from "react";
 
 export default function AdminDashboard() {
-  const [chartData, setChartData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [period, setPeriod] = useState(""); // Time period for stats
-  const [type, setType] = useState("day"); // Statistics type: day, month, year, week
+  const [revenueData, setRevenueData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [filters, setFilters] = useState({
+    startDate: "",
+    endDate: "",
+    year: "",
+    month: "",
+  });
 
-  useEffect(() => {
-    if (period && type) {
-      fetchChartData(period, type);
-    }
-  }, [period, type]);
-  
-  const fetchChartData = async (period, type) => {
+  const fetchRevenueData = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`${process.env.API}/admin/chart?period=${period}&type=${type}`);
+      const queryParams = new URLSearchParams({
+        ...(filters.startDate && { startDate: filters.startDate }),
+        ...(filters.endDate && { endDate: filters.endDate }),
+        ...(filters.year && { year: filters.year }),
+        ...(filters.month && { month: filters.month }),
+      });
+      const response = await fetch(
+        `${process.env.API}/admin/chart?${queryParams.toString()}`
+      );
       const data = await response.json();
-      setChartData(data.data);
-      setLoading(false);
+      setRevenueData(data);
     } catch (error) {
-      console.error("Error fetching chart data:", error);
-      setLoading(false);
+      console.error("Error fetching revenue data:", error);
     }
+    setLoading(false);
   };
 
-  return (
-    <div className="container">
-      <div className="row">
-        <div className="col">
-          <p className="lead text-center">Admin Dashboard</p>
-          
-          {/* Choose the statistics type */}
-          <div className="mb-3">
-            <label htmlFor="type" className="form-label">Chọn kiểu thống kê:</label>
-            <select
-              id="type"
-              className="form-select"
-              value={type}
-              onChange={(e) => setType(e.target.value)}
-            >
-              <option value="day">Ngày</option>
-              <option value="month">Tháng</option>
-              <option value="year">Năm</option>
-              <option value="week">Tuần</option> {/* New option for week */}
-            </select>
-          </div>
+  const handleFilterChange = (e) => {
+    setFilters({
+      ...filters,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-          {/* Choose the period */}
-          <div className="mb-3">
-            <label htmlFor="period" className="form-label">Chọn thời gian:</label>
-            {type === "day" && (
+  const handleFilterSubmit = (e) => {
+    e.preventDefault();
+    fetchRevenueData();
+  };
+
+  const handleClearFilters = () => {
+    setFilters({
+      startDate: "",
+      endDate: "",
+      year: "",
+      month: "",
+    });
+    setRevenueData(null);
+  };
+
+  const isMonthSelectedWithoutYear = filters.month && !filters.year;
+
+  return (
+    <div className="container py-4">
+      <div className="row mb-4">
+        <div className="col-lg-8 offset-lg-2">
+          <h2 className="text-center mb-4">Revenue Dashboard</h2>
+          <form
+            onSubmit={handleFilterSubmit}
+            className="row g-3 p-3 border rounded shadow-sm bg-light"
+          >
+            <div className="col-md-6">
+              <label htmlFor="startDate" className="form-label">
+                Start Date:
+              </label>
               <input
                 type="date"
-                id="period"
+                name="startDate"
+                id="startDate"
+                value={filters.startDate}
+                onChange={handleFilterChange}
                 className="form-control"
-                onChange={(e) => setPeriod(e.target.value)}
               />
-            )}
-            {type === "month" && (
+            </div>
+            <div className="col-md-6">
+              <label htmlFor="endDate" className="form-label">
+                End Date:
+              </label>
               <input
-                type="month"
-                id="period"
+                type="date"
+                name="endDate"
+                id="endDate"
+                value={filters.endDate}
+                onChange={handleFilterChange}
                 className="form-control"
-                onChange={(e) => setPeriod(e.target.value)}
               />
-            )}
-            {type === "year" && (
+            </div>
+
+            <div className="col-md-6">
+              <label htmlFor="year" className="form-label">
+                Year:
+              </label>
               <input
                 type="number"
-                id="period"
+                name="year"
+                id="year"
+                value={filters.year}
+onChange={handleFilterChange}
                 className="form-control"
-                onChange={(e) => setPeriod(e.target.value)}
+                min="2000"
+                max="2100"
+                placeholder="YYYY"
+                disabled={isMonthSelectedWithoutYear}
               />
-            )}
-            {type === "week" && (
-              <input
-                type="week"
-                id="period"
-                className="form-control"
-                onChange={(e) => setPeriod(e.target.value)}
-              />
-            )}
-          </div>
-
-          {/* Display chart if data is available */}
-          {loading ? (
-            <div className="d-flex justify-content-center align-items-center text-danger vh-100 h1">
-              LOADING...
+              {isMonthSelectedWithoutYear && (
+                <small className="text-danger">
+                  Please select a year when choosing a month.
+                </small>
+              )}
             </div>
-          ) : (
-            <AdminChart chartData={chartData} />
-          )}
+            <div className="col-md-6">
+              <label htmlFor="month" className="form-label">
+                Month:
+              </label>
+              <input
+                type="number"
+                name="month"
+                id="month"
+                value={filters.month}
+                onChange={handleFilterChange}
+                className="form-control"
+                min="1"
+                max="12"
+                placeholder="MM"
+              />
+            </div>
+
+            <div className="col-12 d-flex justify-content-end gap-2">
+              <button
+                type="submit"
+                className="btn btn-primary"
+                disabled={isMonthSelectedWithoutYear && !filters.year}
+              >
+                Filter
+              </button>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={handleClearFilters}
+              >
+                Clear
+              </button>
+            </div>
+          </form>
         </div>
       </div>
+
+      {loading ? (
+        <div className="d-flex justify-content-center align-items-center text-danger vh-100 h1">
+          LOADING...
+        </div>
+      ) : (
+        <div className="row">
+          <div className="col">
+            {revenueData && <AdminChart revenueData={revenueData} />}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
