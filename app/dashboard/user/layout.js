@@ -14,7 +14,7 @@ export default function UserLayout({ children }) {
           Liked Products
         </Link>
         <Link className="nav-link" href="/dashboard/user/orders">
-          Recent Orders okok
+          Recent Orders
         </Link>
         <Link className="nav-link" href="/dashboard/user/product/reviews">
           Product Reviews

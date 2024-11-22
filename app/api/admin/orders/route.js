@@ -25,18 +25,14 @@ export async function GET(req) {
         currentPage,
         totalPages: Math.ceil(totalOrders / pageSize),
       },
-      {
-        status: 200
-      }
+      { status: 200 }
     );
   } catch (err) {
     return NextResponse.json(
       {
         err: err.message,
       },
-      {
-        status: 500
-      }
+      { status: 500 }
     );
   }
 }
