@@ -1,10 +1,11 @@
 "use client";
+
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation"; // Chú ý dùng useRouter từ next/navigation trong App Router
+import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
 export default function OrderDetailPage({ params }) {
-  const { orderId } = params; // Lấy orderId từ params
+  const { orderId } = params;
 
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -22,7 +23,7 @@ export default function OrderDetailPage({ params }) {
       const data = await response.json();
 
       if (response.ok) {
-        setOrder(data); // Set dữ liệu đơn hàng nếu thành công
+        setOrder(data);
       } else {
         toast.error("Failed to fetch order details.");
       }
@@ -44,7 +45,7 @@ export default function OrderDetailPage({ params }) {
         <tbody>
           <tr>
             <th scope="row">Customer Name:</th>
-            <td>{order?.userId?.name}</td>
+            <td>{order?.userId?.name || "Unknown Customer"}</td>
           </tr>
           <tr>
             <th scope="row">Charge ID:</th>
@@ -68,12 +69,13 @@ export default function OrderDetailPage({ params }) {
           </tr>
           <tr>
             <th scope="row">Total Charged:</th>
-            <td>{(order?.amount_captured / 100)} {order?.currency}</td>
+            <td> {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(order?.amount_captured)}</td>
           </tr>
           <tr>
             <th scope="row">Shopping Address:</th>
-            <td>{order?.shipping?.address?.line1}<br />
-              {order?.shipping?.address?.line2 && order?.shipping?.address?.line2}
+            <td>
+              {order?.shipping?.address?.line1}<br />
+              {order?.shipping?.address?.line2 && `${order.shipping.address.line2} `}
               {order?.shipping?.address?.city}, {order?.shipping?.address?.state}, {order?.shipping?.address?.postal_code}
               <br />
               {order?.shipping?.address?.country}

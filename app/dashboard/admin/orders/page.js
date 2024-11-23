@@ -3,29 +3,36 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import Pagination from "@/components/Pagination";
+
 export default function AdminOrders() {
   const [orders, setOrders] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState(""); // Store the search query
 
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const page = searchParams.get("page");
+
   useEffect(() => {
     fetchOrders(page);
   }, [page]);
-  const fetchOrders = async (page) => {
+
+  const fetchOrders = async (page, searchQuery) => {
     try {
-      const response = await fetch(`${process.env.API}/admin/orders?page=${page}`, {
-        method: "GET",
-      });
+      setLoading(true);
+      const response = await fetch(
+        `${process.env.API}/admin/orders?page=${page}&searchQuery=${searchQuery}`,
+        {
+          method: "GET",
+        }
+      );
       const data = await response.json();
       setOrders(data.orders);
       setCurrentPage(data.currentPage);
       setTotalPages(data.totalPages);
-      setLoading(false);
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -45,15 +52,13 @@ export default function AdminOrders() {
       );
 
       if (response.ok) {
-        // Update the order's status locally if the request was successful 
         setOrders((prevOrders) =>
           prevOrders.map((o) =>
             o._id === orderId ? { ...o, delivery_status: newStatus } : o
           )
         );
         toast.success("Order status updated successfully");
-      }
-      else {
+      } else {
         toast.error("Failed to update order status");
       }
     } catch (error) {
@@ -61,16 +66,16 @@ export default function AdminOrders() {
       toast.error("An error occurred while updating order status");
     }
   };
+
   return (
     <div className="container mb-5">
-      {/* <pre>{JSON.stringify(orders, null, 4)}</pre> */}
       <div className="row">
         <div className="col">
-          <h4 className="text-center"> Recent Orders</h4>
-          {orders?.length > 0 &&
+          <h4 className="text-center">Recent Orders</h4>
+          {orders?.length > 0 ? (
             orders?.map((order) => (
               <div key={order._id} className="mb-4 p-4 alert alert-secondary">
-                <table className="table  table-striped">
+                <table className="table table-striped">
                   <tbody>
                     <tr>
                       <th scope="row">Customer Name:</th>
@@ -108,14 +113,14 @@ export default function AdminOrders() {
                     </tr>
                     <tr>
                       <th scope="row">Total Charged:</th>
-                      <td>{(order?.amount_captured / 100)}
-                        {order?.currency}</td>
+                      <td> {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(order?.amount_captured)} </td>
                     </tr>
                     <tr>
                       <th scope="row">Shopping Address:</th>
                       <td>{order?.shipping?.address?.line1}
                         <br />
-                        {order?.shipping?.address?.line2 && order?.shipping?.address?.line}
+                        {order?.shipping?.address?.line2 && order?.shipping?.address?.line2}
+                        <br />
                         {order?.shipping?.address?.city},
                         {order?.shipping?.address?.state},
                         {order?.shipping?.address?.postal_code},
@@ -163,7 +168,10 @@ export default function AdminOrders() {
                   </tbody>
                 </table>
               </div>
-            ))}
+            ))
+          ) : (
+            <p>No orders found matching your search.</p>
+          )}
         </div>
       </div>
       <Pagination

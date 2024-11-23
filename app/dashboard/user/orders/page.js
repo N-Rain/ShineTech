@@ -107,8 +107,10 @@ export default function UserOrders() {
                   <tr>
                     <th scope="row">Total Charged:</th>
                     <td>
-                      ${(order?.amount_captured / 100)?.toFixed(2)}{" "}
-                      {order?.currency}
+                      <td>
+                        {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(order?.amount_captured)}
+                      </td>
+
                     </td>
                   </tr>
                   <tr>
