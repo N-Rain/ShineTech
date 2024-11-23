@@ -237,8 +237,7 @@ export default function AdminOrders() {
                     <tr>
                       <th scope="row">Total Charged:</th>
                       <td>
-                        {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(order?.amount_captured)}
-                      </td>
+                        {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(order?.amount_captured)}</td>
                     </tr>
                     <tr>
                       <th scope="row">Shopping Address:</th>
