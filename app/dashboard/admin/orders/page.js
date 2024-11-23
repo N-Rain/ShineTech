@@ -38,34 +38,37 @@ export default function AdminOrders() {
     fetchOrders(
       page,
       startDateParam,
-      endDateParam,
+      endDateParam, 
       statusParam,
       customerNameParam
     );
   }, [searchParams]);
 
-  const fetchOrders = async (
-    page,
-    startDate,
-    endDate,
-    status,
-    customerName
-  ) => {
+  const fetchOrders = async (page, startDate, endDate, status, customerName) => {
     setLoading(true);
     try {
       const url = new URL(`${process.env.API}/admin/orders`);
+      
+      // Nếu endDate được thiết lập, thêm thời gian cuối ngày (23:59:59)
+      let adjustedEndDate = endDate;
+      if (endDate) {
+        const end = new Date(endDate);
+        end.setHours(23, 59, 59, 999); // Đặt thời gian cuối ngày
+        adjustedEndDate = end.toISOString(); // Định dạng thành chuỗi ISO
+      }
+  
       const params = {
         page,
         startDate,
-        endDate,
+        endDate: adjustedEndDate, // Sử dụng ngày đã điều chỉnh
         status,
         customerName,
       };
       url.search = new URLSearchParams(params).toString();
-
+  
       const response = await fetch(url, { method: "GET" });
       const data = await response.json();
-
+  
       setOrders(data.orders);
       setCurrentPage(data.currentPage);
       setTotalPages(data.totalPages);
@@ -75,6 +78,7 @@ export default function AdminOrders() {
       setLoading(false);
     }
   };
+  
   const handleStatusChange = async (newStatus, orderId) => {
     try {
       const response = await fetch(
