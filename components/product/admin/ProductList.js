@@ -88,32 +88,6 @@ export default function ProductList() {
         pathname={pathname}
       />
 
-      {/* <div className="d-flex justify-content-center">
-        <nav aria-label="Page navigation">
-          <ul className="pagination">
-            {Array.from({ length: totalPages }, (_, index) => {
-              const page = index + 1;
-              return (
-                <li
-                  key={page}
-                  className={`page-item${
-                    currentPage === page ? " active" : ""
-                  }`}
-                >
-                  <Link
-                    className="page-link"
-                    href={`${pathname}?page=${page}`}
-                    // use 'as' to avoid interpreting it as a separate route
-                    as={`${pathname}?page=${page}`}
-                  >
-                    {page}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
-      </div> */}
     </div>
   );
 }

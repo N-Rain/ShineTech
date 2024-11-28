@@ -178,7 +178,6 @@ export default function AdminOrders() {
               <option value="processing">Processing</option>
               <option value="Dispatched">Dispatched</option>
               <option value="Delivered">Delivered</option>
-              <option value="Cancelled">Cancelled</option>
             </select>
           </div>
 
@@ -240,9 +239,30 @@ export default function AdminOrders() {
                         {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(order?.amount_captured)}</td>
                     </tr>
                     <tr>
-                      <th scope="row">Shopping Address:</th>
+                      <th scope="row">Shipping Address:</th>
                       <td>{order?.shipping?.address?.line1}</td>
                     </tr>
+                    {/* products info */}
+                   <tr>
+                     <th scope="row" className="w-25">
+                       Ordered Products:
+                     </th>
+                     <td className="w-75">
+                       {order?.cartItems?.map((product) => (
+                        <div
+                          className="pointer text-primary"
+                          key={product._id}
+                          onClick={() =>
+                            router.push(`/product/${product?.slug}`)
+                          }
+                        >
+                          
+                          {product?.quantity} x {product?.title} ( 
+                             {new Intl.NumberFormat('vi-VN').format(product?.price) + " VND"})
+                        </div>
+                      ))}
+                    </td>
+                  </tr>
                     <tr>
                       <th scope="row">Delivery Status</th>
                       <td>
@@ -277,6 +297,7 @@ export default function AdminOrders() {
         currentPage={currentPage}
         totalPages={totalPages}
         pathname={pathname}
+        searchParams={searchParams}
       />
     </div>
   );
