@@ -126,7 +126,7 @@ export default function AdminBlogCreate() {
       });
 
       if (response.ok) {
-        router.push("/dashboard/admin");
+        router.push("/dashboard/admin/blog/list");
         toast.success("Blog created successfully");
       } else {
         const errorData = await response.json();

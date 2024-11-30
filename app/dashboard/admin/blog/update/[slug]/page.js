@@ -155,10 +155,11 @@ export default function AdminBlogUpdate({ params }) {
       if (!response.ok) {
         throw new Error("Failed to update blog");
       }
+      
 
-      // router.back();
-      window.location.href = "/dashboard/admin/blog/list";
       toast.success("Blog updated successfully");
+      router.refresh();
+      router.push("/dashboard/admin/blog/list");
     } catch (error) {
       console.error("Error updating blog:", error);
       toast.error("Failed to update blog");
@@ -180,9 +181,10 @@ export default function AdminBlogUpdate({ params }) {
         throw new Error("Failed to delete blog");
       }
 
-      // router.back();
-      window.location.href = "/dashboard/admin/blog/list";
+ 
       toast.success("Blog deleted successfully");
+      router.refresh();
+      router.push("/dashboard/admin/blog/list");
     } catch (error) {
       console.error("Error deleting blog:", error);
       toast.error("Failed to delete blog");
