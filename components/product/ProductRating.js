@@ -101,9 +101,7 @@ export default function ProductRating({ product, leaveReview = true }) {
           </small>
         )}
       </div>
-
       {/* rating modal */}
-
       {showRatingModal && (
         <Modal>
           <input
