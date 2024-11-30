@@ -74,9 +74,15 @@ export default function OrderDetailPage({ params }) {
           <tr>
             <th scope="row">Shopping Address:</th>
             <td>
-              {order?.shipping?.address?.line1}<br />
-              {order?.shipping?.address?.line2 && `${order.shipping.address.line2} `}
-              {order?.shipping?.address?.city}, {order?.shipping?.address?.state}, {order?.shipping?.address?.postal_code}
+              {order?.shipping?.address?.line1}
+              <br />
+              {order?.shipping?.address?.line2 && (
+                <>
+                  {order?.shipping?.address?.line2}
+                  <br />
+                </>
+              )}
+              {order?.shipping?.address?.city}, {order?.shipping?.address?.state}
               <br />
               {order?.shipping?.address?.country}
             </td>
@@ -86,7 +92,8 @@ export default function OrderDetailPage({ params }) {
             <td>
               {order?.cartItems?.map(product => (
                 <div key={product?._id}>
-                  {product?.quantity} x {product?.title} {product?.price} {order?.currency}
+                  {product?.quantity} x {product?.title} (
+                  {new Intl.NumberFormat('vi-VN').format(product?.price) + " VND"})
                 </div>
               ))}
             </td>
