@@ -60,27 +60,6 @@ export async function POST(req) {
       `,
   };
 
-  //   return NextResponse.json({
-  //     message: "Check your email for password reset code",
-  //   });
-
-  //   transporter.sendMail(mailOptions, (error, info) => {
-  //     if (error) {
-  //       console.error("Error sending email:", error);
-  //       return NextResponse.json(
-  //         {
-  //           err: "Error sending email",
-  //         },
-  //         { status: 500 }
-  //       );
-  //     } else {
-  //       console.log("Email sent:", info.response);
-  //       return NextResponse.json({
-  //         message: "Check your email for password reset code",
-  //       });
-  //     }
-  //   });
-
   try {
     // Send the email
     await transporter.sendMail(mailOptions);

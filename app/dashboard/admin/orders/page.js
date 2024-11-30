@@ -38,7 +38,7 @@ export default function AdminOrders() {
     fetchOrders(
       page,
       startDateParam,
-      endDateParam, 
+      endDateParam,
       statusParam,
       customerNameParam
     );
@@ -48,7 +48,7 @@ export default function AdminOrders() {
     setLoading(true);
     try {
       const url = new URL(`${process.env.API}/admin/orders`);
-      
+
       // Nếu endDate được thiết lập, thêm thời gian cuối ngày (23:59:59)
       let adjustedEndDate = endDate;
       if (endDate) {
@@ -56,7 +56,7 @@ export default function AdminOrders() {
         end.setHours(23, 59, 59, 999); // Đặt thời gian cuối ngày
         adjustedEndDate = end.toISOString(); // Định dạng thành chuỗi ISO
       }
-  
+
       const params = {
         page,
         startDate,
@@ -65,10 +65,10 @@ export default function AdminOrders() {
         customerName,
       };
       url.search = new URLSearchParams(params).toString();
-  
+
       const response = await fetch(url, { method: "GET" });
       const data = await response.json();
-  
+
       setOrders(data.orders);
       setCurrentPage(data.currentPage);
       setTotalPages(data.totalPages);
@@ -78,7 +78,7 @@ export default function AdminOrders() {
       setLoading(false);
     }
   };
-  
+
   const handleStatusChange = async (newStatus, orderId) => {
     try {
       const response = await fetch(
@@ -217,33 +217,43 @@ export default function AdminOrders() {
                     <tr>
                       <th scope="row">Receipt:</th>
                       <td>
-                        <a
-                          href={order?.receipt_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
+                        <a href={order?.receipt_url} target="_blank">
                           View Receipt
                         </a>
                       </td>
                     </tr>
-                    <tr>
-                      <th scope="row">Refunded:</th>
-                      <td>{order?.refunded ? "Yes" : "No"}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Status:</th>
-                      <td>{order?.status}</td>
-                    </tr>
+
                     <tr>
                       <th scope="row">Total Charged:</th>
                       <td>
-                        {(order?.amount_captured / 100).toFixed(2)}{" "}
-                        {order?.currency}
+                        {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(order?.amount_captured)}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Shipping Address:</th>
+                      <td>{order?.shipping?.address?.line1}
+                        <br />
+                        {order?.shipping?.address?.line2 && order?.shipping?.address?.line}
+                        {order?.shipping?.address?.city},
+                        {order?.shipping?.address?.state},
+                        {order?.shipping?.address?.postal_code},
+                        <br />
+                        {order?.shipping?.address?.country}
                       </td>
                     </tr>
                     <tr>
-                      <th scope="row">Shopping Address:</th>
-                      <td>{order?.shipping?.address?.line1}</td>
+                      <th scope="row" className="w-25">Ordered Products:</th>
+                      <td className="w--75">
+                        {order?.cartItems?.map(product => (
+                          <div className="pointer text-primary"
+                            key={product?._id}
+                            onClick={() =>
+                              router.push(`/product/${product?.slug}`)
+                            }>
+                            {product?.quantity} x {product?.title}
+                            {product?.price} {order?.currency}
+                          </div>
+                        ))}
+                      </td>
                     </tr>
                     <tr>
                       <th scope="row">Delivery Status</th>
@@ -277,7 +287,7 @@ export default function AdminOrders() {
       </div>
       <Pagination
         currentPage={currentPage}
-          totalPages={totalPages}
+        totalPages={totalPages}
         pathname={pathname}
       />
     </div>
