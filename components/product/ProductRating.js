@@ -3,35 +3,26 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 import { useRouter, usePathname } from "next/navigation";
-import { useProduct } from "@/context/product";
 import Modal from "@/components/Modal";
 import Stars from "@/components/product/Stars";
 import { calculateAverageRating } from "@/utils/helpers";
 import { FaStar, FaRegStar } from "react-icons/fa";
 
 export default function ProductRating({ product, leaveReview = true }) {
-  // context
-  const {
-    showRatingModal,
-    setShowRatingModal,
-    currentRating,
-    setCurrentRating,
-    comment,
-    setComment,
-  } = useProduct();
-  // to show the product average rating
-  const [productRatings, setProductRatings] = useState(product?.ratings || []);
-  const [averageRating, setAverageRating] = useState(0);
-  const [ratingText, setRatingText] = useState("Leave a rating");
-  // console.log("average product ratings => ", productRatings);
-
-  const { data, status } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
   const pathname = usePathname();
 
-  // did current user already left a rating
+  const [productRatings, setProductRatings] = useState(product?.ratings || []);
+  const [averageRating, setAverageRating] = useState(0);
+  const [currentRating, setCurrentRating] = useState(0);
+  const [comment, setComment] = useState("");
+  const [showRatingModal, setShowRatingModal] = useState(false);
+  const [ratingText, setRatingText] = useState("Leave a rating");
+
+  // did current user already leave a rating
   const alreadyRated = productRatings?.find(
-    (rate) => rate?.postedBy?._id === data?.user?._id
+    (rate) => rate?.postedBy?._id === session?.user?._id
   );
 
   useEffect(() => {
@@ -44,9 +35,6 @@ export default function ProductRating({ product, leaveReview = true }) {
     }
   }, [alreadyRated]);
 
-  console.log("currentRating => ", currentRating);
-  console.log("comment => ", comment);
-
   useEffect(() => {
     if (productRatings) {
       const average = calculateAverageRating(productRatings);
@@ -58,7 +46,6 @@ export default function ProductRating({ product, leaveReview = true }) {
     if (status !== "authenticated") {
       toast.error("Please login to leave a rating");
       router.push(`/login?callbackUrl=${process.env.NEXTAUTH_URL}${pathname}`);
-
       return;
     }
     try {
@@ -78,7 +65,6 @@ export default function ProductRating({ product, leaveReview = true }) {
         const data = await response.json();
         setProductRatings(data?.ratings);
         setShowRatingModal(false);
-        // console.log("product rating response => ", data);
         toast.success("You left a rating");
         setRatingText("Update your rating");
         router.refresh(); // only works in server components
@@ -139,13 +125,6 @@ export default function ProductRating({ product, leaveReview = true }) {
                   }
                   onClick={() => setCurrentRating(ratingValue)}
                   role="img"
-                  // aria-label={
-                  //   ratingValue <= currentRating ? (
-                  //     <FaStar className="text-danger" />
-                  //   ) : (
-                  //     <FaRegStar />
-                  //   )
-                  // }
                 >
                   {ratingValue <= currentRating ? (
                     <FaStar className="text-danger" />
