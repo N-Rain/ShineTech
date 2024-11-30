@@ -6,7 +6,7 @@ import { signIn } from "next-auth/react";
 import Link from "next/link";
 
 export default function Login() {
-  const [email, setEmail] = useState("abc@gmail.com");
+  const [email, setEmail] = useState("admin@gmail.com");
   const [password, setPassword] = useState("123456");
   const [loading, setLoading] = useState(false);
 
