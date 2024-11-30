@@ -11,8 +11,46 @@ export default function Register() {
 
   const router = useRouter();
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     setLoading(true);
+  //     const response = await fetch(`${process.env.API}/register`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         name,
+  //         email,
+  //         password,
+  //       }),
+  //     });
+
+  //     if (!response.ok) {
+  //       const data = await response.json();
+  //       toast.error(data.err);
+  //       setLoading(false);
+  //       return;
+  //     }
+
+  //     const data = await response.json();
+  //     toast.success(data.success);
+  //     router.push("/login");
+  //   } catch (err) {
+  //     console.log(err);
+  //     setLoading(false);
+  //     toast.error("An error occurred. Please try again.");
+  //   }
+  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
+    if (password.length < 6) {
+      toast.error("Password must be at least 6 characters long.");
+      return;
+    }
+  
     try {
       setLoading(true);
       const response = await fetch(`${process.env.API}/register`, {
@@ -26,14 +64,14 @@ export default function Register() {
           password,
         }),
       });
-
+  
       if (!response.ok) {
         const data = await response.json();
         toast.error(data.err);
         setLoading(false);
         return;
       }
-
+  
       const data = await response.json();
       toast.success(data.success);
       router.push("/login");
@@ -43,7 +81,7 @@ export default function Register() {
       toast.error("An error occurred. Please try again.");
     }
   };
-
+  
   return (
     <main>
       <div className="container">
