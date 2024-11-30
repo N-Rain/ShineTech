@@ -230,27 +230,37 @@ export default function AdminOrders() {
                     </tr>
                     <tr>
                       <th scope="row">Shipping Address:</th>
-                      <td>{order?.shipping?.address?.line1}
+                      <td>
+                        {order?.shipping?.address?.line1}
                         <br />
-                        {order?.shipping?.address?.line2 && order?.shipping?.address?.line}
-                        {order?.shipping?.address?.city},
-                        {order?.shipping?.address?.state},
-                        {order?.shipping?.address?.postal_code},
+                        {order?.shipping?.address?.line2 && (
+                          <>
+                            {order?.shipping?.address?.line2}
+                            <br />
+                          </>
+                        )}
+                        {order?.shipping?.address?.city}, {order?.shipping?.address?.state}
                         <br />
                         {order?.shipping?.address?.country}
                       </td>
+
                     </tr>
                     <tr>
-                      <th scope="row" className="w-25">Ordered Products:</th>
-                      <td className="w--75">
-                        {order?.cartItems?.map(product => (
-                          <div className="pointer text-primary"
-                            key={product?._id}
+                      <th scope="row" className="w-25">
+                        Ordered Products:
+                      </th>
+                      <td className="w-75">
+                        {order?.cartItems?.map((product) => (
+                          <div
+                            className="pointer text-primary"
+                            key={product._id}
                             onClick={() =>
                               router.push(`/product/${product?.slug}`)
-                            }>
-                            {product?.quantity} x {product?.title}
-                            {product?.price} {order?.currency}
+                            }
+                          >
+
+                            {product?.quantity} x {product?.title} (
+                            {new Intl.NumberFormat('vi-VN').format(product?.price) + " VND"})
                           </div>
                         ))}
                       </td>

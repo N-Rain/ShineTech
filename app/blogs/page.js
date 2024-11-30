@@ -62,9 +62,8 @@ export default async function Home({ searchParams }) {
               return (
                 <li
                   key={page}
-                  className={`page-item${
-                    currentPage === page ? " active" : ""
-                  }`}
+                  className={`page-item${currentPage === page ? " active" : ""
+                    }`}
                 >
                   <Link
                     className="page-link"
