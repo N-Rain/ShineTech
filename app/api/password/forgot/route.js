@@ -31,13 +31,12 @@ export async function POST(req) {
     );
   }
 
-  // const resetCode = nanoid(6); // Generate a 6-character code
   const resetCode = randomInteger(100000, 999999);
 
   // Save reset code in the user document
   user.resetCode = {
     data: resetCode,
-    expiresAt: new Date(Date.now() + 10 * 60 * 1000), // 10 phút
+    expireAt: new Date(Date.now() + 10 * 60 * 1000), // 10 minutes
   };
   await user.save();
 

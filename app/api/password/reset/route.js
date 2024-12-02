@@ -11,11 +11,11 @@ export async function POST(req) {
   try {
     const { email, password, resetCode } = body;
 
-    // Check if user with email exists
+    // Check if user with email exists and reset code is valid
     const user = await User.findOne({
       email: email,
       "resetCode.data": resetCode,
-      "resetCode.expiresAt": { $gt: new Date() },
+      "resetCode.expireAt": { $gt: new Date() },
     });
 
     if (!user) {
