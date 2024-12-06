@@ -253,9 +253,7 @@ export default function ProductCreate() {
         </div>
 
         <div className="form-group">
-          <label>
-            Select category <span style={{ color: "red" }}> *</span>
-          </label>
+          <label>Select category</label>
           <select
             name="category"
             className="form-control p-2 my-2"
@@ -297,7 +295,7 @@ export default function ProductCreate() {
           </select>
         </div>
 
-        <div className="d-flex justify-content-evenly align-items-center">
+        {/* <div className="d-flex justify-content-evenly align-items-center">
           {tags
             .filter(
               (ft) =>
@@ -344,6 +342,57 @@ export default function ProductCreate() {
                 <label htmlFor={tag._id}>&nbsp;{tag.name}</label>
               </div>
             ))}
+        </div> */}
+        <div className="form-group">
+          {/* <label>Select Tags</label> */}
+          <div className="tags-container d-flex justify-content-evenly align-items-center">
+            {tags
+              .filter(
+                (ft) =>
+                  ft.parent ===
+                  (updatingProduct?.category?._id || product?.category?._id)
+              )
+              .map((tag) => (
+                <div key={tag._id} className="form-check">
+                  <input
+                    type="checkbox"
+                    id={tag._id}
+                    name="tags"
+                    value={tag._id}
+                    checked={(updatingProduct
+                      ? updatingProduct?.tags
+                      : product?.tags
+                    )?.some((selectedTag) => selectedTag._id === tag._id)} // Check if the tag object is in the selected tags array
+                    onChange={(e) => {
+                      const tagId = e.target.value;
+                      const tagName = tag?.name;
+
+                      let selectedTags = updatingProduct
+                        ? [...(updatingProduct?.tags ?? [])]
+                        : [...(product?.tags ?? [])];
+
+                      if (e.target.checked) {
+                        selectedTags.push({ _id: tagId, name: tagName }); // Add the tag object to the selected tags array
+                      } else {
+                        selectedTags = selectedTags.filter(
+                          (selectedTag) => selectedTag?._id !== tagId
+                        );
+                      }
+
+                      if (updatingProduct) {
+                        setUpdatingProduct({
+                          ...updatingProduct,
+                          tags: selectedTags,
+                        });
+                      } else {
+                        setProduct({ ...product, tags: selectedTags });
+                      }
+                    }}
+                  />
+                  <label htmlFor={tag._id}>&nbsp;{tag.name}</label>
+                </div>
+              ))}
+          </div>
         </div>
 
         <div className="form-group mt-3">

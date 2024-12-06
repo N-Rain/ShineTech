@@ -166,3 +166,10 @@ a {
   background-color: #ccc;
   border-radius: 10px;
 } */
+.tags-container {
+  max-height: 200px; /* Chiều cao tối đa */
+  overflow-y: auto; /* Cho phép cuộn theo chiều dọc */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
