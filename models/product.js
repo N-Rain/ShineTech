@@ -82,9 +82,9 @@ const productSchema = new mongoose.Schema(
         validator: function (colors) {
           // Đảm bảo ít nhất một màu được nhập và tất cả các màu đều bắt đầu bằng chữ cái
           // return colors.length > 0 && colors.every(color => /^[A-Za-z]/.test(color));
-          return colors.length > 0 ;
+          return colors.length > 0;
         },
-        message: "Each color must begin with a letter!",
+        message: "Colors >= 1!",
       },
     },
     brand: {
@@ -108,6 +108,7 @@ const productSchema = new mongoose.Schema(
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
+      required: true,
     },
     tags: [
       {
@@ -127,6 +128,7 @@ const productSchema = new mongoose.Schema(
         },
       },
     ],
+
     sold: {
       type: Number,
       default: 0,

@@ -14,15 +14,19 @@ export default function AdminCreateCategory() {
   return (
     <>
       <p>Create Category</p>
+      <label>
+        Name <span style={{ color: "red" }}> *</span>
+      </label>
       <input
         type="text"
+        placeholder="Enter Category Name"
         value={updatingCategory ? updatingCategory.name : name}
         onChange={(e) =>
           updatingCategory
             ? setUpdatingCategory({
-              ...updatingCategory, name:
-                e.target.value
-            })
+                ...updatingCategory,
+                name: e.target.value,
+              })
             : setName(e.target.value)
         }
         className="form-control p-2 my-2"
@@ -30,8 +34,9 @@ export default function AdminCreateCategory() {
       {/* <pre>{JSON.stringify(categoryUpdate, null, 4)}</pre> */}
       <div className="d-flex justify-content-between">
         <button
-          className={`btn bg-${updatingCategory ? "info" : "primary"
-            } text-light`}
+          className={`btn bg-${
+            updatingCategory ? "info" : "primary"
+          } text-light`}
           onClick={(e) => {
             e.preventDefault();
             updatingCategory ? updateCategory() : createCategory();

@@ -25,29 +25,34 @@ export default function AdminTagCreate() {
   return (
     <>
       <p className="lead">Create Sub Category</p>
+      <label>
+        Name Tag <span style={{ color: "red" }}> *</span>
+      </label>
       <input
         type="text"
         value={updatingTag ? updatingTag?.name : name}
-        placeholder="Tag Name"
+        placeholder="Enter Tag Name"
         onChange={(e) =>
           updatingTag
             ? setUpdatingTag({
-              ...updatingTag,
-              name: e.target.value,
-            })
+                ...updatingTag,
+                name: e.target.value,
+              })
             : setName(e.target.value)
         }
         className="form-control p-2 my-2"
       />
 
       <div className="form-group mt-4">
-        <label>Parent category</label>
+        <label>
+          Parent category <span style={{ color: "red" }}> *</span>
+        </label>
         <select
           name="category"
           className="form-control"
           onChange={(e) => setParentCategory(e.target.value)}
         >
-          <option value="">Select one</option>
+          <option value="">Select One Category</option>
           {categories?.length > 0 &&
             categories?.map((c) => (
               <option

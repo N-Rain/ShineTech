@@ -25,7 +25,7 @@ export default function ProductCreate() {
   const { categories, fetchCategories } = useCategory();
   const { tags, fetchTags } = useTag();
   const [colorInput, setColorInput] = useState(""); //
-  
+
   const handleAddColor = () => {
     if (colorInput.trim()) {
       const updatedColors = [...(product.colors || []), colorInput];
@@ -36,8 +36,8 @@ export default function ProductCreate() {
   const imagePreviews = updatingProduct
     ? updatingProduct?.images
     : product
-      ? product?.images
-      : [];
+    ? product?.images
+    : [];
 
   useEffect(() => {
     fetchCategories();
@@ -47,9 +47,13 @@ export default function ProductCreate() {
   return (
     <>
       <p className="lead">{updatingProduct ? "Update" : "Create"} Product</p>
+      <label>
+        Title <span style={{ color: "red" }}> *</span>
+      </label>
+
       <input
         type="text"
-        placeholder="Title"
+        placeholder="Enter Title"
         value={updatingProduct ? updatingProduct?.title : product?.title}
         onChange={(e) =>
           updatingProduct
@@ -58,27 +62,31 @@ export default function ProductCreate() {
         }
         className="form-control p-2 my-2"
       />
-
+      <label>
+        Description <span style={{ color: "red" }}> *</span>
+      </label>
       <textarea
-        placeholder="Description"
+        placeholder="Enter Description"
         value={
           updatingProduct ? updatingProduct.description : product?.description
         }
         onChange={(e) =>
           updatingProduct
             ? setUpdatingProduct({
-              ...updatingProduct,
-              description: e.target.value,
-            })
+                ...updatingProduct,
+                description: e.target.value,
+              })
             : setProduct({ ...product, description: e.target.value })
         }
         className="form-control p-2 my-2"
       />
-
+      <label>
+        Price <span style={{ color: "red" }}>*</span>
+      </label>
       <div className="form-group">
         <input
           type="number"
-          placeholder="Price"
+          placeholder="Enter Price >= 1000"
           min="1000"
           name="price"
           className="form-control p-2 my-2"
@@ -86,9 +94,9 @@ export default function ProductCreate() {
           onChange={(e) => {
             updatingProduct
               ? setUpdatingProduct({
-                ...updatingProduct,
-                price: e.target.value,
-              })
+                  ...updatingProduct,
+                  price: e.target.value,
+                })
               : setProduct({ ...product, price: e.target.value });
           }}
         />
@@ -96,9 +104,12 @@ export default function ProductCreate() {
 
       {updatingProduct && (
         <div className="form-group">
+          <label>
+            Previous Price <span style={{ color: "red" }}> *</span>
+          </label>
           <input
             type="number"
-            placeholder="Previous Price"
+            placeholder="Enter Previous Price"
             min="1"
             name="previousPrice"
             className="form-control p-2 my-2"
@@ -131,9 +142,12 @@ export default function ProductCreate() {
         />
       </div> */}
       <div className="form-group">
+        <label>
+          Add color <span style={{ color: "red" }}> *</span>
+        </label>
         <input
           type="text"
-          placeholder="Add color"
+          placeholder="Enter Add color"
           value={colorInput}
           onChange={(e) => setColorInput(e.target.value)}
           className="form-control p-2 my-2"
@@ -171,7 +185,6 @@ export default function ProductCreate() {
               <div
                 key={index}
                 className="mx-3 d-flex align-items-center justify-content-center"
-                
               >
                 {color}
                 <div
@@ -197,45 +210,52 @@ export default function ProductCreate() {
         </div>
       </div>
 
-      
-
       <div className="form-group">
+        <label>
+          Brand <span style={{ color: "red" }}> *</span>
+        </label>
         <input
           type="text"
-          placeholder="Brand"
+          placeholder="Enter Brand"
           name="brand"
           className="form-control p-2 my-2"
           value={updatingProduct ? updatingProduct.brand : product?.brand}
           onChange={(e) => {
             updatingProduct
               ? setUpdatingProduct({
-                ...updatingProduct,
-                brand: e.target.value,
-              })
+                  ...updatingProduct,
+                  brand: e.target.value,
+                })
               : setProduct({ ...product, brand: e.target.value });
           }}
         />
 
         <div className="form-group">
+          <label>
+            Stock <span style={{ color: "red" }}> *</span>
+          </label>
           <input
             type="number"
             // min="1"
-            placeholder="Stock"
+            placeholder="Enter Stock >= 1"
             name="Stock"
             className="form-control p-2 my-2"
             value={updatingProduct ? updatingProduct.stock : product?.stock}
             onChange={(e) => {
               updatingProduct
                 ? setUpdatingProduct({
-                  ...updatingProduct,
-                  stock: e.target.value,
-                })
+                    ...updatingProduct,
+                    stock: e.target.value,
+                  })
                 : setProduct({ ...product, stock: e.target.value });
             }}
           />
         </div>
 
         <div className="form-group">
+          <label>
+            Select category <span style={{ color: "red" }}> *</span>
+          </label>
           <select
             name="category"
             className="form-control p-2 my-2"
@@ -266,7 +286,7 @@ export default function ProductCreate() {
             }
           >
             <option value="" disabled>
-              Select category
+              Enter Select category
             </option>
             {categories.length > 0 &&
               categories.map((c) => (
@@ -340,32 +360,37 @@ export default function ProductCreate() {
               disabled={uploading}
             />
           </label>
+          {imagePreviews?.length === 0 && (
+            <small className="text-danger">
+              At least one image is required.
+            </small>
+          )}
         </div>
 
         <div className="d-flex justify-content-center">
           {imagePreviews?.length > 0
             ? imagePreviews.map((img) => (
-              <div key={img.public_id}>
-                <img
-                  src={img.secure_url}
-                  className="img-thumbnail mx-1 shadow"
-                  style={{
-                    width: "100px",
-                    height: "100px",
-                    objectFit: "cover",
-                    borderRadius: "10%",
-                    // overflow: "hidden",
-                  }}
-                />
-                <br />
-                <div
-                  className="text-center pointer mt-3"
-                  onClick={() => deleteImage(img.public_id)}
-                >
-                  ❌
+                <div key={img.public_id}>
+                  <img
+                    src={img.secure_url}
+                    className="img-thumbnail mx-1 shadow"
+                    style={{
+                      width: "100px",
+                      height: "100px",
+                      objectFit: "cover",
+                      borderRadius: "10%",
+                      // overflow: "hidden",
+                    }}
+                  />
+                  <br />
+                  <div
+                    className="text-center pointer mt-3"
+                    onClick={() => deleteImage(img.public_id)}
+                  >
+                    ❌
+                  </div>
                 </div>
-              </div>
-            ))
+              ))
             : ""}
         </div>
       </div>
@@ -373,11 +398,28 @@ export default function ProductCreate() {
       {/* BUTTONS FOR UPDATE / DELETE */}
 
       <div className="d-flex justify-content-between mt-3">
-        <button
-          className={`btn btn-raised bg-${updatingProduct ? "info" : "primary"
-            } text-light`}
+        {/* <button
+          className={`btn btn-raised bg-${
+            updatingProduct ? "info" : "primary"
+          } text-light`}
           onClick={(e) => {
             e.preventDefault();
+            updatingProduct ? updateProduct() : createProduct();
+          }}
+        >
+          {updatingProduct ? "Update" : "Create"}
+        </button> */}
+        <button
+          className={`btn btn-raised bg-${
+            updatingProduct ? "info" : "primary"
+          } text-light`}
+          onClick={(e) => {
+            e.preventDefault();
+            // Kiểm tra xem có hình ảnh trước khi tạo sản phẩm
+            if (!(imagePreviews?.length > 0)) {
+              alert("At least one image is required.");
+              return;
+            }
             updatingProduct ? updateProduct() : createProduct();
           }}
         >

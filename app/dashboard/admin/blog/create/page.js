@@ -143,24 +143,32 @@ export default function AdminBlogCreate() {
       <div className="row">
         <div className="col">
           <p>Create Blog</p>
-          <label className="text-secondary">Blog title</label>
+          <label className="text-secondary">
+            Blog title <span style={{ color: "red" }}> *</span>
+          </label>
           <input
             type="text"
+            placeholder="Enter Blog Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             className="form-control p-2 my-2"
           />
 
-          <label className="text-secondary">Blog content</label>
+          <label className="text-secondary">
+            Blog content <span style={{ color: "red" }}> *</span>
+          </label>
           <ReactQuill
             className="border rounded my-2"
             value={content}
             onChange={setContent}
           />
 
-          <label className="text-secondary">Blog category</label>
+          <label className="text-secondary">
+            Blog category <span style={{ color: "red" }}> *</span>
+          </label>
           <input
             type="text"
+            placeholder="Enter Blog Category"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
             className="form-control p-2 my-2"

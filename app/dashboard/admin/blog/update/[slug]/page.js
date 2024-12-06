@@ -155,7 +155,6 @@ export default function AdminBlogUpdate({ params }) {
       if (!response.ok) {
         throw new Error("Failed to update blog");
       }
-      
 
       toast.success("Blog updated successfully");
       router.refresh();
@@ -181,7 +180,6 @@ export default function AdminBlogUpdate({ params }) {
         throw new Error("Failed to delete blog");
       }
 
- 
       toast.success("Blog deleted successfully");
       router.refresh();
       router.push("/dashboard/admin/blog/list");
@@ -196,7 +194,9 @@ export default function AdminBlogUpdate({ params }) {
       <div className="row">
         <div className="col">
           <p>Update blog</p>
-          <label className="text-secondary">Blog title</label>
+          <label className="text-secondary">
+            Blog title <span style={{ color: "red" }}> *</span>
+          </label>
           <input
             type="text"
             value={title}
@@ -204,14 +204,18 @@ export default function AdminBlogUpdate({ params }) {
             className="form-control p-2 my-2"
           />
 
-          <label className="text-secondary">Blog content</label>
+          <label className="text-secondary">
+            Blog content <span style={{ color: "red" }}> *</span>
+          </label>
           <ReactQuill
             className="border rounded my-2"
             value={content}
             onChange={setContent}
           />
 
-          <label className="text-secondary">Blog category</label>
+          <label className="text-secondary">
+            Blog category <span style={{ color: "red" }}> *</span>
+          </label>
           <input
             type="text"
             value={category}
