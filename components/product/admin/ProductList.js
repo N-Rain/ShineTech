@@ -51,15 +51,16 @@ export default function ProductList() {
     if (stockFilter === "out") return product.stock === 0; // Hết hàng
     return product.stock > 10; // Tồn kho lớn hơn 10
   });
-  const productsPerPage = 2;
 
-  const totalPagesN = Math.ceil(filteredProducts.length / productsPerPage);
 
   useEffect(() => {
     if (!adminSearchQuery) {
       fetchProducts(page);
     }
   }, [page, adminSearchQuery]);
+  useEffect(() => {
+    router.push(`${pathname}?page=1`);
+  }, [stockFilter, router, pathname]);
 
   return (
     <div className="container mb-5">
@@ -157,7 +158,7 @@ export default function ProductList() {
 
       <Pagination
         currentPage={currentPage}
-        totalPages={totalPagesN}
+        totalPages={totalPages}
         pathname={pathname}
       />
 
