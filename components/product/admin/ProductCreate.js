@@ -25,6 +25,9 @@ export default function ProductCreate() {
   const { categories, fetchCategories } = useCategory();
   const { tags, fetchTags } = useTag();
   const [colorInput, setColorInput] = useState(""); //
+  const selectedTags = Array.isArray(tags)
+    ? tags.filter((tag) => tag.parent?._id === (updatingProduct?.category?._id || product?.category?._id || ""))
+    : [];
 
   const handleAddColor = () => {
     if (colorInput.trim()) {
@@ -36,8 +39,8 @@ export default function ProductCreate() {
   const imagePreviews = updatingProduct
     ? updatingProduct?.images
     : product
-    ? product?.images
-    : [];
+      ? product?.images
+      : [];
 
   useEffect(() => {
     fetchCategories();
@@ -73,9 +76,9 @@ export default function ProductCreate() {
         onChange={(e) =>
           updatingProduct
             ? setUpdatingProduct({
-                ...updatingProduct,
-                description: e.target.value,
-              })
+              ...updatingProduct,
+              description: e.target.value,
+            })
             : setProduct({ ...product, description: e.target.value })
         }
         className="form-control p-2 my-2"
@@ -94,9 +97,9 @@ export default function ProductCreate() {
           onChange={(e) => {
             updatingProduct
               ? setUpdatingProduct({
-                  ...updatingProduct,
-                  price: e.target.value,
-                })
+                ...updatingProduct,
+                price: e.target.value,
+              })
               : setProduct({ ...product, price: e.target.value });
           }}
         />
@@ -195,9 +198,9 @@ export default function ProductCreate() {
 
                     updatingProduct
                       ? setUpdatingProduct({
-                          ...updatingProduct,
-                          colors: filteredColors,
-                        })
+                        ...updatingProduct,
+                        colors: filteredColors,
+                      })
                       : setProduct({ ...product, colors: filteredColors });
                   }}
                   className="pointer m-1"
@@ -223,9 +226,9 @@ export default function ProductCreate() {
           onChange={(e) => {
             updatingProduct
               ? setUpdatingProduct({
-                  ...updatingProduct,
-                  brand: e.target.value,
-                })
+                ...updatingProduct,
+                brand: e.target.value,
+              })
               : setProduct({ ...product, brand: e.target.value });
           }}
         />
@@ -244,9 +247,9 @@ export default function ProductCreate() {
             onChange={(e) => {
               updatingProduct
                 ? setUpdatingProduct({
-                    ...updatingProduct,
-                    stock: e.target.value,
-                  })
+                  ...updatingProduct,
+                  stock: e.target.value,
+                })
                 : setProduct({ ...product, stock: e.target.value });
             }}
           />
@@ -269,11 +272,13 @@ export default function ProductCreate() {
                 setUpdatingProduct({
                   ...updatingProduct,
                   category: category,
+                  tag: [],
                 });
               } else {
                 setProduct({
                   ...product,
                   category: category,
+                  tag: [],
                 });
               }
             }}
@@ -294,106 +299,36 @@ export default function ProductCreate() {
               ))}
           </select>
         </div>
+        {selectedTags.map((tag) => (
+          <div key={tag._id}>
+            <input
+              type="checkbox"
+              value={tag._id}
+              checked={
+                updatingProduct
+                  ? updatingProduct.tags?.includes(tag._id)
+                  : product.tags?.includes(tag._id)
+              }
+              onChange={(e) => {
+                const updatedTags = e.target.checked
+                  ? updatingProduct
+                    ? [...(updatingProduct.tags || []), tag._id]
+                    : [...(product.tags || []), tag._id]
+                  : updatingProduct
+                    ? updatingProduct.tags.filter((id) => id !== tag._id)
+                    : product.tags.filter((id) => id !== tag._id);
 
-        {/* <div className="d-flex justify-content-evenly align-items-center">
-          {tags
-            .filter(
-              (ft) =>
-                ft.parent ===
-                (updatingProduct?.category?._id || product?.category?._id)
-            )
-            .map((tag) => (
-              <div key={tag._id} className="form-check">
-                <input
-                  type="checkbox"
-                  id={tag._id}
-                  name="tags"
-                  value={tag._id}
-                  checked={(updatingProduct
-                    ? updatingProduct?.tags
-                    : product?.tags
-                  )?.some((selectedTag) => selectedTag._id === tag._id)} // Check if the tag object is in the selected tags array
-                  onChange={(e) => {
-                    const tagId = e.target.value;
-                    const tagName = tag?.name;
-
-                    let selectedTags = updatingProduct
-                      ? [...(updatingProduct?.tags ?? [])]
-                      : [...(product?.tags ?? [])];
-
-                    if (e.target.checked) {
-                      selectedTags.push({ _id: tagId, name: tagName }); // Add the tag object to the selected tags array
-                    } else {
-                      selectedTags = selectedTags.filter(
-                        (selectedTag) => selectedTag?._id !== tagId
-                      );
-                    }
-
-                    if (updatingProduct) {
-                      setUpdatingProduct({
-                        ...updatingProduct,
-                        tags: selectedTags,
-                      });
-                    } else {
-                      setProduct({ ...product, tags: selectedTags });
-                    }
-                  }}
-                />
-                <label htmlFor={tag._id}>&nbsp;{tag.name}</label>
-              </div>
-            ))}
-        </div> */}
-        <div className="form-group">
-          {/* <label>Select Tags</label> */}
-          <div className="tags-container d-flex justify-content-evenly align-items-center">
-            {tags
-              .filter(
-                (ft) =>
-                  ft.parent ===
-                  (updatingProduct?.category?._id || product?.category?._id)
-              )
-              .map((tag) => (
-                <div key={tag._id} className="form-check">
-                  <input
-                    type="checkbox"
-                    id={tag._id}
-                    name="tags"
-                    value={tag._id}
-                    checked={(updatingProduct
-                      ? updatingProduct?.tags
-                      : product?.tags
-                    )?.some((selectedTag) => selectedTag._id === tag._id)} // Check if the tag object is in the selected tags array
-                    onChange={(e) => {
-                      const tagId = e.target.value;
-                      const tagName = tag?.name;
-
-                      let selectedTags = updatingProduct
-                        ? [...(updatingProduct?.tags ?? [])]
-                        : [...(product?.tags ?? [])];
-
-                      if (e.target.checked) {
-                        selectedTags.push({ _id: tagId, name: tagName }); // Add the tag object to the selected tags array
-                      } else {
-                        selectedTags = selectedTags.filter(
-                          (selectedTag) => selectedTag?._id !== tagId
-                        );
-                      }
-
-                      if (updatingProduct) {
-                        setUpdatingProduct({
-                          ...updatingProduct,
-                          tags: selectedTags,
-                        });
-                      } else {
-                        setProduct({ ...product, tags: selectedTags });
-                      }
-                    }}
-                  />
-                  <label htmlFor={tag._id}>&nbsp;{tag.name}</label>
-                </div>
-              ))}
+                if (updatingProduct) {
+                  setUpdatingProduct({ ...updatingProduct, tags: updatedTags });
+                } else {
+                  setProduct({ ...product, tags: updatedTags });
+                }
+              }}
+            />
+            {tag.name}
           </div>
-        </div>
+        ))}
+
 
         <div className="form-group mt-3">
           <label
@@ -419,27 +354,27 @@ export default function ProductCreate() {
         <div className="d-flex justify-content-center">
           {imagePreviews?.length > 0
             ? imagePreviews.map((img) => (
-                <div key={img.public_id}>
-                  <img
-                    src={img.secure_url}
-                    className="img-thumbnail mx-1 shadow"
-                    style={{
-                      width: "100px",
-                      height: "100px",
-                      objectFit: "cover",
-                      borderRadius: "10%",
-                      // overflow: "hidden",
-                    }}
-                  />
-                  <br />
-                  <div
-                    className="text-center pointer mt-3"
-                    onClick={() => deleteImage(img.public_id)}
-                  >
-                    ❌
-                  </div>
+              <div key={img.public_id}>
+                <img
+                  src={img.secure_url}
+                  className="img-thumbnail mx-1 shadow"
+                  style={{
+                    width: "100px",
+                    height: "100px",
+                    objectFit: "cover",
+                    borderRadius: "10%",
+                    // overflow: "hidden",
+                  }}
+                />
+                <br />
+                <div
+                  className="text-center pointer mt-3"
+                  onClick={() => deleteImage(img.public_id)}
+                >
+                  ❌
                 </div>
-              ))
+              </div>
+            ))
             : ""}
         </div>
       </div>
@@ -459,9 +394,8 @@ export default function ProductCreate() {
           {updatingProduct ? "Update" : "Create"}
         </button> */}
         <button
-          className={`btn btn-raised bg-${
-            updatingProduct ? "info" : "primary"
-          } text-light`}
+          className={`btn btn-raised bg-${updatingProduct ? "info" : "primary"
+            } text-light`}
           onClick={(e) => {
             e.preventDefault();
             // Kiểm tra xem có hình ảnh trước khi tạo sản phẩm
