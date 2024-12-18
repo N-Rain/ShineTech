@@ -20,7 +20,7 @@ export const CategoryProvider = ({ children }) => {
         }),
       });
       if (response.ok) {
-        toast.success("Category created successfully");
+        toast.success("Thêm danh mục thành công");
         const newlyCreatedCategory = await response.json();
         setName("");
         setCategories([newlyCreatedCategory, ...categories]);
@@ -30,7 +30,7 @@ export const CategoryProvider = ({ children }) => {
       }
     } catch (err) {
       console.log("err => ", err);
-      toast.error("An error occurred while creating the category");
+      toast.error("Đã xảy ra lỗi trong khi thêm danh mục");
     }
   };
   const fetchCategories = async () => {
@@ -76,10 +76,10 @@ export const CategoryProvider = ({ children }) => {
       );
       setUpdatingCategory(null);
 
-      toast.success("Category updated successfully");
+      toast.success("Câp nhật danh mục thành công");
     } catch (err) {
       console.log("err => ", err);
-      toast.error("An error occurred while updating the category");
+      toast.error("Đã xảy ra lỗi trong khi cập nhật danh mục");
     }
   };
   const deleteCategory = async () => {
@@ -98,10 +98,10 @@ export const CategoryProvider = ({ children }) => {
         prevCategories.filter((c) => c._id !== deletedCategory._id)
       );
       setUpdatingCategory(null);
-      toast.success("Category deleted successfully");
+      toast.success("Xóa danh mục thành công");
     } catch (err) {
       console.log("err => ", err);
-      toast.error("An error occurred while deleting the category");
+      toast.error("Đã xảy ra lỗi trong khi xóa danh mục");
     }
   };
 

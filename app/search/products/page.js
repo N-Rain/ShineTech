@@ -42,7 +42,7 @@ export default function ProductsSearchPage() {
     <div className="container">
       <div className="row">
         <div className="col">
-          <p>Search result {productSearchResults?.length}</p>
+          <p>Kết quả tìm kiếm {productSearchResults?.length}</p>
           {/* 
     <pre>{JSON.stringify(searchResults, null, 4)}</pre> */}
           {productSearchResults ? (

@@ -8,23 +8,23 @@ export default function AdminChart({ revenueData }) {
     <div className="container-fluid">
       <div className="row">
         <div className="col">
-          <h2 className="text-center">Revenue Statistics</h2>
+          <h2 className="text-center">Số liệu Doanh thu</h2>
           <ul className="list-group mb-4">
             <li className="list-group-item">
-              <strong>Total Revenue:</strong>{new Intl.NumberFormat('vi-VN').format(totalRevenue) + " VND"}
+              <strong>Tổng doanh thu:</strong>{new Intl.NumberFormat('vi-VN').format(totalRevenue) + " VND"}
             </li>
             <li className="list-group-item">
-              <strong>Successful Orders:</strong> {successfulOrdersCount}
+              <strong>Đơn hàng thành công:</strong> {successfulOrdersCount}
             </li>
           </ul>
 
-          <h3>Order Details</h3>
+          <h3>Chi tiết Đơn hàng</h3>
           <table className="table table-striped">
             <thead>
               <tr>
-                <th>Order ID</th>
-                <th>Amount Captured</th>
-                <th>Created At</th>
+                <th>Mã Đơn hàng</th>
+                <th>Số tiền đã nhận</th>
+                <th>Thời gian tạo</th>
               </tr>
             </thead>
             <tbody>

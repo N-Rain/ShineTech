@@ -70,7 +70,7 @@ export default function AdminProductReviewsPage() {
   if (loading) {
     return (
       <div className="d-flex justify-content-center align-items-center text-danger vh-100 h1">
-        LOADING...
+        ĐANG TẢI...
       </div>
     );
   }
@@ -78,7 +78,7 @@ export default function AdminProductReviewsPage() {
   if (!reviews?.length) {
     return (
       <div className="d-flex justify-content-center align-items-center text-danger vh-100 h1">
-        No Reviews
+        Chưa có bài đánh giá.
       </div>
     );
   }
@@ -87,9 +87,9 @@ export default function AdminProductReviewsPage() {
     <div className="container mb-5">
       <div className="row">
         <div className="col">
-          <p className="lead mb-4 text-center">
-            Product Reviews ({totalRatings})
-          </p>
+          <h4 className="lead mb-4 text-center">
+            Quản lý Đánh giá ({totalRatings})
+          </h4>
           <ProductReviews reviews={reviews} handleDelete={handleDelete} />
         </div>
       </div>

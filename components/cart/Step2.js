@@ -19,7 +19,7 @@ export default function Step2({ onNextStep, onPrevStep }) {
                 className="btn btn-outline-danger btn-raised col-6"
                 onClick={onPrevStep}
               >
-                Previous
+                Trước
               </button>
 
               <Link
@@ -39,21 +39,21 @@ export default function Step2({ onNextStep, onPrevStep }) {
     <div className="container">
       <div className="row">
         <div className="col-lg-8">
-          <p className="alert alert-primary">Contact Details / Login</p>
+          <p className="alert alert-primary">Thông tin cá nhân / Đăng nhập</p>
 
           <div>
             <input
               type="text"
               value={data?.user?.name}
               className="form-control mb-2 px-2"
-              placeholder="Your name"
+              placeholder="Tên của bạn"
               disabled
             />
             <input
               type="email"
               value={data?.user?.email}
               className="form-control mb-2 px-2"
-              placeholder="Your email"
+              placeholder="Email của bạn"
               disabled
             />
           </div>
@@ -63,13 +63,13 @@ export default function Step2({ onNextStep, onPrevStep }) {
               value={couponCode}
               onChange={(e) => setCouponCode(e.target.value)}
               className="form-control mb-2 px-2 mt-4"
-              placeholder="Enter your coupon code here"
+              placeholder="Nhập mã giảm giá của bạn tại đây"
             />
             <button className="btn btn-success btn-raised"
               onClick={() => handleCoupon(couponCode)}
               disabled={!couponCode?.trim()}
             >
-              Apply Coupon
+              Áp dụng Mã giảm giá
             </button>
           </div>
           <div className="d-flex justify-content-end my-4">
@@ -77,14 +77,14 @@ export default function Step2({ onNextStep, onPrevStep }) {
               className="btn btn-outline-danger btn-raised col-6"
               onClick={onPrevStep}
             >
-              Previous
+              Quay lại
             </button>
 
             <button
               className="btn btn-danger btn-raised col-6"
               onClick={onNextStep}
             >
-              Next
+              Tiếp tục
             </button>
           </div>
         </div>

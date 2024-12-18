@@ -48,7 +48,7 @@ export default function UserProductReviewsPage() {
   if (loading) {
     return (
       <div className="d-flex justify-content-center align-items-center text-danger vh-100 h1">
-        LOADING...
+        ĐANG TẢI...
       </div>
     );
   }
@@ -56,7 +56,7 @@ export default function UserProductReviewsPage() {
   if (!reviews?.length) {
     return (
       <div className="d-flex justify-content-center align-items-center text-danger vh-100 h1">
-        No Reviews
+        Không có bài đánh giá nào.
       </div>
     );
   }
@@ -66,7 +66,7 @@ export default function UserProductReviewsPage() {
       <div className="row">
         <div className="col">
           <p className="lead mb-4 text-center">
-            Your Product Reviews ({totalRatings})
+            Sản phẩm mà bạn đã đánh giá ({totalRatings})
           </p>
           <ProductReviews reviews={reviews} />
         </div>

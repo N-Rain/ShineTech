@@ -29,7 +29,7 @@ export default function UserReviews({ reviews }) {
           </ul>
         </div>
       ) : (
-        <p>No reviews yet.</p>
+        <p>Chưa có đánh giá nào dành cho sản phẩm này.</p>
       )}
     </>
   );

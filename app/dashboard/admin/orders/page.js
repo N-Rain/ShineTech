@@ -4,7 +4,6 @@ import toast from "react-hot-toast";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import Pagination from "@/components/Pagination";
 
-
 export default function AdminOrders() {
   const [orders, setOrders] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -44,7 +43,13 @@ export default function AdminOrders() {
     );
   }, [searchParams]);
 
-  const fetchOrders = async (page, startDate, endDate, status, customerName) => {
+  const fetchOrders = async (
+    page,
+    startDate,
+    endDate,
+    status,
+    customerName
+  ) => {
     setLoading(true);
     try {
       const url = new URL(`${process.env.API}/admin/orders`);
@@ -98,13 +103,13 @@ export default function AdminOrders() {
             o._id === orderId ? { ...o, delivery_status: newStatus } : o
           )
         );
-        toast.success("Order status updated successfully");
+        toast.success("Cập nhật trạng thái đơn thành công!");
       } else {
-        toast.error("Failed to update order status");
+        toast.error("Đã có lỗi xảy ra khi cập nhật đơn hàng!");
       }
     } catch (error) {
       console.error("Error updating order status:", error);
-      toast.error("An error occurred while updating order status");
+      toast.error("Đã có lỗi xảy ra khi cập nhật đơn hàng!");
     }
   };
   const handleFilterClick = () => {
@@ -131,15 +136,15 @@ export default function AdminOrders() {
     <div className="container mb-5">
       <div className="row">
         <div className="col">
-          <h4 className="text-center">Recent Orders</h4>
+          <h4 className="text-center">Quản lý Đơn hàng</h4>
 
           {/* Customer Name Filter */}
           <div className="mb-4">
-            <label>Customer Name:</label>
+            <label>Tên Khách hàng:</label>
             <input
               type="text"
               className="form-control"
-              placeholder="Enter customer name"
+              placeholder="Nhập tên khách hàng"
               value={customerName}
               onChange={(e) => setCustomerName(e.target.value)}
             />
@@ -147,7 +152,7 @@ export default function AdminOrders() {
 
           {/* Date Filters */}
           <div className="mb-4">
-            <label>Start Date:</label>
+            <label>Từ ngày:</label>
             <input
               type="date"
               className="form-control"
@@ -156,7 +161,7 @@ export default function AdminOrders() {
             />
           </div>
           <div className="mb-4">
-            <label>End Date:</label>
+            <label>Đến ngày:</label>
             <input
               type="date"
               className="form-control"
@@ -167,28 +172,28 @@ export default function AdminOrders() {
 
           {/* Status Filter */}
           <div className="mb-4">
-            <label>Status:</label>
+            <label>Trạng thái:</label>
             <select
               className="form-control"
               value={status}
               onChange={(e) => setStatus(e.target.value)}
             >
-              <option value="">All</option>
-              <option value="Not Processed">Not Processed</option>
-              <option value="processing">Processing</option>
-              <option value="Dispatched">Dispatched</option>
-              <option value="Delivered">Delivered</option>
-              <option value="Cancelled">Cancelled</option>
+              <option value="">Tất cả</option>
+              <option value="Not Processed">Chưa xử lý</option>
+              <option value="processing">Đang xử lý</option>
+              <option value="Dispatched">Đã gửi đi</option>
+              <option value="Delivered">Đã giao</option>
+              <option value="Cancelled">Đã hủy</option>
             </select>
           </div>
 
           {/* Filter and Clear Buttons */}
           <div className="d-flex gap-2">
             <button className="btn btn-primary" onClick={handleFilterClick}>
-              Filter
+              Lọc
             </button>
             <button className="btn btn-secondary" onClick={handleClearFilters}>
-              Clear
+              Xóa
             </button>
           </div>
 
@@ -199,37 +204,41 @@ export default function AdminOrders() {
                 <table className="table table-striped">
                   <tbody>
                     <tr>
-                      <th scope="row">Customer Name:</th>
+                      <th scope="row">Tên Khách hàng:</th>
                       <td>{order?.userId?.name}</td>
                     </tr>
                     <tr>
-                      <th scope="row">Charge ID:</th>
+                      <th scope="row">Mã Thanh toán:</th>
                       <td>{order?.chargeId}</td>
                     </tr>
                     <tr>
-                      <th scope="row">Created:</th>
+                      <th scope="row">Thời gian tạo:</th>
                       <td>{new Date(order?.createdAt).toLocaleDateString()}</td>
                     </tr>
                     <tr>
-                      <th scope="row">Payment Intent:</th>
+                      <th scope="row">Yêu cầu thanh toán:</th>
                       <td>{order?.payment_intent}</td>
                     </tr>
                     <tr>
-                      <th scope="row">Receipt:</th>
+                      <th scope="row">Hóa đơn:</th>
                       <td>
                         <a href={order?.receipt_url} target="_blank">
-                          View Receipt
+                          Xem chi tiết hóa đơn
                         </a>
                       </td>
                     </tr>
 
                     <tr>
-                      <th scope="row">Total Charged:</th>
+                      <th scope="row">Tổng thanh toán:</th>
                       <td>
-                        {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(order?.amount_captured)}</td>
+                        {new Intl.NumberFormat("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        }).format(order?.amount_captured)}
+                      </td>
                     </tr>
                     <tr>
-                      <th scope="row">Shipping Address:</th>
+                      <th scope="row">Địa chỉ vận chuyển:</th>
                       <td>
                         {order?.shipping?.address?.line1}
                         <br />
@@ -239,15 +248,15 @@ export default function AdminOrders() {
                             <br />
                           </>
                         )}
-                        {order?.shipping?.address?.city}, {order?.shipping?.address?.state}
+                        {order?.shipping?.address?.city},{" "}
+                        {order?.shipping?.address?.state}
                         <br />
                         {order?.shipping?.address?.country}
                       </td>
-
                     </tr>
                     <tr>
                       <th scope="row" className="w-25">
-                        Ordered Products:
+                        Sản phẩm đã đặt:
                       </th>
                       <td className="w-75">
                         {order?.cartItems?.map((product) => (
@@ -258,15 +267,17 @@ export default function AdminOrders() {
                               router.push(`/product/${product?.slug}`)
                             }
                           >
-
                             {product?.quantity} x {product?.title} (
-                            {new Intl.NumberFormat('vi-VN').format(product?.price) + " VND"})
+                            {new Intl.NumberFormat("vi-VN").format(
+                              product?.price
+                            ) + " VND"}
+                            )
                           </div>
                         ))}
                       </td>
                     </tr>
                     <tr>
-                      <th scope="row">Delivery Status</th>
+                      <th scope="row">Trạng thái vận chuyển</th>
                       <td>
                         <select
                           className="form-control"
@@ -276,13 +287,13 @@ export default function AdminOrders() {
                           value={order?.delivery_status}
                           disabled={order?.refunded}
                         >
-                          <option value="Not Processed">Not Processed</option>
-                          <option value="processing">Processing</option>
-                          <option value="Dispatched">Dispatched</option>
+                          <option value="Not Processed">Chưa xử lý</option>
+                          <option value="processing">Đang xử lý</option>
+                          <option value="Dispatched">Đã gửi đi</option>
                           {order?.refunded && (
-                            <option value="Cancelled">Cancelled</option>
+                            <option value="Cancelled">Đã hủy</option>
                           )}
-                          <option value="Delivered">Delivered</option>
+                          <option value="Delivered">Đã giao</option>
                         </select>
                       </td>
                     </tr>
@@ -291,7 +302,7 @@ export default function AdminOrders() {
               </div>
             ))
           ) : (
-            <p>No orders found.</p>
+            <p>Chưa có đơn hàng.</p>
           )}
         </div>
       </div>

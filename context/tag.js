@@ -17,16 +17,16 @@ export const TagProvider = ({ children }) => {
       if (response.ok) {
         const newlyCreatedTag = await response.json();
         setTags((prevTags) => [newlyCreatedTag, ...prevTags]);
-        toast.success("Tag created successfully");
+        toast.success("Thêm thẻ thành công");
         setName("");
         setParentCategory("");
       } else {
         const errorData = await response.json();
-        toast.error(errorData.err || "Failed to create tag");
+        toast.error(errorData.err || "Lỗi khi tạo thẻ");
       }
     } catch (err) {
       console.error("Error creating tag:", err);
-      toast.error("An error occurred while creating a tag");
+      toast.error("Đã xảy ra lỗi khi tạo thẻ");
     }
   };
   const fetchTags = async () => {
@@ -47,7 +47,7 @@ export const TagProvider = ({ children }) => {
       setTags(data);
     } catch (error) {
       console.error("Error fetching tags:", error);
-      toast.error("Could not load tags nha huhu");
+      toast.error("Không thể tải thẻ");
     }
   };
 
@@ -64,18 +64,18 @@ export const TagProvider = ({ children }) => {
         }
       );
       if (!response.ok) {
-        throw new Error("Failed to update tag");
+        throw new Error("Lỗi khi cập nhật thẻ");
       }
       const updatedTag = await response.json();
       setTags((prevTags) =>
         prevTags.map((t) => (t._id === updatedTag._id ? updatedTag : t))
       );
-      toast.success("Tag updated successfully");
+      toast.success("Cập nhật thẻ thành công");
       setUpdatingTag(null);
       setParentCategory("");
     } catch (err) {
       console.error("Error updating tag:", err);
-      toast.error("An error occurred while updating the tag");
+      toast.error("Đã xảy ra lỗi khi cập nhật thẻ");
     }
   };
 
@@ -86,18 +86,18 @@ export const TagProvider = ({ children }) => {
         { method: "DELETE" }
       );
       if (!response.ok) {
-        throw new Error("Failed to delete tag");
+        throw new Error("Lỗi khi xóa thẻ");
       }
       const deletedTag = await response.json();
       setTags((prevTags) =>
         prevTags.filter((t) => t._id !== deletedTag._id)
       );
-      toast.success("Tag deleted successfully");
+      toast.success("Xóa thẻ thành công");
       setUpdatingTag(null);
       setParentCategory("");
     } catch (err) {
       console.error("Error deleting tag:", err);
-      toast.error("An error occurred while deleting the tag");
+      toast.error("Đã xảy ra lỗi khi xóa thẻ");
     }
   };
 

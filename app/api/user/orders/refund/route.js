@@ -19,7 +19,7 @@ export async function POST(req) {
     //kiem tra don hang van con 'Not processed'
     if (order.delivery_status !== "Not Processed") {
       return NextResponse.json(
-        { err: "Order cannot be cancelled" },
+        { err: "Không thể hủy đơn hàng này." },
         { status: 400 }
       );
     }
@@ -41,7 +41,7 @@ export async function POST(req) {
     await order.save();
 
     return NextResponse.json(
-      { message: "Order refunded successfully" },
+      { message: "Đã hoàn tiền đơn hàng thành công" },
       { status: 200 }
     );
   } catch (err) {

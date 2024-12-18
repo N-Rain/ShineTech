@@ -38,7 +38,7 @@ export default function Step3({ onPrevStep }) {
     }
     catch (err) {
       console.log(err);
-      toast.error("An error occurred. Please try again.");
+      toast.error("Đã xảy ra lỗi. Vui lòng thử lại.");
       setLoading(false);
     }
   };
@@ -46,29 +46,29 @@ export default function Step3({ onPrevStep }) {
     <div className="container">
       <div className="row">
         <div className="col-lg-8">
-          <p className="alert alert-primary">Payment Method</p>
+          <p className="alert alert-primary">Phương thức thanh toán</p>
           <h2 className="text-center">🔒 💳</h2>
-          <p className="alert alert-danger"> Flat rate 25.000 shipping fee will apply for all orders VietNam
-            wide!
+          <p className="alert alert-danger"> Phí vận chuyển cố định 25.000 VND sẽ được áp dụng cho tất cả các đơn hàng 
+            trên toàn quốc Việt Nam!
           </p>
           <p className="lead card p-5 bg-secondary text-light">
-            Clicking 'Place Order' will securely redirect you to our
-            payment partner, Stripe to complete your checkout. Your
-            information is fully protected and encrypted for your
+            Nhấn 'Đặt hàng' sẽ đưa bạn đến hệ thống thanh toán Stripe 
+            để hoàn tất quá trình thanh toán. Mọi thông tin của bạn 
+            đều được bảo mật và mã hóa an toàn.
           </p>
           <div className="d-flex justify-content-end my-4">
             <button
               className="btn btn-outline-danger btn-raised col-6"
               onClick={onPrevStep}
             >
-              Previous
+              Quay lại
             </button>
             <button
               className="btn btn-success btn-raised col-6"
               onClick={handleClick}
               disabled={loading}
             >
-              {loading ? "Processing ..." : "Place Order"}
+              {loading ? "Đang xử lý ..." : "Đặt hàng"}
             </button>
           </div>
         </div>

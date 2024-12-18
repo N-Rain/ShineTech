@@ -21,7 +21,7 @@ export async function POST(req) {
     if (!user) {
       return NextResponse.json(
         {
-          err: "Invalid or expired reset code",
+          err: "Mã xác nhận không hợp lệ hoặc đã hết hạn. Vui lòng thử lại.",
         },
         { status: 400 }
       );
@@ -34,7 +34,7 @@ export async function POST(req) {
 
     // Send success response
     return NextResponse.json({
-      message: "Password reset successful. Login with your new password.",
+      message: "Đặt lại mật khẩu thành công. Vui lòng đăng nhập với mật khẩu mới của bạn.",
     });
   } catch (err) {
     console.log(err);

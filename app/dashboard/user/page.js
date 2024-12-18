@@ -36,7 +36,7 @@ export default function UserDashboard() {
   if (loading) {
     return (
       <div className="d-flex justify-content-center align-items-center text-danger vh-100 h1">
-        LOADING...
+        ĐANG TẢI...
       </div>
     );
   }
@@ -45,7 +45,7 @@ export default function UserDashboard() {
     <div className="container">
       <div className="row">
         <div className="col">
-          <p className="lead text-center">User Dashboard</p>
+          <h4 className=" text-center">Thống kê Đơn hàng</h4>
           <DateFilter onFilter={fetchChartData} />
           <UserChart chartData={chartData} />
         </div>

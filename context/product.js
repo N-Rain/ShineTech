@@ -143,7 +143,7 @@ export const ProductProvider = ({ children }) => {
           : setProduct({ ...product, images: filteredImages });
       })
       .catch((err) => {
-        toast.error("Image delete failed");
+        toast.error("Lỗi xảy ra khi xóa ảnh!");
         console.log("CLOUDINARY DELETE ERR", err);
       })
       .finally(() => {
@@ -163,7 +163,7 @@ export const ProductProvider = ({ children }) => {
       if (!response.ok) {
         toast.error(data.err);
       } else {
-        toast.success(`Product "${data?.title}" created`);
+        toast.success(`Thêm sản phẩm "${data?.title}" thành công`);
         router.push("/dashboard/admin/product");
         // window.location.reload();
       }
@@ -207,7 +207,7 @@ export const ProductProvider = ({ children }) => {
       if (!response.ok) {
         toast.error(data?.err);
       } else {
-        toast.success(`Product "${data?.title}" updated`);
+        toast.success(`Cập nhật sản phẩm "${data?.title}" thành công`);
         router.back();
       }
     } catch (err) {
@@ -229,7 +229,7 @@ export const ProductProvider = ({ children }) => {
       if (!response.ok) {
         toast.error(data?.err);
       } else {
-        toast.success(`Product "${data?.title}" deleted`);
+        toast.success(`Xóa sản phẩm "${data?.title}" thành công`);
         router.back();
       }
     } catch (err) {

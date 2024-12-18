@@ -14,13 +14,13 @@ export default function Tags() {
     <div className="container mb-5">
       <div className="row">
         <div className="col">
-          <p className="lead">Create Tags</p>
+          <h4 className="text-center">Quản lý Thẻ</h4>
           <TagCreate />
         </div>
       </div>
-      <div className="row mt-5">
+      <div className="row mt-3">
         <div className="col">
-          <p className="lead mb-4">List of Tags</p>
+          <h4 className="text-center mb-4">Danh sách Thẻ</h4>
           <TagsList />
         </div>
       </div>

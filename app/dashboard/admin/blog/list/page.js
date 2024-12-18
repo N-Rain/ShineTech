@@ -44,7 +44,7 @@ export default async function AdminBlogsList({ searchParams }) {
     <div className="container">
       <div className="row">
         <div className="col">
-          <p>Blogs List</p>
+          <h4 className="text-center">Danh sách Bài viết</h4>
           <hr />
           {blogs.map((blog, index) => (
             <div key={blog._id} className="d-flex justify-content-between">
@@ -53,7 +53,7 @@ export default async function AdminBlogsList({ searchParams }) {
                 href={`/dashboard/admin/blog/update/${blog.slug}`}
                 className="text-danger"
               >
-                Update
+                Cập nhật
               </Link>
             </div>
           ))}
@@ -69,7 +69,7 @@ export default async function AdminBlogsList({ searchParams }) {
                   className="page-link px-3"
                   href={`?page=${currentPage - 1}`}
                 >
-                  Previous
+                  Trước
                 </Link>
               </li>
             )}

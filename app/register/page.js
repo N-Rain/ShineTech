@@ -47,7 +47,7 @@ export default function Register() {
     e.preventDefault();
   
     if (password.length < 6) {
-      toast.error("Password must be at least 6 characters long.");
+      toast.error("Mật khẩu dài ít nhất 6 ký tự.");
       return;
     }
   
@@ -78,7 +78,7 @@ export default function Register() {
     } catch (err) {
       console.log(err);
       setLoading(false);
-      toast.error("An error occurred. Please try again.");
+      toast.error("Đã xảy ra lỗi. Vui lòng thử lại.");
     }
   };
   

@@ -16,14 +16,14 @@ export default function ProductLike({ product }) {
 
   const handleLike = async () => {
     if (status !== "authenticated") {
-      toast.error("Please login to like");
+      toast.error("Vui lòng đăng nhập để thích sản phẩm");
       router.push(`/login?callbackUrl=${process.env.API.replace("/api", "")}${pathname}`);
       return;
     }
 
     try {
       const endpoint = isLiked ? "/user/product/unlike" : "/user/product/like";
-      const actionMessage = isLiked ? "unliked" : "liked";
+      const actionMessage = isLiked ? "bỏ thích" : "thích";
 
       const response = await fetch(`${process.env.API}${endpoint}`, {
         method: "POST",
@@ -43,20 +43,20 @@ export default function ProductLike({ product }) {
 
       const responseData = await response.json();
       setLikes(responseData.likes || []);
-      toast.success(`Product ${actionMessage}`);
+      toast.success(`Sản phẩm đã được ${actionMessage} thành công`);
       router.refresh();
     } catch (err) {
-      console.error("Error liking/unliking product:", err);
-      toast.error("Error liking/unliking product. Please try again.");
+      console.error("Lỗi khi thích/bỏ thích sản phẩm:", err);
+      toast.error("Lỗi khi thích/bỏ thích sản phẩm. Hãy thử lại!.");
     }
   };
 
   return (
     <small className="text-muted pointer">
       {!likes.length ? (
-        <span onClick={handleLike}>❤️ Be the first person to like</span>
+        <span onClick={handleLike}>❤️ Hãy trở thành người đầu tiên thích</span>
       ) : (
-        <span onClick={handleLike}>❤️ {likes.length} people liked</span>
+        <span onClick={handleLike}>❤️ {likes.length} lượt thích</span>
       )}
     </small>
   );

@@ -13,16 +13,14 @@ export default function UserStripeSuccess() {
       <div className="row">
         <div className="col text-center">
           <p>
-            Thank your for your purchase. You can now check your order
-            status in
-            the dashboard
+          Cảm ơn bạn đã mua hàng. Bạn có thể kiểm tra trạng thái đơn hàng của mình trong mục quản lý.
           </p>
           <hr />
           <Link
             className="btn btn-primary btn-raised"
             href="/dashboard/user/orders"
           >
-            View Order Status
+            Xem trạng thái Đơn hàng
           </Link>
         </div>
       </div>

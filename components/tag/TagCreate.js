@@ -24,14 +24,14 @@ export default function AdminTagCreate() {
 
   return (
     <>
-      <p className="lead">Create Sub Category</p>
+      <p className="lead">Thêm thẻ</p>
       <label>
-        Name Tag <span style={{ color: "red" }}> *</span>
+        Tên <span style={{ color: "red" }}> *</span>
       </label>
       <input
         type="text"
         value={updatingTag ? updatingTag?.name : name}
-        placeholder="Enter Tag Name"
+        placeholder="Nhập tên thẻ"
         onChange={(e) =>
           updatingTag
             ? setUpdatingTag({
@@ -45,14 +45,14 @@ export default function AdminTagCreate() {
 
       <div className="form-group mt-4">
         <label>
-          Parent category <span style={{ color: "red" }}> *</span>
+          Danh mục <span style={{ color: "red" }}> *</span>
         </label>
         <select
           name="category"
           className="form-control"
           onChange={(e) => setParentCategory(e.target.value)}
         >
-          <option value="">Select One Category</option>
+          <option value="">Chọn danh mục của thẻ</option>
           {categories?.length > 0 &&
             categories?.map((c) => (
               <option
@@ -70,7 +70,7 @@ export default function AdminTagCreate() {
 
       {/* <pre>{JSON.stringify(updatingTag, null, 4)}</pre> */}
 
-      <div className="d-flex justify-content-between">
+      <div className="d-flex justify-content-between my-5">
         <button
           className={`btn bg-${updatingTag ? "info" : "primary"} text-light`}
           onClick={(e) => {
@@ -78,7 +78,7 @@ export default function AdminTagCreate() {
             updatingTag ? updateTag() : createTag();
           }}
         >
-          {updatingTag ? "Update" : "Create"}
+          {updatingTag ? "Cập nhật" : "Thêm mới"}
         </button>
 
         {updatingTag && (
@@ -90,14 +90,14 @@ export default function AdminTagCreate() {
                 deleteTag();
               }}
             >
-              Delete
+              Xóa Thẻ
             </button>
 
             <button
               className="btn bg-success text-light"
               onClick={() => setUpdatingTag(null)}
             >
-              Clear
+              Xóa chỉnh sửa
             </button>
           </>
         )}

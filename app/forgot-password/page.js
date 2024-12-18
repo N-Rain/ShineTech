@@ -41,7 +41,7 @@ export default function ForgotPassword() {
     } catch (err) {
       console.log(err);
       setLoading(false);
-      toast.error("An error occurred. Please try again.");
+      toast.error("Đã xảy ra lỗi. Vui lòng thử lại.");
     }
   };
 
@@ -75,7 +75,7 @@ export default function ForgotPassword() {
     } catch (err) {
       console.log(err);
       setLoading(false);
-      toast.error("An error occurred. Please try again.");
+      toast.error("Đã xảy ra lỗi. Vui lòng thử lại.");
     }
   };
 
@@ -84,7 +84,7 @@ export default function ForgotPassword() {
       <div className="container">
         <div className="row d-flex justify-content-center align-items-center vh-100">
           <div className="col-lg-5 bg-light p-5 shadow">
-            <h2 className="mb-3">Reset Password</h2>
+            <h2 className="mb-3">Đặt lại mật khẩu</h2>
 
             <form onSubmit={handleReset}>
               <input
@@ -92,13 +92,13 @@ export default function ForgotPassword() {
                 value={resetCode}
                 onChange={(e) => setResetCode(e.target.value.trim())}
                 className="form-control mb-3"
-                placeholder="Your reset code"
+                placeholder="Nhập mã OTP để đặt lại mật khẩu"
               />
               <button
                 className="btn btn-primary btn-raised"
                 disabled={loading || !resetCode}
               >
-                {loading ? "Please wait.." : "Reset Password"}
+                {loading ? "Hãy đợi.." : "Đặt lại"}
               </button>
             </form>
           </div>
@@ -112,7 +112,7 @@ export default function ForgotPassword() {
       <div className="container">
         <div className="row d-flex justify-content-center align-items-center vh-100">
           <div className="col-lg-5 bg-light p-5 shadow">
-            <h2 className="mb-3">Forgot Password</h2>
+            <h2 className="mb-3">Quên mật khẩu</h2>
 
             <form onSubmit={handleSubmit}>
               <input
@@ -120,20 +120,20 @@ export default function ForgotPassword() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="form-control mb-3"
-                placeholder="Your email"
+                placeholder="Nhập email của bạn"
               />
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="form-control mb-3"
-                placeholder="Your new password"
+                placeholder="Nhập mật khẩu mới"
               />
               <button
                 className="btn btn-primary btn-raised"
                 disabled={loading || !email || !password}
               >
-                {loading ? "Please wait.." : "Submit"}
+                {loading ? "Hãy đợi.." : "Xác nhận"}
               </button>
             </form>
           </div>

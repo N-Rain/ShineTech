@@ -67,7 +67,7 @@ export default function RatingDistribution({ reviews }) {
             <strong>{calculateAverageRating(reviews)?.toFixed(1)}</strong>
           </p>
           <Stars rating={calculateAverageRating(reviews)} />
-          <p>Product Rating</p>
+          <p>Xếp hạng sản phẩm</p>
         </div>
       </div>
       <div className="col-9">{ratingIcons.reverse()}</div>

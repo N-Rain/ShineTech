@@ -9,8 +9,7 @@ export default function Step1({ onNextStep }) {
     <div className="container">
       <div className="row">
         <div className="col-lg-8">
-          <p className="alert alert-primary">Review Cart / Adjust
-            Quantity</p>
+          <p className="alert alert-primary">Kiểm tra / Sửa đổi Giỏ hàng</p>
           {cartItems?.map((product) => (
             <div className="card mb-3" key={product._id}>
               <div className="row g-0">
@@ -67,7 +66,7 @@ export default function Step1({ onNextStep }) {
               className="btn btn-danger btn-raised col-6"
               onClick={onNextStep}
             >
-              Next
+              Tiếp tục
             </button>
           </div>
         </div>

@@ -48,12 +48,12 @@ export default function ProductFilter({
 
   return (
     <>
-      <p className="lead">Filter Products</p>
+      <p className="lead">BỘ LỌC SẢN PHẨM</p>
       <Link href="/products" className="text-danger">
-        Clear Filters
+        Xóa bộ lọc
       </Link>
 
-      <p className="text-primary mt-4 alert alert-secondary">Price</p>
+      <p className="text-primary mt-4 alert alert-secondary">GIÁ</p>
       <div className="row d-flex align-items-center mx-1">
         {priceRanges.map((range) => {
           const url = {
@@ -90,7 +90,7 @@ export default function ProductFilter({
         })}
       </div>
 
-      <p className="text-primary mt-4 alert alert-secondary">Ratings</p>
+      <p className="text-primary mt-4 alert alert-secondary">ĐÁNH GIÁ</p>
       <div className="row d-flex align-items-center mx-1">
         {[5, 4, 3, 2, 1].map((ratingValue) => {
           const isActive = String(ratings) === String(ratingValue); // Compare as strings
@@ -123,7 +123,7 @@ export default function ProductFilter({
         })}
       </div>
 
-      <p className="text-primary mt-4 alert alert-secondary">Categories</p>
+      <p className="text-primary mt-4 alert alert-secondary">DANH MỤC</p>
       <div className="row d-flex align-items-center filter-scroll mx-1">
         {categories?.map((c) => {
           const isActive = category === c._id;
@@ -159,7 +159,7 @@ export default function ProductFilter({
 
       {category && (
         <>
-          <p className="text-primary mt-4 alert alert-secondary">Tags</p>
+          <p className="text-primary mt-4 alert alert-secondary">THẺ</p>
           <div className="row d-flex align-items-center filter-scroll mx-1">
             {tags
               .filter((t) => t?.parent?._id && t?.parent?._id === category)
@@ -198,7 +198,7 @@ export default function ProductFilter({
         </>
       )}
 
-      <p className="text-primary mt-4 alert alert-secondary">Brands</p>
+      <p className="text-primary mt-4 alert alert-secondary">NHÃN HÀNG</p>
       <div className="row d-flex align-items-center filter-scroll mx-1">
         {brands?.map((b) => {
           const url = {

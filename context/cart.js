@@ -92,19 +92,19 @@ export const CartProvider = ({ children }) => {
       if (!response.ok) {
         setPercentOff(0);
         setValidCoupon(false);
-        toast.error("Invalid coupon code");
+        toast.error("Mã giảm giá không hợp lệ");
         return;
       }
 
       const data = await response.json();
       setPercentOff(data.percent_off);
       setValidCoupon(true);
-      toast.success(`${data?.name} applied successfully`);
+      toast.success(`${data?.name} đã áp dụng thành công`);
     } catch (err) {
       console.error(err);
       setPercentOff(0);
       setValidCoupon(false);
-      toast.error("CouponCode ");
+      toast.error("Mã giảm giá ");
     }
   };
 

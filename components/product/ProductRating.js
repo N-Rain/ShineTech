@@ -18,7 +18,7 @@ export default function ProductRating({ product, leaveReview = true }) {
   const [currentRating, setCurrentRating] = useState(0);
   const [comment, setComment] = useState("");
   const [showRatingModal, setShowRatingModal] = useState(false);
-  const [ratingText, setRatingText] = useState("Leave a rating");
+  const [ratingText, setRatingText] = useState("Để lại đánh giá của bạn");
 
   // did current user already leave a rating
   const alreadyRated = productRatings?.find(
@@ -44,7 +44,7 @@ export default function ProductRating({ product, leaveReview = true }) {
 
   const submitRating = async () => {
     if (status !== "authenticated") {
-      toast.error("Please login to leave a rating");
+      toast.error("Vui lòng đăng nhập để đánh giá sản phẩm.");
       router.push(`/login?callbackUrl=${process.env.NEXTAUTH_URL}${pathname}`);
       return;
     }
@@ -65,19 +65,19 @@ export default function ProductRating({ product, leaveReview = true }) {
         const data = await response.json();
         setProductRatings(data?.ratings);
         setShowRatingModal(false);
-        toast.success("You left a rating");
-        setRatingText("Update your rating");
+        toast.success("Bạn đã đánh giá sản phẩm thành công");
+        setRatingText("Cập nhật đánh giá của bạn");
         router.refresh(); // only works in server components
       } else if (response.status === 400) {
         const errorData = await response.json();
         toast.error(errorData.err);
       } else {
         // Handle other error scenarios
-        toast.error("An error occurred. Please try again later.");
+        toast.error("Đã có lỗi xảy ra. Vui lòng thử lại sau.");
       }
     } catch (err) {
       console.log(err);
-      toast.error("Error leaving a rating");
+      toast.error("Lỗi khi đánh giá sản phẩm");
     }
   };
 
@@ -87,9 +87,9 @@ export default function ProductRating({ product, leaveReview = true }) {
         <small className="text-muted">
           <Stars rating={averageRating} /> (
           {productRatings?.length &&
-            `In average ${averageRating?.toFixed(2)} stars out of 5 from ${
+            `Đánh giá trung bình là ${averageRating?.toFixed(2)} sao từ ${
               productRatings?.length
-            } reviews`}
+            } lượt đánh giá`}
           )
         </small>
 
@@ -107,7 +107,7 @@ export default function ProductRating({ product, leaveReview = true }) {
           <input
             type="text"
             className="form-control mb-3"
-            placeholder="Write a review"
+            placeholder="Hãy viết đánh giá của bạn"
             value={comment}
             onChange={(e) => setComment(e.target.value)}
           />
@@ -138,7 +138,14 @@ export default function ProductRating({ product, leaveReview = true }) {
             onClick={submitRating}
             className="btn btn-primary btn-raised mt-3"
           >
-            Submit
+            Xác nhận
+          </button>
+          <button
+            type="button"
+            className="btn btn-secondary mt-3"
+            onClick={() => setShowRatingModal(false)}
+          >
+            Close
           </button>
         </Modal>
       )}

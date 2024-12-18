@@ -5,13 +5,13 @@ export default function AdminCategory() {
     <div className="container mb-5 ">
       <div className="row">
         <div className="col">
-          <p className="lead"> Create Category</p>
+          <h4 className="text-center"> Quản lý Danh mục</h4>
           <CategoryCreate />
         </div>
       </div>
-      <div className="row">
+      <div className="row mt-5">
         <div className="col">
-          <p className="lead"> List of Categories</p>
+          <h4 className="text-center"> Danh sách Danh mục</h4>
           <CategoryList />
         </div>
       </div>

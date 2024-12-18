@@ -30,7 +30,7 @@ export default function Login() {
     if (result.error) {
       toast.error(result.error);
     } else {
-      toast.success("Login success");
+      toast.success("Đăng nhập thành công");
       router.push(callbackUrl);
     }
   };
@@ -39,27 +39,27 @@ export default function Login() {
       <div className="container">
         <div className="row d-flex justify-content-center align-items-center vh-100">
           <div className="col-lg-5 shadow bg-light p-5">
-            <h2 className="mb-4 text-center">Login</h2>
+            <h2 className="mb-4 text-center">Đăng nhập</h2>
             <form onSubmit={handleSubmit}>
               <input
                 type="text"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="form-control mb-4"
-                placeholder="Enter your email"
+                placeholder="Nhập email của bạn"
               />
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="form-control mb-4"
-                placeholder="Enter your password"
+                placeholder="Nhập mật khẩu của bạn"
               />
               <button
                 className="btn btn-primary btn-raised"
                 disabled={loading || !email || !password}
               >
-                {loading ? "Loading..." : "Submit"}
+                {loading ? "Đang tải..." : "Đăng nhập"}
               </button>
             </form>
             <div className="d-flex justify-content-between">
@@ -67,11 +67,11 @@ export default function Login() {
                 className="btn btn-danger btn-raised mb-4"
                 onClick={() => signIn("google", { callbackUrl })}
               >
-                Sign in with Google
+                Đăng nhập với Google
               </button>
 
               <Link className="btn mb-4" href="/forgot-password">
-                <small>Forgot Password</small>
+                <small>Quên mật khẩu</small>
               </Link>
             </div>
           </div>

@@ -8,7 +8,7 @@ export default function AdminProductsList() {
     <div className="container mb-5">
       <div className="row">
         <div className="col">
-          <p className="lead mb-4 text-center">List of Products</p>
+          <h4 className=" mb-4 text-center">Danh sách Sản phẩm</h4>
           <ProductList />
         </div>
       </div>

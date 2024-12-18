@@ -46,16 +46,16 @@ export async function POST(req) {
     from: process.env.GMAIL_AUTH_USER,
     subject: "Password Reset Code",
     html: `
-          Hi ${user.name},<br />
+          Xin chào ${user.name},<br />
           <br />
-          You have requested a password reset. Please use the following code to reset your password:<br />
+          Bạn đã yêu cầu đặt lại mật khẩu. Vui lòng sử dụng mã sau để đặt lại mật khẩu của bạn:<br />
           <br />
           <strong>${resetCode}</strong><br />
           <br />
-          If you did not request a password reset, please ignore this email.<br />
+          Nếu bạn không yêu cầu đặt lại mật khẩu, vui lòng bỏ qua email này.<br />
           <br />
-          Thanks,<br />
-          The ShineTech Team
+          Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi,<br />
+          Đội ngũ ShineTech!
       `,
   };
 
@@ -65,15 +65,15 @@ export async function POST(req) {
 
     // Assuming that the email is sent successfully, send the response to the client.
     return NextResponse.json({
-      message: "Check your email for password reset code",
+      message: "Kiểm tra email của bạn để lấy mã đặt lại mật khẩu.",
     });
   } catch (error) {
-    console.error("Error sending email:", error);
+    console.error("Lỗi gửi mail:", error);
 
     // If there's an error while sending the email, return an appropriate error response.
     return NextResponse.json(
       {
-        err: "Error sending email",
+        err: "Lỗi gửi email. Vui lòng thử lại sau.",
       },
       { status: 500 }
     );

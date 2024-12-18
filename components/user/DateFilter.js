@@ -36,7 +36,7 @@ export default function DateFilter({ onFilter }) {
               setDay("");
             }}
           >
-            <option value="">Select Year</option>
+            <option value="">Chọn Năm</option>
             {getYears().map((y) => (
               <option key={y} value={y}>
                 {y}
@@ -56,7 +56,7 @@ export default function DateFilter({ onFilter }) {
             }}
             disabled={!year}
           >
-            <option value="">Select Month</option>
+            <option value="">Chọn tháng</option>
             {getMonths().map((m) => (
               <option key={m} value={m}>
                 {m}
@@ -73,7 +73,7 @@ export default function DateFilter({ onFilter }) {
             onChange={(e) => setDay(e.target.value)}
             disabled={!year || !month}
           >
-            <option value="">Select Day</option>
+            <option value="">Chọn ngày</option>
             {getDays().map((d) => (
               <option key={d} value={d}>
                 {d}

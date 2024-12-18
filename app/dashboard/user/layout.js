@@ -5,19 +5,19 @@ export default function UserLayout({ children }) {
     <>
       <nav className="nav justify-content-center mb-3">
         <Link className="nav-link" href="/dashboard/user">
-          Dashboard
+          Thống kê
         </Link>
         <Link className="nav-link" href="/dashboard/user/liked/blogs">
-          Liked Blogs
+          Bài viết yêu thích
         </Link>
         <Link className="nav-link" href="/dashboard/user/liked/products">
-          Liked Products
+          Sản phẩm yêu thích
         </Link>
         <Link className="nav-link" href="/dashboard/user/orders">
-          Recent Orders
+          Lịch sử đơn hàng
         </Link>
         <Link className="nav-link" href="/dashboard/user/product/reviews">
-          Product Reviews
+          Bài đánh giá Sản phẩm
         </Link>
       </nav>
       {children}

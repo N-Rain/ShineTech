@@ -12,7 +12,7 @@ export async function GET(req, context) {
   if (!slug) {
     console.error("Slug is undefined!");
     return NextResponse.json(
-      { error: "Invalid slug" },
+      { error: "Slug không hợp lệ" },
       { status: 400 }
     );
   }

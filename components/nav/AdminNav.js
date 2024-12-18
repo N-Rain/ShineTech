@@ -4,31 +4,31 @@ export default function AdminNav() {
   return (
     <nav className="nav justify-content-center mb-3">
       <Link href={"/dashboard/admin"} className="nav-link">
-        Admin
+        Thống kê
       </Link>
       <Link className="nav-link" href="/dashboard/admin/blog/create">
-        Create Blog
+        Thêm Bài viết
       </Link>
       <Link className="nav-link" href="/dashboard/admin/blog/list">
-        Blogs List
+        Danh sách Bài viết
       </Link>
       <Link href={"/dashboard/admin/category"} className="nav-link">
-        Categories
+        Quản lý Danh mục
       </Link>
       <Link clasfixsName="nav-link" href="/dashboard/admin/tag">
-        Tags
+        Quản lý Thẻ
       </Link>
       <Link className="nav-link" href={"/dashboard/admin/product"}>
-        Add Product
+        Thêm Sản phẩm
       </Link>
       <Link className="nav-link" href="/dashboard/admin/products">
-        Products List
+        Danh sách Sản phẩm
       </Link>
       <Link className="nav-link" href="/dashboard/admin/orders">
-        Orders List
+        Quản lý Đơn hàng
       </Link>
       <Link className="nav-link" href="/dashboard/admin/product/reviews">
-        Product Reviews
+        Các bài Đánh giá Sản phẩm
       </Link>
     </nav>
   );

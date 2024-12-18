@@ -72,29 +72,29 @@ export default function ProductList() {
         <input
           className="form-control me-2"
           type="search"
-          placeholder="Search products"
+          placeholder="Tìm kiếm sản phẩm theo tên"
           aria-label="Search"
           value={adminSearchQuery}
           onChange={(e) => setAdminSearchQuery(e.target.value)}
         />
         <button className="btn btn-primary" type="submit" disabled={loading}>
-          {loading ? "Searching..." : "Search"}
+          {loading ? "Đang tìm..." : "Tìm"}
         </button>
       </form>
 
       {/* Lọc theo số lượng tồn kho */}
       <div className="mb-4">
-        <label htmlFor="stockFilter" className="form-label">Filter by Stock : </label>
+        <label htmlFor="stockFilter" className="form-label">Lọc theo trạng thái sản phẩm : </label>
         <br />
         <select
           className="form-select form-select-sm w-auto mt-2"
           value={stockFilter}
           onChange={(e) => setStockFilter(e.target.value)}
         >
-          <option value="all">All Products</option>
-          <option value="low">Low Stock </option>
-          <option value="out">Out of Stock</option>
-          <option value="in">In Stock </option>
+          <option value="all">Tất cả</option>
+          <option value="low">Sắp hết hàng </option>
+          <option value="out">Hết hàng</option>
+          <option value="in">Còn hàng </option>
         </select>
       </div>
       <div className="row">
@@ -141,9 +141,9 @@ export default function ProductList() {
                               : product?.description,
                         }}
                       ></div>
-                      <div className="row d-flex justify-content-between">
-                        <p className="text-secondary">Sold: {product.sold}</p>
-                        <p className="text-secondary">Stock: {product.stock}</p>
+                      <div className="row d-flex justify-content-between mt-3">
+                        <p className="text-secondary">Lượt bán: {product.sold}</p>
+                        <p className="text-secondary">Tồn kho: {product.stock}</p>
                       </div>
                     </div>
                   </div>
@@ -152,7 +152,7 @@ export default function ProductList() {
             </div>
           ))
         ) : (
-          <p className="text-center text-secondary">No products found.</p>
+          <p className="text-center text-secondary">Chưa có sản phẩm.</p>
         )}
       </div>
 

@@ -42,7 +42,7 @@ export default function SearchPage() {
     <div className="container">
       <div className="row">
         <div className="col">
-          <p>Search result {searchResults.length}</p>
+          <p>Kết quả tìm kiếm {searchResults.length}</p>
           {/* <pre>{JSON.stringify(searchResults, null, 4)}</pre> */}
           {searchResults ? <BlogList blogs={searchResults} /> : ""}
         </div>

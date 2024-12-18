@@ -63,7 +63,7 @@ export async function POST(req) {
 
       await Order.create(orderData).catch((error) => {
         console.log("Order Creation Error:", error);
-        throw new Error("Failed to create order");
+        throw new Error("Lỗi khi tạo đơn hàng. Vui lòng thử lại.");
       });
 
       // Update stock and sold quantity for successful payments (for both user and admin)

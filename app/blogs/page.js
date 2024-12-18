@@ -38,7 +38,7 @@ export default async function Home({ searchParams }) {
 
   return (
     <main>
-      <p className="text-center lead fw-bold">Latest Blogs</p>
+      <p className="text-center lead fw-bold">DANH SÁCH BÀI VIẾT MỚI NHẤT</p>
       <BlogList blogs={blogs} />
 
       {/* <pre>{JSON.stringify(blogs, null, 4)}</pre> */}
@@ -52,7 +52,7 @@ export default async function Home({ searchParams }) {
                   href={`/?page=${currentPage - 1}`}
                   as={`/?page=${currentPage - 1}`}
                 >
-                  Previous
+                  Trước
                 </Link>
               </li>
             )}
@@ -84,7 +84,7 @@ export default async function Home({ searchParams }) {
                   href={`/?page=${currentPage + 1}`}
                   as={`/?page=${currentPage + 1}`}
                 >
-                  Next
+                  Tiếp
                 </Link>
               </li>
             )}

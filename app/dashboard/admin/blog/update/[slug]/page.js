@@ -156,12 +156,12 @@ export default function AdminBlogUpdate({ params }) {
         throw new Error("Failed to update blog");
       }
 
-      toast.success("Blog updated successfully");
+      toast.success("Cập nhật bài viết thành công!");
       router.refresh();
       router.push("/dashboard/admin/blog/list");
     } catch (error) {
       console.error("Error updating blog:", error);
-      toast.error("Failed to update blog");
+      toast.error("Đã có lỗi xảy ra khi cập nhật bài viết!");
     }
   };
 
@@ -177,15 +177,15 @@ export default function AdminBlogUpdate({ params }) {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to delete blog");
+        throw new Error("Đã có lỗi xảy ra khi xóa bài viết!");
       }
 
-      toast.success("Blog deleted successfully");
+      toast.success("Xóa bài viết thành công!");
       router.refresh();
       router.push("/dashboard/admin/blog/list");
     } catch (error) {
       console.error("Error deleting blog:", error);
-      toast.error("Failed to delete blog");
+      toast.error("Đã có lỗi xảy ra khi thêm bài viết!");
     }
   };
 
@@ -193,9 +193,9 @@ export default function AdminBlogUpdate({ params }) {
     <div className="container mb-5">
       <div className="row">
         <div className="col">
-          <p>Update blog</p>
+          <h4 className="text-center">Cập nhật bài viết</h4>
           <label className="text-secondary">
-            Blog title <span style={{ color: "red" }}> *</span>
+            Tiêu đề <span style={{ color: "red" }}> *</span>
           </label>
           <input
             type="text"
@@ -205,7 +205,7 @@ export default function AdminBlogUpdate({ params }) {
           />
 
           <label className="text-secondary">
-            Blog content <span style={{ color: "red" }}> *</span>
+            Nội dung <span style={{ color: "red" }}> *</span>
           </label>
           <ReactQuill
             className="border rounded my-2"
@@ -214,7 +214,7 @@ export default function AdminBlogUpdate({ params }) {
           />
 
           <label className="text-secondary">
-            Blog category <span style={{ color: "red" }}> *</span>
+            Danh mục <span style={{ color: "red" }}> *</span>
           </label>
           <input
             type="text"
@@ -242,7 +242,7 @@ export default function AdminBlogUpdate({ params }) {
           <div className="d-flex justify-content-between mt-3">
             <button className="btn btn-outline-secondary">
               <label className="mt-2" htmlFor="upload-button">
-                {loading ? "Processing..." : "Upload image"}
+                {loading ? "Đang tải..." : "Đăng ảnh"}
               </label>
               <input
                 id="upload-button"
@@ -254,7 +254,7 @@ export default function AdminBlogUpdate({ params }) {
             </button>
 
             <button className="btn bg-primary text-light" onClick={updateBlog}>
-              Update
+              Cập nhật
             </button>
           </div>
 
@@ -264,7 +264,7 @@ export default function AdminBlogUpdate({ params }) {
               onClick={handleDelete}
               className="btn btn-sm btn-outline-danger"
             >
-              Delete
+              Xóa
             </button>
           </div>
         </div>

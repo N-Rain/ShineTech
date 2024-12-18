@@ -10,6 +10,27 @@ export default function OrderDetailPage({ params }) {
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const translateStatus = (status) => {
+    const statusMap = {
+      "succeeded": "Thành công",
+      "failed": "Thất bại",
+      // Add more statuses if needed
+    };
+    return statusMap[status] || status; // Return original status if no translation found
+  };
+
+  const translateDeliveryStatus = (status) => {
+    const deliveryStatusMap = {
+      "Not Processed": "Chưa xử lý",
+      "processing": "Đang xử lý",
+      "Dispatched": "Đã gửi đi",
+      "Refunded": "Đã hoàn tiền",
+      "Cancelled": "Đã hủy",
+      "Delivered": "Đã giao",
+    };
+    return deliveryStatusMap[status] || status; // Return original status if no translation found
+  };
+
   useEffect(() => {
     if (orderId) {
       fetchOrderDetail(orderId);
@@ -29,50 +50,50 @@ export default function OrderDetailPage({ params }) {
       }
     } catch (error) {
       console.error("Error fetching order details:", error);
-      toast.error("An error occurred while fetching order details.");
+      toast.error("Đã có lỗi xảy ra khi tải chi tiết Đơn hàng.");
     }
     setLoading(false);
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div>Đang tải...</div>;
 
-  if (!order) return <div>Order not found.</div>;
+  if (!order) return <div>Không tìm thấy Đơn hàng.</div>;
 
   return (
     <div className="container">
-      <h4>Order Details: {order._id}</h4>
+      <h4>Mã Đơn hàng: {order._id}</h4>
       <table className="table table-striped">
         <tbody>
           <tr>
-            <th scope="row">Customer Name:</th>
-            <td>{order?.userId?.name || "Unknown Customer"}</td>
+            <th scope="row">Tên Khách hàng:</th>
+            <td>{order?.userId?.name || "Tên khách hàng không xác định"}</td>
           </tr>
           <tr>
-            <th scope="row">Charge ID:</th>
+            <th scope="row">Mã Thanh toán:</th>
             <td>{order?.chargeId}</td>
           </tr>
           <tr>
-            <th scope="row">Created At:</th>
+            <th scope="row">Thời gian tạo:</th>
             <td>{new Date(order?.createdAt).toLocaleString()}</td>
           </tr>
           <tr>
-            <th scope="row">Payment Intent:</th>
+            <th scope="row">Yêu cầu thanh toán:</th>
             <td>{order?.payment_intent}</td>
           </tr>
           <tr>
-            <th scope="row">Refunded:</th>
-            <td>{order?.refunded ? "Yes" : "No"}</td>
+            <th scope="row">Hoàn tiền:</th>
+            <td>{order?.refunded ? "Đã hoàn" : "Không có"}</td>
           </tr>
           <tr>
-            <th scope="row">Status:</th>
-            <td>{order?.status}</td>
+            <th scope="row">Trạng thái:</th>
+            <td>{translateStatus(order?.status)}</td>
           </tr>
           <tr>
-            <th scope="row">Total Charged:</th>
+            <th scope="row">Tổng thanh toán:</th>
             <td> {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(order?.amount_captured)}</td>
           </tr>
           <tr>
-            <th scope="row">Shopping Address:</th>
+            <th scope="row">Địa chỉ vận chuyển:</th>
             <td>
               {order?.shipping?.address?.line1}
               <br />
@@ -88,7 +109,7 @@ export default function OrderDetailPage({ params }) {
             </td>
           </tr>
           <tr>
-            <th scope="row">Ordered Products:</th>
+            <th scope="row">Sản phẩm đã đặt:</th>
             <td>
               {order?.cartItems?.map(product => (
                 <div key={product?._id}>
@@ -99,8 +120,8 @@ export default function OrderDetailPage({ params }) {
             </td>
           </tr>
           <tr>
-            <th scope="row">Delivery Status:</th>
-            <td>{order?.delivery_status}</td>
+            <th scope="row">Trạng thái vận chuyển:</th>
+            <td>{translateDeliveryStatus(order?.delivery_status)}</td>
           </tr>
         </tbody>
       </table>

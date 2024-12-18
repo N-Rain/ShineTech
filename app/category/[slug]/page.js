@@ -40,13 +40,13 @@ export default async function CategoryViewPage({ params }) {
 
   if (!slug) {
     console.error("Slug is not found!");
-    return <p>Invalid category slug!</p>;
+    return <p>Slug danh mục không hợp lệ!</p>;
   }
 
   const { category, products } = await getCategory(slug) || {};
 
   if (!category) {
-    return <p>Category not found!</p>;
+    return <p>Chưa có danh mục!</p>;
   }
 
   return (
@@ -63,7 +63,7 @@ export default async function CategoryViewPage({ params }) {
           </div>
           <div className="col-lg-9">
             <p className="text-center lead fw-bold">
-              Products in category "{category?.name}"
+              Danh sách sản phẩm trong danh mục "{category?.name}"
             </p>
             <ProductList products={products} />
           </div>

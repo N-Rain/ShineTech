@@ -49,14 +49,14 @@ export default function ProductCreate() {
 
   return (
     <>
-      <p className="lead">{updatingProduct ? "Update" : "Create"} Product</p>
+      <h4 className="text-center">{updatingProduct ? "Cập nhật" : "Thêm"} Sản phẩm</h4>
       <label>
-        Title <span style={{ color: "red" }}> *</span>
+        Tên sản phẩm <span style={{ color: "red" }}> *</span>
       </label>
 
       <input
         type="text"
-        placeholder="Enter Title"
+        placeholder="Nhập tên sản phẩm"
         value={updatingProduct ? updatingProduct?.title : product?.title}
         onChange={(e) =>
           updatingProduct
@@ -66,10 +66,10 @@ export default function ProductCreate() {
         className="form-control p-2 my-2"
       />
       <label>
-        Description <span style={{ color: "red" }}> *</span>
+        Mô tả <span style={{ color: "red" }}> *</span>
       </label>
       <textarea
-        placeholder="Enter Description"
+        placeholder="Nhập mô tả sản phẩm"
         value={
           updatingProduct ? updatingProduct.description : product?.description
         }
@@ -84,12 +84,12 @@ export default function ProductCreate() {
         className="form-control p-2 my-2"
       />
       <label>
-        Price <span style={{ color: "red" }}>*</span>
+        Giá sản phẩm <span style={{ color: "red" }}>*</span>
       </label>
       <div className="form-group">
         <input
           type="number"
-          placeholder="Enter Price >= 1000"
+          placeholder="Nhập giá >= 1000"
           min="1000"
           name="price"
           className="form-control p-2 my-2"
@@ -108,11 +108,11 @@ export default function ProductCreate() {
       {updatingProduct && (
         <div className="form-group">
           <label>
-            Previous Price <span style={{ color: "red" }}> *</span>
+            Giá gốc <span style={{ color: "red" }}> *</span>
           </label>
           <input
             type="number"
-            placeholder="Enter Previous Price"
+            placeholder="Nhập giá gốc"
             min="1"
             name="previousPrice"
             className="form-control p-2 my-2"
@@ -146,11 +146,11 @@ export default function ProductCreate() {
       </div> */}
       <div className="form-group">
         <label>
-          Add color <span style={{ color: "red" }}> *</span>
+          Màu sắc sản phẩm <span style={{ color: "red" }}> *</span>
         </label>
         <input
           type="text"
-          placeholder="Enter Add color"
+          placeholder="Nhập màu sản phẩm để thêm"
           value={colorInput}
           onChange={(e) => setColorInput(e.target.value)}
           className="form-control p-2 my-2"
@@ -177,7 +177,7 @@ export default function ProductCreate() {
           }}
           className="btn btn-primary"
         >
-          Add Color
+          Thêm màu
         </button>
       </div>
 
@@ -215,11 +215,11 @@ export default function ProductCreate() {
 
       <div className="form-group">
         <label>
-          Brand <span style={{ color: "red" }}> *</span>
+          Nhãn hàng <span style={{ color: "red" }}> *</span>
         </label>
         <input
           type="text"
-          placeholder="Enter Brand"
+          placeholder="Nhập tên nhãn hàng"
           name="brand"
           className="form-control p-2 my-2"
           value={updatingProduct ? updatingProduct.brand : product?.brand}
@@ -235,12 +235,12 @@ export default function ProductCreate() {
 
         <div className="form-group">
           <label>
-            Stock <span style={{ color: "red" }}> *</span>
+            Số lượng <span style={{ color: "red" }}> *</span>
           </label>
           <input
             type="number"
             // min="1"
-            placeholder="Enter Stock >= 1"
+            placeholder="Nhập số lượng >= 1"
             name="Stock"
             className="form-control p-2 my-2"
             value={updatingProduct ? updatingProduct.stock : product?.stock}
@@ -256,7 +256,7 @@ export default function ProductCreate() {
         </div>
 
         <div className="form-group">
-          <label>Select category</label>
+          <label>Chọn Danh mục sản phẩm</label>
           <select
             name="category"
             className="form-control p-2 my-2"
@@ -289,7 +289,7 @@ export default function ProductCreate() {
             }
           >
             <option value="" disabled>
-              Enter Select category
+              Chọn Danh mục sản phẩm
             </option>
             {categories.length > 0 &&
               categories.map((c) => (
@@ -299,6 +299,7 @@ export default function ProductCreate() {
               ))}
           </select>
         </div>
+        <p>Chọn Thẻ</p>
         {selectedTags.map((tag) => (
           <div key={tag._id}>
             <input
@@ -325,7 +326,7 @@ export default function ProductCreate() {
                 }
               }}
             />
-            {tag.name}
+              {tag.name}
           </div>
         ))}
 
@@ -334,7 +335,7 @@ export default function ProductCreate() {
           <label
             className={`btn btn-primary col-12 ${uploading ? "disabled" : ""}`}
           >
-            {uploading ? "Processing..." : "Upload images"}
+            {uploading ? "Đang tải..." : "Thêm ảnh"}
             <input
               type="file"
               multiple
@@ -346,7 +347,7 @@ export default function ProductCreate() {
           </label>
           {imagePreviews?.length === 0 && (
             <small className="text-danger">
-              At least one image is required.
+              Thêm ít nhất 1 hình ảnh của sản phẩm.
             </small>
           )}
         </div>
@@ -400,13 +401,13 @@ export default function ProductCreate() {
             e.preventDefault();
             // Kiểm tra xem có hình ảnh trước khi tạo sản phẩm
             if (!(imagePreviews?.length > 0)) {
-              alert("At least one image is required.");
+              alert("Thêm ít nhất 1 hình ảnh của sản phẩm");
               return;
             }
             updatingProduct ? updateProduct() : createProduct();
           }}
         >
-          {updatingProduct ? "Update" : "Create"}
+          {updatingProduct ? "Cập nhật" : "Thêm mới"}
         </button>
 
         {updatingProduct && (
@@ -418,14 +419,14 @@ export default function ProductCreate() {
                 deleteProduct();
               }}
             >
-              Delete
+              Xóa Sản phẩm
             </button>
 
             <button
               className="btn bg-success text-light"
               onClick={() => window.location.reload()}
             >
-              Clear
+              Xóa Chỉnh sửa
             </button>
           </>
         )}

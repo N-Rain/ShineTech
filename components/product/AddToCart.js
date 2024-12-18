@@ -106,7 +106,7 @@ export default function AddToCart({
               className="btn btn-outline-danger btn-raised btn-block mt-2"
               href="/cart"
             >
-              Review & Checkout
+              Đánh giá & Thanh toán
             </Link>
           )}
         </>
@@ -118,7 +118,7 @@ export default function AddToCart({
           onClick={handleAddToCart}
           disabled={!isColorSelected || product.stock <= 1} // Vô hiệu hóa khi stock <= 1
         >
-          Add to Cart
+          Thêm vào giỏ hàng
         </button>
       )}
     </div>

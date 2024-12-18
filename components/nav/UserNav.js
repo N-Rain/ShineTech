@@ -4,7 +4,7 @@ export default function UserNav() {
   return (
     <nav className="nav justify-content-center mb-3">
       <Link href={"/dashboard/user"} className="nav-link">
-        Dashboard
+        Quản lý
       </Link>
       <Link href={"/dashboard/user/orders"} className="nav-link">
         Orders

@@ -13,13 +13,13 @@ export default function AdminCreateCategory() {
   } = useCategory();
   return (
     <>
-      <p>Create Category</p>
+      <h5>Thêm Danh mục</h5>
       <label>
-        Name <span style={{ color: "red" }}> *</span>
+        Tên <span style={{ color: "red" }}> *</span>
       </label>
       <input
         type="text"
-        placeholder="Enter Category Name"
+        placeholder="Nhập tên danh mục"
         value={updatingCategory ? updatingCategory.name : name}
         onChange={(e) =>
           updatingCategory
@@ -32,7 +32,7 @@ export default function AdminCreateCategory() {
         className="form-control p-2 my-2"
       />
       {/* <pre>{JSON.stringify(categoryUpdate, null, 4)}</pre> */}
-      <div className="d-flex justify-content-between">
+      <div className="d-flex justify-content-between my-5">
         <button
           className={`btn bg-${
             updatingCategory ? "info" : "primary"
@@ -42,7 +42,7 @@ export default function AdminCreateCategory() {
             updatingCategory ? updateCategory() : createCategory();
           }}
         >
-          {updatingCategory ? "Update" : "Create"}
+          {updatingCategory ? "Cập nhật" : "Thêm mới"}
         </button>
         {updatingCategory && (
           <>
@@ -53,13 +53,13 @@ export default function AdminCreateCategory() {
                 deleteCategory();
               }}
             >
-              Delete
+              Xóa Danh mục
             </button>
             <button
               className="btn bg-success text-light"
               onClick={() => setUpdatingCategory(null)}
             >
-              Clear
+              Xóa chỉnh sửa
             </button>
           </>
         )}

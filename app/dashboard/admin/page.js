@@ -60,14 +60,14 @@ export default function AdminDashboard() {
     <div className="container py-4">
       <div className="row mb-4">
         <div className="col-lg-8 offset-lg-2">
-          <h2 className="text-center mb-4">Revenue Dashboard</h2>
+          <h2 className="text-center mb-4">Thống kê Doanh thu</h2>
           <form
             onSubmit={handleFilterSubmit}
             className="row g-3 p-3 border rounded shadow-sm bg-light"
           >
             <div className="col-md-6">
               <label htmlFor="startDate" className="form-label">
-                Start Date:
+                Từ ngày:
               </label>
               <input
                 type="date"
@@ -80,7 +80,7 @@ export default function AdminDashboard() {
             </div>
             <div className="col-md-6">
               <label htmlFor="endDate" className="form-label">
-                End Date:
+                Đến ngày:
               </label>
               <input
                 type="date"
@@ -94,29 +94,29 @@ export default function AdminDashboard() {
 
             <div className="col-md-6">
               <label htmlFor="year" className="form-label">
-                Year:
+                Năm:
               </label>
               <input
                 type="number"
                 name="year"
                 id="year"
                 value={filters.year}
-onChange={handleFilterChange}
+                onChange={handleFilterChange}
                 className="form-control"
                 min="2000"
                 max="2100"
-                placeholder="YYYY"
+                placeholder="Nhập năm"
                 disabled={isMonthSelectedWithoutYear}
               />
               {isMonthSelectedWithoutYear && (
                 <small className="text-danger">
-                  Please select a year when choosing a month.
+                  Vui lòng chọn năm trước khi chọn tháng.
                 </small>
               )}
             </div>
             <div className="col-md-6">
               <label htmlFor="month" className="form-label">
-                Month:
+                Tháng:
               </label>
               <input
                 type="number"
@@ -127,7 +127,7 @@ onChange={handleFilterChange}
                 className="form-control"
                 min="1"
                 max="12"
-                placeholder="MM"
+                placeholder="Nhập tháng"
               />
             </div>
 
@@ -137,14 +137,14 @@ onChange={handleFilterChange}
                 className="btn btn-primary"
                 disabled={isMonthSelectedWithoutYear && !filters.year}
               >
-                Filter
+                Lọc
               </button>
               <button
                 type="button"
                 className="btn btn-secondary"
                 onClick={handleClearFilters}
               >
-                Clear
+                Xóa
               </button>
             </div>
           </form>
@@ -153,7 +153,7 @@ onChange={handleFilterChange}
 
       {loading ? (
         <div className="d-flex justify-content-center align-items-center text-danger vh-100 h1">
-          LOADING...
+          ĐANG TẢI...
         </div>
       ) : (
         <div className="row">

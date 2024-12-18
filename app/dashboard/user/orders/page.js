@@ -10,6 +10,19 @@ export default function UserOrders() {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
 
+  const translateDeliveryStatus = (status) => {
+    const deliveryStatusMap = {
+      "Not Processed": "Chưa xử lý",
+      "processing": "Đang xử lý",
+      "Dispatched": "Đã gửi đi",
+      "Refunded": "Đã hoàn tiền",
+      "Cancelled": "Đã hủy",
+      "Delivered": "Đã giao",
+    };
+    return deliveryStatusMap[status] || status; // Return original status if no translation found
+  };
+
+  
   // State cho bộ lọc
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -31,22 +44,10 @@ export default function UserOrders() {
     setEndDate(endDateParam);
     setStatus(statusParam);
 
-    fetchOrders(
-      page,
-      startDateParam,
-      endDateParam,
-      statusParam,
-
-    );
+    fetchOrders(page, startDateParam, endDateParam, statusParam);
   }, [searchParams]);
 
-  const fetchOrders = async (
-    page,
-    startDate,
-    endDate,
-    status,
-
-  ) => {
+  const fetchOrders = async (page, startDate, endDate, status) => {
     setLoading(true);
     try {
       const url = new URL(`${process.env.API}/user/orders`);
@@ -99,13 +100,13 @@ export default function UserOrders() {
             o._id === orderId ? { ...o, delivery_status: newStatus } : o
           )
         );
-        toast.success("Order status updated successfully");
+        toast.success("Cập nhật trạng thái đơn thành công!");
       } else {
-        toast.error("Failed to update order status");
+        toast.error("Đã có lỗi xảy ra khi cập nhật đơn hàng!");
       }
     } catch (error) {
       console.error("Error updating order status:", error);
-      toast.error("An error occurred while updating order status");
+      toast.error("Đã có lỗi xảy ra khi cập nhật đơn hàng!");
     }
   };
   const handleFilterClick = () => {
@@ -127,36 +128,45 @@ export default function UserOrders() {
   };
   const handleCancelOrder = async (orderId) => {
     try {
-      const response = await fetch(`/api/user/orders/refund?orderId=${orderId}`, {
-        method: "POST",
-      });
+      const response = await fetch(
+        `/api/user/orders/refund?orderId=${orderId}`,
+        {
+          method: "POST",
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
-        toast.success(data.message || "Order cancelled successfully");
+        toast.success(data.message || "Hủy đơn thành công!");
 
         // Reload the page to fetch updated orders
-        router.push(`${pathname}?${new URLSearchParams({ page: currentPage, startDate, endDate, status }).toString()}`);
+        router.push(
+          `${pathname}?${new URLSearchParams({
+            page: currentPage,
+            startDate,
+            endDate,
+            status,
+          }).toString()}`
+        );
       } else {
         const data = await response.json();
-        toast.error(data.err || "Failed to cancel the order");
+        toast.error(data.err || "Đã có lỗi xảy ra khi hủy đơn hàng!");
       }
     } catch (error) {
       console.error(error);
-      toast.error("An error occurred while canceling the order");
+      toast.error("Đã có lỗi xảy ra khi hủy đơn hàng!");
     }
   };
-
 
   return (
     <div className="container mb-5">
       <div className="row">
         <div className="col">
-          <h4 className="text-center">Recent Orders</h4>
+          <h4 className="text-center">Lịch sử Đơn hàng</h4>
 
           {/* Date Filters */}
           <div className="mb-4">
-            <label>Start Date:</label>
+            <label>Từ ngày:</label>
             <input
               type="date"
               className="form-control"
@@ -165,7 +175,7 @@ export default function UserOrders() {
             />
           </div>
           <div className="mb-4">
-            <label>End Date:</label>
+            <label>Đến ngày:</label>
             <input
               type="date"
               className="form-control"
@@ -176,29 +186,29 @@ export default function UserOrders() {
 
           {/* Status Filter */}
           <div className="mb-4">
-            <label>Status:</label>
+            <label>Trạng thái:</label>
             <select
               className="form-control"
               value={status}
               onChange={(e) => setStatus(e.target.value)}
             >
-              <option value="">All</option>
-              <option value="Not Processed">Not Processed</option>
-              <option value="processing">Processing</option>
-              <option value="Refunded">Refunded</option>
-              <option value="Dispatched">Dispatched</option>
-              <option value="Delivered">Delivered</option>
-              <option value="Cancelled">Cancelled</option>
+              <option value="">Tất cả</option>
+              <option value="Not Processed">Chưa xử lý</option>
+              <option value="processing">Đang xử lý</option>
+              <option value="Refunded">Đã hoàn tiền</option>
+              <option value="Dispatched">Đã gửi đi</option>
+              <option value="Delivered">Đã giao</option>
+              <option value="Cancelled">Đã hủy</option>
             </select>
           </div>
 
           {/* Filter and Clear Buttons */}
           <div className="d-flex gap-2">
             <button className="btn btn-primary" onClick={handleFilterClick}>
-              Filter
+              Lọc
             </button>
             <button className="btn btn-secondary" onClick={handleClearFilters}>
-              Clear
+              Xóa
             </button>
           </div>
 
@@ -209,40 +219,44 @@ export default function UserOrders() {
                 <table className="table table-striped">
                   <tbody>
                     <tr>
-                      <th scope="row">Customer Name:</th>
+                      <th scope="row">Tên Khách hàng:</th>
                       <td>{order?.userId?.name}</td>
                     </tr>
                     <tr>
-                      <th scope="row">Charge ID:</th>
+                      <th scope="row">Mã Thanh toán:</th>
                       <td>{order?.chargeId}</td>
                     </tr>
                     <tr>
-                      <th scope="row">Created:</th>
+                      <th scope="row">Thời gian tạo:</th>
                       <td>{new Date(order?.createdAt).toLocaleDateString()}</td>
                     </tr>
                     <tr>
-                      <th scope="row">Payment Intent:</th>
+                      <th scope="row">Yêu cầu thanh toán:</th>
                       <td>{order?.payment_intent}</td>
                     </tr>
                     <tr>
-                      <th scope="row">Receipt:</th>
+                      <th scope="row">Hóa đơn:</th>
                       <td>
                         <a
                           href={order?.receipt_url}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          View Receipt
+                          Xem chi tiết hóa đơn
                         </a>
                       </td>
                     </tr>
                     <tr>
-                      <th scope="row">Total Charged:</th>
+                      <th scope="row">Tổng thanh toán:</th>
                       <td>
-                        {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(order?.amount_captured)}</td>
+                        {new Intl.NumberFormat("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        }).format(order?.amount_captured)}
+                      </td>
                     </tr>
                     <tr>
-                      <th scope="row">Shipping Address:</th>
+                      <th scope="row">Địa chỉ vận chuyển:</th>
                       <td>
                         {order?.shipping?.address?.line1}
                         <br />
@@ -252,15 +266,15 @@ export default function UserOrders() {
                             <br />
                           </>
                         )}
-                        {order?.shipping?.address?.city}, {order?.shipping?.address?.state}
+                        {order?.shipping?.address?.city},{" "}
+                        {order?.shipping?.address?.state}
                         <br />
                         {order?.shipping?.address?.country}
                       </td>
-
                     </tr>
                     <tr>
                       <th scope="row" className="w-25">
-                        Ordered Products:
+                        Sản phẩm đã đặt:
                       </th>
                       <td className="w-75">
                         {order?.cartItems?.map((product) => (
@@ -271,17 +285,19 @@ export default function UserOrders() {
                               router.push(`/product/${product?.slug}`)
                             }
                           >
-
                             {product?.quantity} x {product?.title} (
-                            {new Intl.NumberFormat('vi-VN').format(product?.price) + " VND"})
+                            {new Intl.NumberFormat("vi-VN").format(
+                              product?.price
+                            ) + " VND"}
+                            )
                           </div>
                         ))}
                       </td>
                     </tr>
                     <tr>
-                      <th scope="row">Delivery Status:</th>
+                      <th scope="row">Trạng thái vận chuyển:</th>
                       <td>
-                        {order?.delivery_status}
+                        {translateDeliveryStatus(order?.delivery_status)}
                         {order?.delivery_status === "Not Processed" &&
                           !order.refunded && (
                             <>
@@ -290,7 +306,7 @@ export default function UserOrders() {
                                 className="text-danger pointer"
                                 onClick={() => handleCancelOrder(order?._id)}
                               >
-                                Cancel the order
+                                Hủy đơn hàng
                               </span>
                             </>
                           )}
@@ -301,7 +317,7 @@ export default function UserOrders() {
               </div>
             ))
           ) : (
-            <p>No orders found.</p>
+            <p>Chưa có đơn hàng.</p>
           )}
         </div>
       </div>

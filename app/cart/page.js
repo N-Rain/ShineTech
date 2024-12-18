@@ -31,9 +31,9 @@ export default function Cart() {
     <div>
       <div className="col-lg-6 offset-lg-3 my-5">
         <div className="d-flex justify-content-between lead">
-          <div>{tickIcon(1)} Review Cart</div>
-          <div>{tickIcon(2)} Contact Details</div>
-          <div>{tickIcon(3)} Payment</div>
+          <div>{tickIcon(1)} Kiểm tra Giỏ hàng</div>
+          <div>{tickIcon(2)} Thông tin cá nhân</div>
+          <div>{tickIcon(3)} Thanh toán</div>
         </div>
       </div>
       {step === 1 && <Step1 onNextStep={handleNextStep} />}

@@ -42,7 +42,7 @@ export default function Pagination({
                   },
                 }}
               >
-                Previous
+                Trước
               </Link>
             </li>
           )}
@@ -85,7 +85,7 @@ export default function Pagination({
                   },
                 }}
               >
-                Next
+                Tiếp
               </Link>
             </li>
           )}

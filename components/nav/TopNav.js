@@ -8,6 +8,14 @@ import { BsFillCartCheckFill } from "react-icons/bs";
 export default function TopNav() {
   const { data, status } = useSession();
   const { cartItems } = useCart();
+
+  const roleMapping = {
+    admin: "Quản lý",
+    user: "Khách hàng",
+  };
+
+  const translatedRole = roleMapping[data?.user?.role] || "Vai trò không xác định";
+
   // products
   const {
     productSearchQuery,
@@ -26,15 +34,15 @@ export default function TopNav() {
       </Link>
 
       <Link className="nav-link" href="/products">
-        Products
+        Sản phẩm
       </Link>
 
       <Link className="nav-link" href="/categories">
-        Categories
+        Danh mục
       </Link>
 
       <Link className="nav-link" href="/blogs">
-        BLOGS
+        Bài viết
       </Link>
 
       <form
@@ -45,7 +53,7 @@ export default function TopNav() {
         <input
           className="form-control"
           type="search"
-          placeholder="Search products"
+          placeholder="Tìm kiếm sản phẩm"
           aria-label="Search"
           onChange={(e) => setProductSearchQuery(e.target.value)}
           value={productSearchQuery}
@@ -59,7 +67,7 @@ export default function TopNav() {
         <input
           className="form-control"
           type="search"
-          placeholder="Search blogs"
+          placeholder="Tìm kiếm bài viết"
           aria-label="Search"
           onChange={(e) => setSearchQuery(e.target.value)}
           value={searchQuery}
@@ -80,22 +88,22 @@ export default function TopNav() {
             href={`/dashboard/${data?.user?.role === "admin" ? "admin" : "user"
               }`}
           >
-            {data.user.name} ({data?.user?.role})
+            {data.user.name} ({translatedRole})
           </Link>
           <a
             className="nav-link pointer"
             onClick={() => signOut({ callbackUrl: "/login" })}
           >
-            Logout
+            Đăng xuất
           </a>
         </div>
       ) : (
         <div className="d-flex">
           <Link className="nav-link" href="/login">
-            Login
+            Đăng nhập
           </Link>
           <Link className="nav-link" href="/register">
-            Register
+            Đăng ký
           </Link>
         </div>
       )}

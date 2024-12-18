@@ -52,7 +52,7 @@ export default async function Products({ searchParams }) {
       <div className="container">
         <div className="row">
           <div className="col">
-            <p className="text-center lead fw-bold">Latest Products</p>
+            <p className="text-center lead fw-bold">DANH SÁCH SẢN PHẨM MỚI NHẤT</p>
             <ProductList products={data?.products} />
           </div>
         </div>

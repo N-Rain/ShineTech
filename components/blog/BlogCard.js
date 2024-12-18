@@ -1,10 +1,12 @@
 import Link from "next/link";
 import dayjs from "dayjs";
+import "dayjs/locale/vi";
 import relativeTime from "dayjs/plugin/relativeTime";
 import BlogLike from "@/components/blog/BlogLike";
 import Image from "next/image";
 
 dayjs.extend(relativeTime);
+dayjs.locale("vi");
 
 export default function BlogCard({ blog }) {
   return (
@@ -32,12 +34,12 @@ export default function BlogCard({ blog }) {
         </div>
       </div>
       <div className="card-footer d-flex justify-content-between align-items-center" style={{ backgroundColor: "#f8f9fa" }}>
-        <small className="text-muted">Category: {blog.category}</small>
-        <small className="text-muted">Author: {blog.postedBy?.name || "Admin"}</small>
+        <small className="text-muted">Danh mục: {blog.category}</small>
+        <small className="text-muted">Tác giả: {blog.postedBy?.name || "Admin"}</small>
       </div>
       <div className="card-footer d-flex justify-content-between align-items-center" style={{ backgroundColor: "#f8f9fa" }}>
         <BlogLike blog={blog} />
-        <small className="text-muted">Posted {dayjs(blog.updatedAt).fromNow()}</small>
+        <small className="text-muted">Đã thích {dayjs(blog.updatedAt).fromNow()}</small>
       </div>
     </div>
   );

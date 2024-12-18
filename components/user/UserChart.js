@@ -22,11 +22,11 @@ export default function UserChart({ chartData }) {
               <Tooltip />
               <Legend />
               {/* Hiển thị từng trạng thái */}
-              <Line type="monotone" dataKey="count" name="Order Count" stroke="#8884d8" />
+              <Line type="monotone" dataKey="count" name="Số đơn đã đặt" stroke="#8884d8" />
               <Line
                 type="monotone"
                 dataKey="status"
-                name="Status"
+                name="Trạng thái"
                 stroke="#82ca9d"
                 dot={false}
               />

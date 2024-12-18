@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
+import 'dayjs/locale/vi';
 import relativeTime from "dayjs/plugin/relativeTime";
 import ProductImage from "@/components/product/ProductImage";
 import ProductLike from "@/components/product/ProductLike";
@@ -14,6 +15,7 @@ import UserReviews from "@/components/product/UserReviews";
 import { stockStatus, updateSoldCount } from "@/utils/helpers";
 
 dayjs.extend(relativeTime);
+dayjs.locale("vi");
 // async function getProduct(slug) {
 //   try {
 //     const response = await fetch(`${process.env.API}/product/${slug}`, {
@@ -74,7 +76,7 @@ export default function ProductViewPage({ params }) {
   }, [selectedColor]);
 
   if (!product) {
-    return <div>Loading...</div>; // Handle loading state
+    return <div>Đang tải...</div>; // Handle loading state
   }
 
   return (
@@ -116,7 +118,7 @@ export default function ProductViewPage({ params }) {
                 />
               </div>
               <div className="alert alert-primary mt-4">
-                Brand: {product?.brand}
+                Nhãn hàng: {product?.brand}
               </div>
               <div className="card-footer text-primary d-flex justify-content-end">
                 {updateSoldCount(product?.sold)}
@@ -125,17 +127,17 @@ export default function ProductViewPage({ params }) {
 
             <div className="card-footer d-flex justify-content-between">
               <small className="text-muted">
-                Category: {product?.category?.name}
+                Danh mục: {product?.category?.name}
               </small>
               <small className="text-muted">
-                Tags: {product?.tags?.map((tag) => tag?.name).join(" ")}
+                Thẻ: {product?.tags?.map((tag) => tag?.name).join(" ")}
               </small>
             </div>
 
             <div className="card-footer d-flex justify-content-between">
               <ProductLike product={product} />
               <small className="text-muted">
-                Added {dayjs(product?.createdAt).fromNow()}
+                Đã thích {dayjs(product?.createdAt).fromNow()}
               </small>
             </div>
 
@@ -145,7 +147,7 @@ export default function ProductViewPage({ params }) {
 
             <div className="form-group m-3 p-1">
               <label htmlFor="colorSelect" className="form-label fw-bold">
-                Select Color
+                Chọn màu sắc
               </label>
               <select
                 id="colorSelect"
@@ -154,7 +156,7 @@ export default function ProductViewPage({ params }) {
                 onChange={(e) => setSelectedColor(e.target.value)}
               >
                 <option value="" disabled>
-                  Select color
+                  Chọn màu sắc mà bạn muốn mua
                 </option>
                 {(product.colors || []).map((color, index) => (
                   <option key={index} value={color}>
@@ -173,7 +175,7 @@ export default function ProductViewPage({ params }) {
 
       <div className="row">
         <div className="col-lg-10 offset-lg-1">
-          <p className="lead text-center my-5">Other products you may like</p>
+          <p className="lead text-center my-5">Sản phẩm khác mà bạn có thể thích</p>
           <div className="row">
             <div
               className="d-flex overflow-auto"

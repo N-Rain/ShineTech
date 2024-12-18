@@ -19,14 +19,14 @@ export default function OrderSummary() {
   };
 
   const totalItems = cartItems.reduce((total, item) => total + item.quantity, 0);
-  const itemOrItems = totalItems === 1 ? "item" : "items";
+  const itemOrItems = totalItems === 1 ? "sản phẩm" : "sản phẩm";
 
   const formatCurrency = (value) =>
     new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(value);
 
   return (
     <div>
-      <p className="alert alert-primary">Order Summary</p>
+      <p className="alert alert-primary">Tóm tắt Đơn hàng</p>
       <ul className="list-unstyled">
         {cartItems?.map((product) => (
           <div className="card mb-3" key={product._id}>
@@ -52,7 +52,7 @@ export default function OrderSummary() {
               </div>
               <div className="col-md-3">
                 <p className="h6">{formatCurrency(product?.price)}</p>
-                <p className="text-secondary">Qty: {product?.quantity}</p>
+                <p className="text-secondary">SL: {product?.quantity}</p>
               </div>
             </div>
           </div>
@@ -60,12 +60,12 @@ export default function OrderSummary() {
       </ul>
 
       {percentOff > 0 && (
-        <p className="alert alert-danger">{percentOff}% discount applied!</p>
+        <p className="alert alert-danger">{percentOff}% giảm giá đã được áp dụng!</p>
       )}
 
       {percentOff > 0 && (
         <div className="d-flex justify-content-between p-1">
-          <p>Total before discount:</p>
+          <p>Tổng trước khi giảm giá:</p>
           <p className="h4 text-danger">
             <del>{formatCurrency(calculateTotal())}</del>
           </p>
@@ -74,7 +74,7 @@ export default function OrderSummary() {
 
       <div className="d-flex justify-content-between p-1">
         <p>
-          Total {totalItems} {itemOrItems}:
+          Tổng {totalItems} {itemOrItems}:
         </p>
         <p className="h4">{formatCurrency(calculateTotalWithDiscount())}</p>
       </div>

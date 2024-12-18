@@ -102,7 +102,7 @@ export default function AdminBlogCreate() {
         });
       })
       .catch((err) => {
-        toast.error("Image delete failed");
+        toast.error("Lỗi xảy ra khi xóa ảnh!");
         console.log("CLOUDINARY DELETE ERR", err);
       })
       .finally(() => {
@@ -127,14 +127,14 @@ export default function AdminBlogCreate() {
 
       if (response.ok) {
         router.push("/dashboard/admin/blog/list");
-        toast.success("Blog created successfully");
+        toast.success("Thêm bài viết thành công!");
       } else {
         const errorData = await response.json();
         toast.error(errorData.err);
       }
     } catch (err) {
       console.log("err => ", err);
-      toast.error("An error occurred while creating the blog");
+      toast.error("Đã có lỗi xảy ra khi thêm bài viết!");
     }
   };
 
@@ -142,20 +142,20 @@ export default function AdminBlogCreate() {
     <div className="container mb-5">
       <div className="row">
         <div className="col">
-          <p>Create Blog</p>
+          <h4 className="text-center">Thêm Bài viết</h4>
           <label className="text-secondary">
-            Blog title <span style={{ color: "red" }}> *</span>
+            Tiêu đề <span style={{ color: "red" }}> *</span>
           </label>
           <input
             type="text"
-            placeholder="Enter Blog Title"
+            placeholder="Nhập tiêu đề bài viết"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             className="form-control p-2 my-2"
           />
 
           <label className="text-secondary">
-            Blog content <span style={{ color: "red" }}> *</span>
+            Nội dung <span style={{ color: "red" }}> *</span>
           </label>
           <ReactQuill
             className="border rounded my-2"
@@ -164,11 +164,11 @@ export default function AdminBlogCreate() {
           />
 
           <label className="text-secondary">
-            Blog category <span style={{ color: "red" }}> *</span>
+            Danh mục <span style={{ color: "red" }}> *</span>
           </label>
           <input
             type="text"
-            placeholder="Enter Blog Category"
+            placeholder="Nhập danh mục / thể loại bài viết"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
             className="form-control p-2 my-2"
@@ -193,7 +193,7 @@ export default function AdminBlogCreate() {
           <div className="d-flex justify-content-between mt-3">
             <button className="btn btn-outline-secondary">
               <label className="mt-2" htmlFor="upload-button">
-                {loading ? "Uploading..." : "Upload image"}
+                {loading ? "Đang tải..." : "Đăng ảnh"}
               </label>
               <input
                 id="upload-button"
@@ -209,7 +209,7 @@ export default function AdminBlogCreate() {
               className="btn bg-primary text-light"
               onClick={createBlog}
             >
-              Save
+              Lưu
             </button>
           </div>
         </div>

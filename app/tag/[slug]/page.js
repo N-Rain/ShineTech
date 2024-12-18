@@ -36,7 +36,7 @@ export default async function TagViewPage({ params }) {
   const { tag, products } = await getTag(params?.slug);
 
   if (!tag) {
-    return <p>Tag not found. Please try again later.</p>;
+    return <p>Chưa có thẻ. Vui lòng thử lại sau!</p>;
   }
 
   return (
@@ -54,7 +54,7 @@ export default async function TagViewPage({ params }) {
 
           <div className="col-lg-9">
             <p className="text-center lead fw-bold">
-              Products with tag "{tag?.name}" from category "{tag?.parent?.name}"
+              Danh sách sản phẩm với thẻ "{tag?.name}" trong danh mục "{tag?.parent?.name}"
             </p>
             <ProductList products={products} />
           </div>

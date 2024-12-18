@@ -17,14 +17,14 @@ export default function BlogLike({ blog }) {
 
   const handleLike = async () => {
     if (status !== "authenticated") {
-      toast.error("Please login to like");
+      toast.error("Vui lòng đăng nhập để thích bài viết.");
       router.push(`${process.env.DOMAIN}${pathname}`);
 
       return;
     }
     try {
       if (isLiked) {
-        const answer = window.confirm("You liked it. Want to unlike?");
+        const answer = window.confirm("Bạn đã thích bài viết này. Bạn có muốn bỏ thích không?");
         if (answer) {
           handleUnlike();
         }
@@ -52,12 +52,12 @@ export default function BlogLike({ blog }) {
         const data = await response.json();
         // console.log("blog liked response => ", data);
         setLikes(data.likes);
-        toast.success("Blog liked");
+        toast.success("Thích bài viết");
         router.refresh(); // only works in server components
       }
     } catch (err) {
       console.log(err);
-      toast.error("Error liking blog");
+      toast.error("Lỗi khi thích bài viết");
     }
   };
 
@@ -86,11 +86,11 @@ export default function BlogLike({ blog }) {
       const data = await response.json();
       // console.log("blog unliked response => ", data);
       setLikes(data.likes);
-      toast.success("Blog unliked");
+      toast.success("Không thích bài viết");
       router.refresh();
     } catch (err) {
       console.log(err);
-      toast.error("Error unliking blog");
+      toast.error("Lỗi khi bỏ thích bài viết");
     }
   };
 
@@ -99,7 +99,7 @@ export default function BlogLike({ blog }) {
   return (
     <>
       <small className="pointer">
-        <span onClick={handleLike}>❤️ {likes?.length} likes</span>
+        <span onClick={handleLike}>❤️ {likes?.length} lượt thích</span>
       </small>
     </>
   );
