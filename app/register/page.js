@@ -87,7 +87,7 @@ export default function Register() {
       <div className="container">
         <div className="row d-flex justify-content-center align-items-center vh-100">
           <div className="col-lg-5 bg-light p-5 shadow">
-            <h2 className="mb-3">Register</h2>
+            <h2 className="mb-3">Đăng ký</h2>
 
             <form onSubmit={handleSubmit}>
               <input
@@ -95,27 +95,27 @@ export default function Register() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="form-control mb-3"
-                placeholder="Your name"
+                placeholder="Nhập họ tên của bạn"
               />
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="form-control mb-3"
-                placeholder="Your email"
+                placeholder="Nhập email của bạn"
               />
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="form-control mb-3"
-                placeholder="Your password"
+                placeholder="Nhập mật khẩu"
               />
               <button
                 className="btn btn-primary btn-raised"
                 disabled={loading || !name || !email || !password}
               >
-                {loading ? "Please wait.." : "Submit"}
+                {loading ? "Hãy đợi.." : "Đăng ký"}
               </button>
             </form>
           </div>
