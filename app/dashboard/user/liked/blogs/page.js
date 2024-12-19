@@ -26,7 +26,7 @@ export default function UserDashboard() {
     <div className="container">
       <div className="row">
         <div className="col">
-          <p className="lead">Liked Blogs</p>
+          <h4 className="text-center">Danh sách Bài viết yêu thích</h4>
           <br />
           <BlogList blogs={likedBlogs} />
         </div>

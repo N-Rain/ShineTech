@@ -21,7 +21,7 @@ export default function Modal({ children }) {
                 data-bs-dismiss="modal"
                 onClick={closeModal}
               >
-                Close
+                Đóng
               </button>
             </div>
           </div>

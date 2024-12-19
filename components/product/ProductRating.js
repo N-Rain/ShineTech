@@ -140,13 +140,7 @@ export default function ProductRating({ product, leaveReview = true }) {
           >
             Xác nhận
           </button>
-          <button
-            type="button"
-            className="btn btn-secondary mt-3"
-            onClick={() => setShowRatingModal(false)}
-          >
-            Close
-          </button>
+          
         </Modal>
       )}
     </>
